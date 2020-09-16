@@ -19,7 +19,10 @@ int main()
     txCreateWindow (1280, 895);
 
     HDC  pic1 = txLoadImage ("Картинки/задний фон.bmp");
-        HDC  pic2 = txLoadImage ("Картинки/ботан.bmp");
+    HDC  pic2 = txLoadImage ("Картинки/ботан.bmp");
+    HDC  pic3 = txLoadImage ("Картинки/фанера.bmp");
+    HDC  pic4 = txLoadImage ("Картинки/бревно.bmp");
+    HDC  pic5 = txLoadImage ("Картинки/картошка.bmp");
 
     while(GameOver == false)
     {
@@ -33,7 +36,20 @@ int main()
 
         txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
 
-        txBitBlt (txDC(), 740, 190, 200,200, pic2, 0, 0);
+    txRectangle (740, 190, 940, 320);
+    txTransparentBlt (txDC(), 740, 190, 200, 157, pic2, 0, 0, TX_WHITE);
+
+    txRectangle (990, 190, 1190, 320);
+    txTransparentBlt (txDC(), 990, 190, 240,160, pic3, 0, 0, TX_WHITE);
+
+    txRectangle (740, 390, 940, 620);
+    txTransparentBlt (txDC(), 740, 390, 200,200, pic4, 0, 0, TX_WHITE);
+
+    txRectangle (990, 590, 1190, 820);
+    txTransparentBlt (txDC(), 990, 390, 180,160, pic5, 0, 0, TX_WHITE);
+
+
+
         txRectangle(880,460,992,509);
           //txRectangle(880,460,992,509);
 
