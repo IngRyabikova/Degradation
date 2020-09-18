@@ -40,12 +40,12 @@ int main()
     bool drawObject3 = false;
     bool drawObject4 = false;
 
-/* int drawObject[4];
-    drawObject[0] = false;
+/* int drawObject[4]; 
+    drawObject[0] = false; 
    drawObject[1] = false;
     drawObject[2] = false;
     drawObject[3] = false;
-
+   
   */
     txCreateWindow (1280, 895);
 
