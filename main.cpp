@@ -1,4 +1,16 @@
 #include "Lib/TXLib.h"
+#include "windows.h"
+
+struct Picture
+{
+    int x;
+    int y;
+    int width;
+    int height;
+    HDC pic;
+    bool visible;
+};
+
 bool GameOver = false;
 bool click (int x1, int x2)
 {
@@ -27,34 +39,30 @@ void exit ()
 }
 void menu ()
 {
-}
+}    //пока не используется
 
 
 
 int main()
 {
-
-
-    bool drawObject1 = false;
-    bool drawObject2 = false;
-    bool drawObject3 = false;
-    bool drawObject4 = false;
-
-/* int drawObject[4];
-    drawObject[0] = false;
-   drawObject[1] = false;
-    drawObject[2] = false;
-    drawObject[3] = false;
-
-  */
     txCreateWindow (1280, 895);
 
     HDC  pic1 = txLoadImage ("Картинки/задний фон.bmp");
-    HDC  pic2 = txLoadImage ("Картинки/ботан.bmp");
-    HDC  pic3 = txLoadImage ("Картинки/фанера.bmp");
-    HDC  pic4 = txLoadImage ("Картинки/бревно.bmp");
-    HDC  pic5 = txLoadImage ("Картинки/картошка.bmp");
-    HDC  pic6 = txLoadImage ("Картинки/злая училка.bmp");
+
+    Picture variants[10];
+    variants[0] = {740, 190, 200,157, txLoadImage("Картинки/ботан.bmp")};
+    variants[1] = {990, 190, 267,287, txLoadImage("Картинки/фанера.bmp")};
+    variants[2] = {740, 390, 234,234, txLoadImage("Картинки/бревно.bmp")};
+    variants[3] = {990, 390, 252,189, txLoadImage("Картинки/картошка.bmp")};
+    variants[4] = {740, 590, 248,248, txLoadImage("Картинки/злая училка.bmp")};
+
+    Picture centr[10];
+    centr[0] = {458, 608, 200,157, txLoadImage("Картинки/ботан.bmp"), false};
+    centr[1] = {229, 379, 267,287, txLoadImage("Картинки/фанера.bmp"), false};
+    centr[2] = {609, 479, 234,234, txLoadImage("Картинки/бревно.bmp"), false};
+    centr[3] = {229, 379, 252,189, txLoadImage("Картинки/картошка.bmp"), false};
+    centr[4] = {320, 787, 248,248, txLoadImage("Картинки/злая училка.bmp"), false};
+
 
     while (GameOver == false)
     {
@@ -68,21 +76,12 @@ int main()
 
         txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
 
-      // txRectangle (740, 190, 940, 320);
-        txTransparentBlt (txDC(), 740, 190, 200, 157, pic2, 0, 0, TX_WHITE);
+        txTransparentBlt (txDC(), variants[0].x, variants[0].y, variants[0].width, variants[0].height, variants[0].pic, 0, 0, TX_WHITE);
 
-//txRectangle (990, 190, 1190, 320);
-        txTransparentBlt (txDC(), 990, 190, 240,160, pic3, 0, 0, TX_WHITE);
-
-       // txRectangle (740, 390, 940, 620);
-        txTransparentBlt (txDC(), 740, 390, 200,200, pic4, 0, 0, TX_WHITE);
-
-        //txRectangle (990, 590, 1190, 820);
-        txTransparentBlt (txDC(), 990, 390, 180,160, pic5, 0, 0, TX_WHITE);
-
-        //txRectangle(880,460,992,509);
-        txTransparentBlt (txDC(), 740, 590, 200,240, pic6, 0, 0, TX_WHITE);
-
+         for (int nomer = 0; nomer < 5; nomer = nomer + 1)
+         {
+            Win32::TransparentBlt (txDC(), variants[nomer].x,   variants[nomer].y, 100, 100, variants[nomer].pic, 0, 0, variants[nomer].width, variants[nomer].height, TX_WHITE);
+         }
 
 
         txRectangle(933,638,1042,687);    // выход
@@ -97,92 +96,52 @@ int main()
                 txDisableAutoPause();
                  GameOver = true;
             }
-     // рисование ботана по клику (pic2)
-        if(txMouseX() >= 740 &&
-           txMouseY() >= 190 &&
-           txMouseX() <= 740 + 200 &&
-           txMouseY() <= 190 + 200 &&
-           txMouseButtons()== 1)
-        {
-            drawObject1 = !drawObject1;
-            txSleep(100);
-        }
-        // рисование бревна по клику (pic4)
-            if(txMouseX() >= 740 &&
-           txMouseY() >= 390 &&
-           txMouseX() <= 940 &&
-           txMouseY() <= 620 &&
-           txMouseButtons()== 1)
-        {
-            drawObject2 = !drawObject2;
-            txSleep(100);
+         // рисование ботана по клику (pic2)
+         for (int nomer = 0; nomer < 5; nomer = nomer + 1)
+         {
+
+            if (txMouseX() >= variants[nomer].x &&
+               txMouseY() >= variants[nomer].y &&
+               txMouseX() <= variants[nomer].x + 100 &&
+               txMouseY() <= variants[nomer].y + 100 &&
+               txMouseButtons()== 1)
+            {
+                centr[nomer].visible = !centr[nomer].visible;
+                txSleep(100);
+            }
         }
 
 
-         // рисование картошки по клику   (pic5)
-            if(txMouseX() >= 990 &&
-           txMouseY() >= 390 &&
-           txMouseX() <= 1180 &&
-           txMouseY() <= 590 &&
-           txMouseButtons()== 1)
-        {
-            drawObject3 = !drawObject3;
-            txSleep(100);
-        }
+         for (int nomer = 0; nomer < 5; nomer = nomer + 1)
+         {
+            if (centr[nomer].visible)
 
+                Win32::TransparentBlt (txDC(), centr[nomer].x,   centr[nomer].y, 100, 100, variants[nomer].pic, 0, 0, variants[nomer].width, centr[nomer].height, TX_WHITE);
+         }
 
-         // рисование фанеры по клику   (pic4)
-            if(txMouseX() >= 990 &&
-           txMouseY() >= 190 &&
-           txMouseX() <= 240 &&
-           txMouseY() <= 160 &&
-           txMouseButtons()== 1)
-        {
-            drawObject4 = !drawObject4;
-            txSleep(100);
-        }
-
-//990, 190, 240,160
-if(drawObject1)
-{
-    txBitBlt (txDC(), 458, 608, 257,88, pic2, 0, 0);
-
-}
-if(drawObject2)
-{
-    txBitBlt (txDC(), 229, 379, 275,419, pic4, 0, 0);
-
-}
-if(drawObject3)
-{
-    txBitBlt (txDC(), 609, 479, 176,116, pic5, 0, 0);
-
-}
-
-if(drawObject4)
-{
-    txBitBlt (txDC(), 229, 379, 275,419, pic3, 0, 0);
-
-}
-
-
-
-
-    exit();
 
            txDrawText(747,78,1242,100,"Игра находится в разработке ");
 
            txDrawText(885,146,1195,179,"Выбери персонажа");
 
-
         txSleep(20);
+        exit();
 
     }
-txDeleteDC(pic1);
-txDeleteDC(pic2);
-txDeleteDC(pic3);
-txDeleteDC(pic4);
-txDeleteDC(pic5);
+
+        for (int nomer = 0; nomer < 5; nomer = nomer + 1)
+         {
+        txDeleteDC(variants[nomer].pic);
+         }
+
+        for(int nomer = 0; nomer < 5; nomer = nomer + 1)
+         {
+        txDeleteDC(centr[nomer].pic);
+         }
+
+         txDeleteDC(pic1);
+
+
 
     return 0;
 }
