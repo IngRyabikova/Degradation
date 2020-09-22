@@ -54,6 +54,7 @@ int main()
     HDC  pic3 = txLoadImage ("Картинки/фанера.bmp");
     HDC  pic4 = txLoadImage ("Картинки/бревно.bmp");
     HDC  pic5 = txLoadImage ("Картинки/картошка.bmp");
+    HDC  pic6 = txLoadImage ("Картинки/злая училка.bmp");
 
     while (GameOver == false)
     {
@@ -78,6 +79,9 @@ int main()
 
         //txRectangle (990, 590, 1190, 820);
         txTransparentBlt (txDC(), 990, 390, 180,160, pic5, 0, 0, TX_WHITE);
+
+        //txRectangle(880,460,992,509);
+        txTransparentBlt (txDC(), 740, 590, 200,240, pic6, 0, 0, TX_WHITE);
 
 
 
