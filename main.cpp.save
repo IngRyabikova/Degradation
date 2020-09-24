@@ -1,7 +1,6 @@
 #include "Lib/TXLib.h"
 #include "windows.h"
-
-
+int n_active ;
 struct Picture
 {
     int x;
@@ -13,17 +12,18 @@ struct Picture
 };
 
 bool GameOver = false;
-bool click (int x1, int x2)
+/*bool click (int x1, int x2 , int y1, int y2)
 {
-    if (txMouseX
-        () > x1 &&
-        txMouseX()< x2)
+   if ( txMouseX() >= x1 &&
+               txMouseY() >= y1 &&
+               txMouseX() <= x2 &&
+               txMouseY() <= y2 &&
+               txMouseButtons()== 1);
+               {
+               })
 {
-return true;
-}
-else
-    return false;
-}
+*/
+
 void exit ()
 {
 
@@ -40,66 +40,81 @@ void exit ()
 }
 void menu ()
 {
-}
+}    //пока не используется
 
 
 
 int main()
 {
-
-
-    bool drawObject1 = false;
-    bool drawObject2 = false;
-    bool drawObject3 = false;
-    bool drawObject4 = false;
-
-/* int drawObject[4];
-    drawObject[0] = false;
-   drawObject[1] = false;
-    drawObject[2] = false;
-    drawObject[3] = false;
-
-  */
     txCreateWindow (1280, 895);
 
-
-
     HDC  pic1 = txLoadImage ("Картинки/задний фон.bmp");
-    //HDC  pic2 = txLoadImage ("Картинки/ботан.bmp");
-    HDC  pic3 = txLoadImage ("Картинки/фанера.bmp");
-    HDC  pic4 = txLoadImage ("Картинки/бревно.bmp");
-    HDC  pic5 = txLoadImage ("Картинки/картошка.bmp");
-    HDC  pic6 = txLoadImage ("Картинки/злая училка.bmp");
+    int speed_x = 3;
+    int speed_y = 3;
 
-    Picture variants[10];
+    Picture variants[5];
     variants[0] = {740, 190, 200,157, txLoadImage("Картинки/ботан.bmp")};
     variants[1] = {990, 190, 267,287, txLoadImage("Картинки/фанера.bmp")};
     variants[2] = {740, 390, 234,234, txLoadImage("Картинки/бревно.bmp")};
     variants[3] = {990, 390, 252,189, txLoadImage("Картинки/картошка.bmp")};
     variants[4] = {740, 590, 248,248, txLoadImage("Картинки/злая училка.bmp")};
 
-    Picture centr[10];
+    Picture centr[5];
     centr[0] = {458, 608, 200,157, txLoadImage("Картинки/ботан.bmp"), false};
     centr[1] = {229, 379, 267,287, txLoadImage("Картинки/фанера.bmp"), false};
     centr[2] = {609, 479, 234,234, txLoadImage("Картинки/бревно.bmp"), false};
     centr[3] = {229, 379, 252,189, txLoadImage("Картинки/картошка.bmp"), false};
-    centr[4] = {740, 590, 248,248, txLoadImage("Картинки/злая училка.bmp"), false};
+    centr[4] = {320, 787, 248,248, txLoadImage("Картинки/злая училка.bmp"), false};
 
 
     while (GameOver == false)
     {
+
         txSetFillColor(TX_BLACK);
         txClear();
+        txBegin();
 
         txSetColor (TX_WHITE);
         txSetFillColor (TX_TRANSPARENT);
         txRectangle (50, 50, 300, 490);
+int m1 = sizeof(centr) ;
+int m2 = sizeof(variantss) ;
+
 
 
         txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
+        for (int nomer = 0; nomer < 5; nomer = nomer + 1)   // определение активного персонажа
+         {
 
-      // txRectangle (740, 190, 940, 320);
-        txTransparentBlt (txDC(), variants[0].x, variants[0].y, variants[0].width, variants[0].height, variants[0].pic, 0, 0, TX_WHITE);
+            if (txMouseX() >= centr[nomer].x &&
+               txMouseY() >= centr[nomer].y &&
+               txMouseX() <= centr[nomer].x + 100 &&
+               txMouseY() <= centr[nomer].y + 100 &&
+               txMouseButtons()== 1)
+            {
+                n_active = nomer;
+            }
+        }
+
+        if(GetAsyncKeyState(VK_LEFT) && centr[n_active].visible )
+        {
+            centr[n_active].x = centr[n_active].x  -speed_x;
+        }
+
+        if(GetAsyncKeyState(VK_RIGHT) && centr[n_active].visible )
+        {
+            centr[n_active].x = centr[n_active].x  +speed_x;
+        }
+
+        if(GetAsyncKeyState(VK_UP) && centr[n_active].visible )
+        {
+            centr[n_active].y = centr[n_active].y  -speed_y;
+        }
+
+        if(GetAsyncKeyState(VK_DOWN) && centr[n_active].visible )
+        {
+            centr[n_active].y = centr[n_active].y  +speed_y;
+        }
 
          for (int nomer = 0; nomer < 5; nomer = nomer + 1)
          {
@@ -119,58 +134,57 @@ int main()
                 txDisableAutoPause();
                  GameOver = true;
             }
-         // рисование ботана по клику (pic2)
-         for (int nomer = 0; nomer < 5; nomer = nomer + 1)
-         {
 
-            if (txMouseX() >= variants[nomer].x &&
-               txMouseY() >= variants[nomer].y &&
-               txMouseX() <= variants[nomer].x + variants[nomer].width &&
-               txMouseY() <= variants[nomer].y + variants[nomer].height &&
-               txMouseButtons()== 1)
-            {
-                centr[nomer].visible = !centr[nomer].visible;
-                txSleep(100);
-            }
-        }
-
-
-
-//990, 190, 240,160
 
          for (int nomer = 0; nomer < 5; nomer = nomer + 1)
          {
             if (centr[nomer].visible)
 
-                Win32::TransparentBlt (txDC(), centr[nomer].x,   centr[nomer].y, centr[nomer].width, centr[nomer].height, variants[nomer].pic, 0, 0, variants[nomer].width, centr[nomer].height, TX_WHITE);
+                Win32::TransparentBlt (txDC(), centr[nomer].x,   centr[nomer].y, 100, 100, variants[nomer].pic, 0, 0, variants[nomer].width, centr[nomer].height, TX_WHITE);
          }
 
-
-
-
-        exit();
 
            txDrawText(747,78,1242,100,"Игра находится в разработке ");
 
            txDrawText(885,146,1195,179,"Выбери персонажа");
 
 
+
+
+
+
+
+         // рисование ботана по клику (pic2)
+         for (int nomer = 0; nomer < 5; nomer = nomer + 1)
+         {
+
+            if (txMouseX() >= variants[nomer].x &&
+               txMouseY() >= variants[nomer].y &&
+               txMouseX() <= variants[nomer].x + 100 &&
+               txMouseY() <= variants[nomer].y + 100 &&
+               txMouseButtons()== 1)
+            {
+                centr[nomer].visible = !centr[nomer].visible;
+                txSleep(100);
+            }
+        }
         txSleep(20);
+        exit();
 
     }
 
-for (int nomer = 0; nomer < 5; nomer = nomer + 1)
+        for (int nomer = 0; nomer < 5; nomer = nomer + 1)
          {
         txDeleteDC(variants[nomer].pic);
          }
 
-for(int nomer = 0; nomer < 5; nomer = nomer + 1)
+        for(int nomer = 0; nomer < 5; nomer = nomer + 1)
          {
         txDeleteDC(centr[nomer].pic);
          }
 
          txDeleteDC(pic1);
-
+         txEnd();
 
 
     return 0;
