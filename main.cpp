@@ -66,8 +66,10 @@ int main()
 
     while (GameOver == false)
     {
+
         txSetFillColor(TX_BLACK);
         txClear();
+        txBegin();
 
         txSetColor (TX_WHITE);
         txSetFillColor (TX_TRANSPARENT);
@@ -76,7 +78,7 @@ int main()
 
         txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
 
-        txTransparentBlt (txDC(), variants[0].x, variants[0].y, variants[0].width, variants[0].height, variants[0].pic, 0, 0, TX_WHITE);
+        //txTransparentBlt (txDC(), variants[0].x, variants[0].y, variants[0].width, variants[0].height, variants[0].pic, 0, 0, TX_WHITE);
 
          for (int nomer = 0; nomer < 5; nomer = nomer + 1)
          {
@@ -96,20 +98,6 @@ int main()
                 txDisableAutoPause();
                  GameOver = true;
             }
-         // рисование ботана по клику (pic2)
-         for (int nomer = 0; nomer < 5; nomer = nomer + 1)
-         {
-
-            if (txMouseX() >= variants[nomer].x &&
-               txMouseY() >= variants[nomer].y &&
-               txMouseX() <= variants[nomer].x + 100 &&
-               txMouseY() <= variants[nomer].y + 100 &&
-               txMouseButtons()== 1)
-            {
-                centr[nomer].visible = !centr[nomer].visible;
-                txSleep(100);
-            }
-        }
 
 
          for (int nomer = 0; nomer < 5; nomer = nomer + 1)
@@ -124,6 +112,22 @@ int main()
 
            txDrawText(885,146,1195,179,"Выбери персонажа");
 
+
+
+         // рисование ботана по клику (pic2)
+         for (int nomer = 0; nomer < 5; nomer = nomer + 1)
+         {
+
+            if (txMouseX() >= variants[nomer].x &&
+               txMouseY() >= variants[nomer].y &&
+               txMouseX() <= variants[nomer].x + 100 &&
+               txMouseY() <= variants[nomer].y + 100 &&
+               txMouseButtons()== 1)
+            {
+                centr[nomer].visible = !centr[nomer].visible;
+                txSleep(100);
+            }
+        }
         txSleep(20);
         exit();
 
@@ -140,7 +144,7 @@ int main()
          }
 
          txDeleteDC(pic1);
-
+         txEnd();
 
 
     return 0;
