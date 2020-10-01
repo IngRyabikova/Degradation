@@ -9,6 +9,7 @@ struct Picture
     int height;
     HDC pic;
     bool visible;
+    const char* category;
 };
 struct Objects
 {
@@ -52,25 +53,27 @@ void menu ()
 
 int main()
 {
+ txTextCursor (false);
+
     txCreateWindow (1280, 895);
-
+const char* active_category;
     HDC  pic1 = txLoadImage ("Картинки/задний фон.bmp");
-    int speed_x = 5;
-    int speed_y = 5;
-
+    int speed_x = 1;
+    int speed_y = 1;
+     int n_pics = 0;
     Picture variants[5];
-    variants[0] = {740, 190, 200,157, txLoadImage("Картинки/ботан.bmp")};
-    variants[1] = {990, 190, 267,287, txLoadImage("Картинки/фанера.bmp")};
-    variants[2] = {740, 390, 234,234, txLoadImage("Картинки/бревно.bmp")};
-    variants[3] = {990, 390, 252,189, txLoadImage("Картинки/картошка.bmp")};
-    variants[4] = {740, 590, 248,248, txLoadImage("Картинки/злая училка.bmp")};
+    variants[0] = {740, 190, 200,157, txLoadImage("Картинки/ботан.bmp"),false, "Ученики"};
+    variants[1] = {990, 190, 267,287, txLoadImage("Картинки/фанера.bmp"),false, "Ученики"};
+    variants[2] = {740, 390, 234,234, txLoadImage("Картинки/бревно.bmp"),false, "Ученики"};
+    variants[3] = {990, 390, 252,189, txLoadImage("Картинки/картошка.bmp"),false, "Ученики"};
+    variants[4] = {740, 590, 248,248, txLoadImage("Картинки/злая училка.bmp"),false,"Учителя"};
 
     Picture centr[5];
-    centr[0] = {458, 608, 200,157, txLoadImage("Картинки/ботан.bmp"), false};
-    centr[1] = {229, 379, 267,287, txLoadImage("Картинки/фанера.bmp"), false};
-    centr[2] = {609, 479, 234,234, txLoadImage("Картинки/бревно.bmp"), false};
-    centr[3] = {229, 379, 252,189, txLoadImage("Картинки/картошка.bmp"), false};
-    centr[4] = {320, 787, 248,248, txLoadImage("Картинки/злая училка.bmp"), false};
+    centr[0] = {458, 608, 200,157, txLoadImage("Картинки/ботан.bmp"), false, "Ученики"};
+    centr[1] = {229, 379, 267,287, txLoadImage("Картинки/фанера.bmp"), false, "Ученики"};
+    centr[2] = {609, 479, 234,234, txLoadImage("Картинки/бревно.bmp"), false, "Ученики"};
+    centr[3] = {229, 379, 252,189, txLoadImage("Картинки/картошка.bmp"), false, "Ученики"};
+    centr[4] = {320, 787, 248,248, txLoadImage("Картинки/злая училка.bmp"), false, "Учителя"};
 
     Objects mesto [8];
     mesto[0] = {247, 352};
@@ -148,7 +151,8 @@ int main()
                centr[n_active].y = stol_ychitela[0].y ;
             }
 
-
+        //Движение
+        {
         if(GetAsyncKeyState(VK_LEFT) && centr[n_active].visible)
         {
             centr[n_active].x = centr[n_active].x  -speed_x;
@@ -168,12 +172,15 @@ int main()
         {
             centr[n_active].y = centr[n_active].y  +speed_y;
         }
+        }
 
+        //Рисование вариантов
          for (int nomer = 0; nomer < 5; nomer = nomer + 1)
          {
-            Win32::TransparentBlt (txDC(), variants[nomer].x,   variants[nomer].y, 100, 100, variants[nomer].pic, 0, 0, variants[nomer].width, variants[nomer].height, TX_WHITE);
-         }
-
+             if (variants[nomer].category == active_category){
+                Win32::TransparentBlt (txDC(), variants[nomer].x,   variants[nomer].y, 100, 100, variants[nomer].pic, 0, 0, variants[nomer].width, variants[nomer].height, TX_WHITE);
+             }
+        }
 
         txRectangle(933,638,1042,687);    // выход
 
@@ -189,11 +196,10 @@ int main()
             }
 
 
+        //Рисование центральных картинок
          for (int nomer = 0; nomer < 5; nomer = nomer + 1)
          {
-            if (centr[nomer].visible)
-
-                Win32::TransparentBlt (txDC(), centr[nomer].x,   centr[nomer].y, 100, 100, variants[nomer].pic, 0, 0, variants[nomer].width, centr[nomer].height, TX_WHITE);
+                Win32::TransparentBlt (txDC(), centr[nomer].x,   centr[nomer].y, 100, 100, centr[nomer].pic, 0, 0, centr[nomer].width, centr[nomer].height, TX_WHITE);
          }
 
 
@@ -201,11 +207,35 @@ int main()
 
            txDrawText(885,146,1195,179,"Выбери персонажа");
 
+            txDrawText(736,184,885,221,"Ученики");
+
+             txDrawText(1114,180,1269,222,"Учителя");
 
 
+            //Выбор категории
+            for (int nomer = 0; nomer < 5; nomer = nomer + 1)
+            {
+                if (txMouseX() >= 1114 &&
+                   txMouseY() >= 180 &&
+                   txMouseX() <= 1269+30 &&
+                   txMouseY() <= 222+30 &&
+                   txMouseButtons()== 1)
+                {
+                    active_category = "Учителя" ;
+                }
+            }
 
-
-
+            for (int nomer = 0; nomer < 5; nomer = nomer + 1)
+            {
+                if (txMouseX() >= 736 &&
+                   txMouseY() >= 184 &&
+                   txMouseX() <= 885+30 &&
+                   txMouseY() <= 221+30 &&
+                   txMouseButtons()== 1)
+                {
+                    active_category = "Ученики" ;
+                }
+            }
 
          // рисование ботана по клику (pic2)
          for (int nomer = 0; nomer < 5; nomer = nomer + 1)
@@ -215,8 +245,9 @@ int main()
                txMouseY() >= variants[nomer].y &&
                txMouseX() <= variants[nomer].x + 100 &&
                txMouseY() <= variants[nomer].y + 100 &&
-               txMouseButtons()== 1)
+               txMouseButtons()== 1 && centr[nomer].visible)
             {
+                //Добавляется новая центральная картинка
                 centr[nomer].visible = !centr[nomer].visible;
                 txSleep(100);
             }
