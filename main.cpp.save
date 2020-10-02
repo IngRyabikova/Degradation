@@ -9,6 +9,13 @@ struct Picture
     int height;
     HDC pic;
     bool visible;
+    const char* category;
+};
+struct Objects
+{
+    int x;
+    int y;
+
 };
 
 bool GameOver = false;
@@ -46,25 +53,47 @@ void menu ()
 
 int main()
 {
+ txTextCursor (false);
+
     txCreateWindow (1280, 895);
 
     HDC  pic1 = txLoadImage ("Картинки/задний фон.bmp");
-    int speed_x = 3;
-    int speed_y = 3;
-
+    int speed_x = 1;
+    int speed_y = 1;
+     int n_pics = 0;
     Picture variants[5];
-    variants[0] = {740, 190, 200,157, txLoadImage("Картинки/ботан.bmp")};
-    variants[1] = {990, 190, 267,287, txLoadImage("Картинки/фанера.bmp")};
-    variants[2] = {740, 390, 234,234, txLoadImage("Картинки/бревно.bmp")};
-    variants[3] = {990, 390, 252,189, txLoadImage("Картинки/картошка.bmp")};
-    variants[4] = {740, 590, 248,248, txLoadImage("Картинки/злая училка.bmp")};
+    variants[0] = {740, 190, 200,157, txLoadImage("Картинки/ботан.bmp"),false, "Ученики"};
+    variants[1] = {990, 190, 267,287, txLoadImage("Картинки/фанера.bmp"),false, "Ученики"};
+    variants[2] = {740, 390, 234,234, txLoadImage("Картинки/бревно.bmp"),false, "Ученики"};
+    variants[3] = {990, 390, 252,189, txLoadImage("Картинки/картошка.bmp"),false, "Ученики"};
+    variants[4] = {740, 590, 248,248, txLoadImage("Картинки/злая училка.bmp"),false,"Учителя"};
 
     Picture centr[5];
-    centr[0] = {458, 608, 200,157, txLoadImage("Картинки/ботан.bmp"), false};
-    centr[1] = {229, 379, 267,287, txLoadImage("Картинки/фанера.bmp"), false};
-    centr[2] = {609, 479, 234,234, txLoadImage("Картинки/бревно.bmp"), false};
-    centr[3] = {229, 379, 252,189, txLoadImage("Картинки/картошка.bmp"), false};
-    centr[4] = {320, 787, 248,248, txLoadImage("Картинки/злая училка.bmp"), false};
+    centr[0] = {458, 608, 200,157, txLoadImage("Картинки/ботан.bmp"), false, "Ученики"};
+    centr[1] = {229, 379, 267,287, txLoadImage("Картинки/фанера.bmp"), false, "Ученики"};
+    centr[2] = {609, 479, 234,234, txLoadImage("Картинки/бревно.bmp"), false, "Ученики"};
+    centr[3] = {229, 379, 252,189, txLoadImage("Картинки/картошка.bmp"), false, "Ученики"};
+    centr[4] = {320, 787, 248,248, txLoadImage("Картинки/злая училка.bmp"), false, "Учителя"};
+
+    Objects mesto [8];
+    mesto[0] = {247, 352};
+    mesto[1] = {322, 344};
+    mesto[2] = {383, 356};
+    mesto[3] = {449, 356};
+    mesto[4] = {246, 490};
+    mesto[5] = {309, 488};
+    mesto[6] = {385, 490};
+    mesto[7] = {449, 491};
+
+    /*Objects parta [5];
+    parta[0] = {219, 330, 353,377};
+    parta[1] = {218, 466, 352,515};
+    parta[2] = {217, 467, 354,515};
+    parta[4] = {357, 467, 491,515};
+*/
+    Objects stol_ychitela [0];
+    stol_ychitela[0]  = {412, 115};
+
 
 
     while (GameOver == false)
@@ -77,8 +106,6 @@ int main()
         txSetColor (TX_WHITE);
         txSetFillColor (TX_TRANSPARENT);
         txRectangle (50, 50, 300, 490);
-int m1 = sizeof(centr) ;
-int m2 = sizeof(variantss) ;
 
 
 
@@ -96,12 +123,41 @@ int m2 = sizeof(variantss) ;
             }
         }
 
-        if(GetAsyncKeyState(VK_LEFT) && centr[n_active].visible )
+        for (int nomer = 0; nomer < 8; nomer = nomer + 1)   // телепорт на парту
+         {
+        txRectangle (mesto[nomer].x, mesto[nomer].y, mesto[nomer].x + 30, mesto[nomer].y + 30);
+
+            if (txMouseX() >= mesto[nomer].x &&
+               txMouseY() >= mesto[nomer].y &&
+               txMouseX() <= mesto[nomer].x + 30  &&
+               txMouseY() <= mesto[nomer].y + 30 &&
+               txMouseButtons()== 1 && centr[n_active].visible)
+            {
+               centr[n_active].x  = mesto[nomer].x ;
+               centr[n_active].y = mesto[nomer].y ;
+            }
+        }
+
+
+        txRectangle (stol_ychitela[0].x, stol_ychitela[0].y, stol_ychitela[0].x + 30, stol_ychitela[0].y + 30);
+
+            if (txMouseX() >= stol_ychitela[0].x &&  // телепорт на стол учителя
+               txMouseY() >= stol_ychitela[0].y &&
+               txMouseX() <= stol_ychitela[0].x + 30  &&
+               txMouseY() <= stol_ychitela[0].y + 30 &&
+               txMouseButtons()== 1 && centr[n_active].visible)
+            {
+               centr[n_active].x  = stol_ychitela[0].x ;
+               centr[n_active].y = stol_ychitela[0].y ;
+            }
+
+
+        if(GetAsyncKeyState(VK_LEFT) && centr[n_active].visible)
         {
             centr[n_active].x = centr[n_active].x  -speed_x;
         }
 
-        if(GetAsyncKeyState(VK_RIGHT) && centr[n_active].visible )
+        if(GetAsyncKeyState(VK_RIGHT) && centr[n_active].visible)
         {
             centr[n_active].x = centr[n_active].x  +speed_x;
         }
@@ -111,16 +167,18 @@ int m2 = sizeof(variantss) ;
             centr[n_active].y = centr[n_active].y  -speed_y;
         }
 
-        if(GetAsyncKeyState(VK_DOWN) && centr[n_active].visible )
+        if(GetAsyncKeyState(VK_DOWN) && centr[n_active].visible  )
         {
             centr[n_active].y = centr[n_active].y  +speed_y;
         }
 
+        //Р
          for (int nomer = 0; nomer < 5; nomer = nomer + 1)
          {
+         if (variants[nomer].visible){
             Win32::TransparentBlt (txDC(), variants[nomer].x,   variants[nomer].y, 100, 100, variants[nomer].pic, 0, 0, variants[nomer].width, variants[nomer].height, TX_WHITE);
          }
-
+          }
 
         txRectangle(933,638,1042,687);    // выход
 
@@ -148,12 +206,25 @@ int m2 = sizeof(variantss) ;
 
            txDrawText(885,146,1195,179,"Выбери персонажа");
 
+            txDrawText(736,184,885,221,"Ученики");
+
+             txDrawText(1114,180,1269,222,"Учителя");
 
 
 
+            for (int nomer = 0; nomer < 5; nomer = nomer + 1)
+            {
 
-
-
+                if (txMouseX() >= 736 &&
+                   txMouseY() >= 184 &&
+                   txMouseX() <= 885+30 &&
+                   txMouseY() <= 221+30 &&
+                   txMouseButtons()== 1 && variants[nomer].category == "Учителя")
+                {
+                    txTextOut(200, 300, "sdfsfsdfsdfsnbdvfjhsdgfjhgsdjfgjsdgfjsdgfjsdgfjgsjfghsjdfhasj");
+                    variants[nomer].visible = !variants[nomer].visible;
+                }
+            }
          // рисование ботана по клику (pic2)
          for (int nomer = 0; nomer < 5; nomer = nomer + 1)
          {
@@ -162,7 +233,7 @@ int m2 = sizeof(variantss) ;
                txMouseY() >= variants[nomer].y &&
                txMouseX() <= variants[nomer].x + 100 &&
                txMouseY() <= variants[nomer].y + 100 &&
-               txMouseButtons()== 1)
+               txMouseButtons()== 1 && variants[nomer].visible)
             {
                 centr[nomer].visible = !centr[nomer].visible;
                 txSleep(100);
