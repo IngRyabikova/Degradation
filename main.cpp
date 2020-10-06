@@ -53,22 +53,25 @@ void menu ()
 
 int main()
 {
- txTextCursor (false);
+    txTextCursor (false);
 
     txCreateWindow (1280, 895);
-const char* active_category;
+    const char* active_category;
     HDC  pic1 = txLoadImage ("Картинки/задний фон.bmp");
     int speed_x = 1;
     int speed_y = 1;
-     int n_pics = 0;
-    Picture variants[5];
-    variants[0] = {740, 190, 200,157, txLoadImage("Картинки/ботан.bmp"),false, "Ученики"};
-    variants[1] = {990, 190, 267,287, txLoadImage("Картинки/фанера.bmp"),false, "Ученики"};
-    variants[2] = {740, 390, 234,234, txLoadImage("Картинки/бревно.bmp"),false, "Ученики"};
-    variants[3] = {990, 390, 252,189, txLoadImage("Картинки/картошка.bmp"),false, "Ученики"};
-    variants[4] = {740, 590, 248,248, txLoadImage("Картинки/злая училка.bmp"),false,"Учителя"};
+    int n_pics = 0;
 
-    Picture centr[5];
+    const int N_VARS = 6;
+    Picture variants[N_VARS];
+    variants[0] = {780, 240, 200,157, txLoadImage("Картинки/ботан.bmp"),false, "Ученики"};
+    variants[1] = {920, 250, 267,287, txLoadImage("Картинки/фанера.bmp"),false, "Ученики"};
+    variants[2] = {780, 410, 234,234, txLoadImage("Картинки/бревно.bmp"),false, "Ученики"};
+    variants[3] = {920, 410, 252,189, txLoadImage("Картинки/картошка.bmp"),false, "Ученики"};
+    variants[4] = {780, 240, 248,248, txLoadImage("Картинки/злая училка.bmp"),false,"Учителя"};
+    variants[5] = {930, 230, 225,225, txLoadImage("Картинки/Учитель по труду.bmp"),false,"Учителя"};
+
+    Picture centr[6];
     centr[0] = {458, 608, 200,157, txLoadImage("Картинки/ботан.bmp"), false, "Ученики"};
     centr[1] = {229, 379, 267,287, txLoadImage("Картинки/фанера.bmp"), false, "Ученики"};
     centr[2] = {609, 479, 234,234, txLoadImage("Картинки/бревно.bmp"), false, "Ученики"};
@@ -110,7 +113,7 @@ const char* active_category;
 
 
         txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
-        for (int nomer = 0; nomer < 5; nomer = nomer + 1)   // определение активного персонажа
+        for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)   // определение активного персонажа
          {
 
             if (txMouseX() >= centr[nomer].x &&
@@ -175,7 +178,7 @@ const char* active_category;
         }
 
         //Рисование вариантов
-         for (int nomer = 0; nomer < 5; nomer = nomer + 1)
+         for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
          {
              if (variants[nomer].category == active_category){
                 Win32::TransparentBlt (txDC(), variants[nomer].x,   variants[nomer].y, 100, 100, variants[nomer].pic, 0, 0, variants[nomer].width, variants[nomer].height, TX_WHITE);
@@ -207,9 +210,22 @@ const char* active_category;
 
            txDrawText(885,146,1195,179,"Выбери персонажа");
 
-            txDrawText(736,184,885,221,"Ученики");
 
-             txDrawText(1114,180,1269,222,"Учителя");
+
+            if (active_category == "Учителя")
+                txSetColor(TX_BLUE);
+            else
+                txSetColor(TX_WHITE);
+            txDrawText(1114,180,1269,222,"Учителя");
+
+
+            if (active_category == "Ученики")
+                txSetColor(TX_BLUE);
+            else
+                txSetColor(TX_WHITE);
+           txDrawText(736,184,885,221,"Ученики");
+
+
 
 
             //Выбор категории
@@ -238,7 +254,7 @@ const char* active_category;
             }
 
          // рисование ботана по клику (pic2)
-         for (int nomer = 0; nomer < 5; nomer = nomer + 1)
+         for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
          {
 
             if (txMouseX() >= variants[nomer].x &&
