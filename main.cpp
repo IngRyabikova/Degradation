@@ -47,7 +47,7 @@ void exit ()
 }
 void menu ()
 {
-}    //пока не используется
+}    //РїРѕРєР° РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ
 
 
 
@@ -57,26 +57,25 @@ int main()
 
     txCreateWindow (1280, 895);
     const char* active_category;
-    HDC  pic1 = txLoadImage ("Картинки/задний фон.bmp");
-    int speed_x = 1;
-    int speed_y = 1;
-    int n_pics = 0;
+    HDC  pic1 = txLoadImage ("РљР°СЂС‚РёРЅРєРё/Р·Р°РґРЅРёР№ С„РѕРЅ.bmp");
+    const int speed_x = 1;
+    const int speed_y = 1;
+    const int pic_width = 30;
+    const int pic_height = 30;
+
 
     const int N_VARS = 6;
     Picture variants[N_VARS];
-    variants[0] = {780, 240, 200,157, txLoadImage("Картинки/ботан.bmp"),false, "Ученики"};
-    variants[1] = {920, 250, 267,287, txLoadImage("Картинки/фанера.bmp"),false, "Ученики"};
-    variants[2] = {780, 410, 234,234, txLoadImage("Картинки/бревно.bmp"),false, "Ученики"};
-    variants[3] = {920, 410, 252,189, txLoadImage("Картинки/картошка.bmp"),false, "Ученики"};
-    variants[4] = {780, 240, 248,248, txLoadImage("Картинки/злая училка.bmp"),false,"Учителя"};
-    variants[5] = {930, 230, 225,225, txLoadImage("Картинки/Учитель по труду.bmp"),false,"Учителя"};
+    variants[0] = {780, 240, 200,157, txLoadImage("РљР°СЂС‚РёРЅРєРё/Р±РѕС‚Р°РЅ.bmp"),false, "РЈС‡РµРЅРёРєРё"};
+    variants[1] = {920, 250, 267,287, txLoadImage("РљР°СЂС‚РёРЅРєРё/С„Р°РЅРµСЂР°.bmp"),false, "РЈС‡РµРЅРёРєРё"};
+    variants[2] = {780, 410, 234,234, txLoadImage("РљР°СЂС‚РёРЅРєРё/Р±СЂРµРІРЅРѕ.bmp"),false, "РЈС‡РµРЅРёРєРё"};
+    variants[3] = {920, 410, 252,189, txLoadImage("РљР°СЂС‚РёРЅРєРё/РєР°СЂС‚РѕС€РєР°.bmp"),false, "РЈС‡РµРЅРёРєРё"};
+    variants[4] = {780, 240, 248,248, txLoadImage("РљР°СЂС‚РёРЅРєРё/Р·Р»Р°СЏ СѓС‡РёР»РєР°.bmp"),false,"РЈС‡РёС‚РµР»СЏ"};
+    variants[5] = {930, 230, 225,225, txLoadImage("РљР°СЂС‚РёРЅРєРё/РЈС‡РёС‚РµР»СЊ РїРѕ С‚СЂСѓРґСѓ.bmp"),false,"РЈС‡РёС‚РµР»СЏ"};
 
-    Picture centr[6];
-    centr[0] = {458, 608, 200,157, txLoadImage("Картинки/ботан.bmp"), false, "Ученики"};
-    centr[1] = {229, 379, 267,287, txLoadImage("Картинки/фанера.bmp"), false, "Ученики"};
-    centr[2] = {609, 479, 234,234, txLoadImage("Картинки/бревно.bmp"), false, "Ученики"};
-    centr[3] = {229, 379, 252,189, txLoadImage("Картинки/картошка.bmp"), false, "Ученики"};
-    centr[4] = {320, 787, 248,248, txLoadImage("Картинки/злая училка.bmp"), false, "Учителя"};
+    Picture centr[1000];
+    int n_pics = 0;
+
 
     Objects mesto [8];
     mesto[0] = {247, 352};
@@ -113,22 +112,21 @@ int main()
 
 
         txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
-        for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)   // определение активного персонажа
-         {
-
+        for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)   // РѕРїСЂРµРґРµР»РµРЅРёРµ Р°РєС‚РёРІРЅРѕРіРѕ РїРµСЂСЃРѕРЅР°Р¶Р°
+        {
             if (txMouseX() >= centr[nomer].x &&
                txMouseY() >= centr[nomer].y &&
-               txMouseX() <= centr[nomer].x + 100 &&
-               txMouseY() <= centr[nomer].y + 100 &&
+               txMouseX() <= centr[nomer].x + pic_width  &&
+               txMouseY() <= centr[nomer].y + pic_height &&
                txMouseButtons()== 1)
             {
                 n_active = nomer;
             }
         }
 
-        for (int nomer = 0; nomer < 8; nomer = nomer + 1)   // телепорт на парту
-         {
-        txRectangle (mesto[nomer].x, mesto[nomer].y, mesto[nomer].x + 30, mesto[nomer].y + 30);
+        for (int nomer = 0; nomer < 8; nomer = nomer + 1)   // С‚РµР»РµРїРѕСЂС‚ РЅР° РїР°СЂС‚Сѓ
+        {
+            txRectangle (mesto[nomer].x, mesto[nomer].y, mesto[nomer].x + 30, mesto[nomer].y + 30);
 
             if (txMouseX() >= mesto[nomer].x &&
                txMouseY() >= mesto[nomer].y &&
@@ -144,7 +142,7 @@ int main()
 
         txRectangle (stol_ychitela[0].x, stol_ychitela[0].y, stol_ychitela[0].x + 30, stol_ychitela[0].y + 30);
 
-            if (txMouseX() >= stol_ychitela[0].x &&  // телепорт на стол учителя
+            if (txMouseX() >= stol_ychitela[0].x &&  // С‚РµР»РµРїРѕСЂС‚ РЅР° СЃС‚РѕР» СѓС‡РёС‚РµР»СЏ
                txMouseY() >= stol_ychitela[0].y &&
                txMouseX() <= stol_ychitela[0].x + 30  &&
                txMouseY() <= stol_ychitela[0].y + 30 &&
@@ -154,7 +152,7 @@ int main()
                centr[n_active].y = stol_ychitela[0].y ;
             }
 
-        //Движение
+        //Р”РІРёР¶РµРЅРёРµ
         {
         if(GetAsyncKeyState(VK_LEFT) && centr[n_active].visible)
         {
@@ -177,7 +175,7 @@ int main()
         }
         }
 
-        //Рисование вариантов
+        //Р РёСЃРѕРІР°РЅРёРµ РІР°СЂРёР°РЅС‚РѕРІ
          for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
          {
              if (variants[nomer].category == active_category){
@@ -185,9 +183,9 @@ int main()
              }
         }
 
-        txRectangle(933,638,1042,687);    // выход
+        txRectangle(933,638,1042,687);    // РІС‹С…РѕРґ
 
-          txDrawText(940,653,1031,676, "Выход");
+          txDrawText(940,653,1031,676, "Р’С‹С…РѕРґ");
          if(txMouseX() >= 933 &&
                txMouseY() >= 638 &&
                txMouseX() <= 1042 &&
@@ -199,92 +197,97 @@ int main()
             }
 
 
-        //Рисование центральных картинок
-         for (int nomer = 0; nomer < 5; nomer = nomer + 1)
-         {
-                Win32::TransparentBlt (txDC(), centr[nomer].x,   centr[nomer].y, 100, 100, centr[nomer].pic, 0, 0, centr[nomer].width, centr[nomer].height, TX_WHITE);
-         }
+        //Р РёСЃРѕРІР°РЅРёРµ С†РµРЅС‚СЂР°Р»СЊРЅС‹С… РєР°СЂС‚РёРЅРѕРє
+        for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)
+        {
+            if (centr[nomer].visible)
+            {
+                Win32::TransparentBlt (txDC(), centr[nomer].x,   centr[nomer].y, pic_width, pic_height, centr[nomer].pic, 0, 0, centr[nomer].width, centr[nomer].height, TX_WHITE);
+            }
+        }
+
+           txDrawText(747,78,1242,100,"РРіСЂР° РЅР°С…РѕРґРёС‚СЃСЏ РІ СЂР°Р·СЂР°Р±РѕС‚РєРµ ");
+
+           txDrawText(885,146,1195,179,"Р’С‹Р±РµСЂРё РїРµСЂСЃРѕРЅР°Р¶Р°");
 
 
-           txDrawText(747,78,1242,100,"Игра находится в разработке ");
 
-           txDrawText(885,146,1195,179,"Выбери персонажа");
-
-
-
-            if (active_category == "Учителя")
+            if (active_category == "РЈС‡РёС‚РµР»СЏ")
                 txSetColor(TX_BLUE);
             else
                 txSetColor(TX_WHITE);
-            txDrawText(1114,180,1269,222,"Учителя");
+            txDrawText(1114,180,1269,222,"РЈС‡РёС‚РµР»СЏ");
 
 
-            if (active_category == "Ученики")
+            if (active_category == "РЈС‡РµРЅРёРєРё")
                 txSetColor(TX_BLUE);
             else
                 txSetColor(TX_WHITE);
-           txDrawText(736,184,885,221,"Ученики");
+           txDrawText(736,184,885,221,"РЈС‡РµРЅРёРєРё");
 
 
-
-
-            //Выбор категории
-            for (int nomer = 0; nomer < 5; nomer = nomer + 1)
+            if(txMouseX() >= 1107 &&    //(1107, 24, 1241, 66  // Г±ГЇГ°Г ГўГЄГ 
+               txMouseY() >= 24 &&
+               txMouseX() <= 1241 &&
+               txMouseY() <= 66 &&
+               txMouseButtons()== 1)
             {
-                if (txMouseX() >= 1114 &&
-                   txMouseY() >= 180 &&
-                   txMouseX() <= 1269+30 &&
-                   txMouseY() <= 222+30 &&
-                   txMouseButtons()== 1)
-                {
-                    active_category = "Учителя" ;
-                }
+
             }
 
-            for (int nomer = 0; nomer < 5; nomer = nomer + 1)
+
+            //Р’С‹Р±РѕСЂ РєР°С‚РµРіРѕСЂРёРё
+            if (txMouseX() >= 1114 &&
+               txMouseY() >= 180 &&
+               txMouseX() <= 1269+30 &&
+               txMouseY() <= 222+30 &&
+               txMouseButtons()== 1)
             {
-                if (txMouseX() >= 736 &&
-                   txMouseY() >= 184 &&
-                   txMouseX() <= 885+30 &&
-                   txMouseY() <= 221+30 &&
-                   txMouseButtons()== 1)
-                {
-                    active_category = "Ученики" ;
-                }
+                active_category = "РЈС‡РёС‚РµР»СЏ" ;
             }
 
-         // рисование ботана по клику (pic2)
+            if (txMouseX() >= 736 &&
+               txMouseY() >= 184 &&
+               txMouseX() <= 885+30 &&
+               txMouseY() <= 221+30 &&
+               txMouseButtons()== 1)
+            {
+                active_category = "РЈС‡РµРЅРёРєРё" ;
+            }
+
+         // СЂРёСЃРѕРІР°РЅРёРµ Р±РѕС‚Р°РЅР° РїРѕ РєР»РёРєСѓ (pic2)
          for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
          {
-
             if (txMouseX() >= variants[nomer].x &&
                txMouseY() >= variants[nomer].y &&
                txMouseX() <= variants[nomer].x + 100 &&
                txMouseY() <= variants[nomer].y + 100 &&
                txMouseButtons()== 1 && centr[nomer].visible)
             {
-                //Добавляется новая центральная картинка
-                centr[nomer].visible = !centr[nomer].visible;
+                //Р”РѕР±Р°РІР»СЏРµС‚СЃСЏ РЅРѕРІР°СЏ С†РµРЅС‚СЂР°Р»СЊРЅР°СЏ РєР°СЂС‚РёРЅРєР°
+                centr[n_pics] = {458, 608, 100,100, variants[nomer].pic, true, "РЈС‡РёС‚РµР»СЏ"};
+                n_pics++;
                 txSleep(100);
             }
         }
-        txSleep(20);
-        exit();
 
+        exit();
+        txEnd();
+        txSleep(20);
     }
 
-        for (int nomer = 0; nomer < 5; nomer = nomer + 1)
-         {
+    //РЈРґР°Р»РµРЅРёРµ РєР°СЂС‚РёРЅРѕРє
+    for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
+    {
         txDeleteDC(variants[nomer].pic);
-         }
+    }
 
-        for(int nomer = 0; nomer < 5; nomer = nomer + 1)
-         {
+    for(int nomer = 0; nomer < 5; nomer = nomer + 1)
+    {
         txDeleteDC(centr[nomer].pic);
-         }
+    }
 
-         txDeleteDC(pic1);
-         txEnd();
+    txDeleteDC(pic1);
 
 
     return 0;
