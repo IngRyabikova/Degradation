@@ -15,6 +15,7 @@ struct Objects
 {
     int x;
     int y;
+
 };
 
 bool GameOver = false;
@@ -32,6 +33,7 @@ bool GameOver = false;
 
 void exit ()
 {
+
     if(GetAsyncKeyState(VK_MENU) &&  GetAsyncKeyState(VK_F4))
     {
          txDisableAutoPause();
@@ -45,7 +47,7 @@ void exit ()
 }
 void menu ()
 {
-}    //ïîêà íå èñïîëüçóåòñÿ
+}    //пока не используется
 
 
 
@@ -55,23 +57,25 @@ int main()
 
     txCreateWindow (1280, 895);
     const char* active_category;
-    HDC  pic1 = txLoadImage ("Êàðòèíêè/çàäíèé ôîí.bmp");
-    int speed_x = 1;
-    int speed_y = 1;
-    int pic_width = 30;
-    int pic_height = 30;
-    int n_pics = 0;
+    HDC  pic1 = txLoadImage ("Картинки/задний фон.bmp");
+    const int speed_x = 1;
+    const int speed_y = 1;
+    const int pic_width = 30;
+    const int pic_height = 30;
+
 
     const int N_VARS = 6;
     Picture variants[N_VARS];
-    variants[0] = {780, 240, 200,157, txLoadImage("Êàðòèíêè/áîòàí.bmp"),false, "Ó÷åíèêè"};
-    variants[1] = {920, 250, 267,287, txLoadImage("Êàðòèíêè/ôàíåðà.bmp"),false, "Ó÷åíèêè"};
-    variants[2] = {780, 410, 234,234, txLoadImage("Êàðòèíêè/áðåâíî.bmp"),false, "Ó÷åíèêè"};
-    variants[3] = {920, 410, 252,189, txLoadImage("Êàðòèíêè/êàðòîøêà.bmp"),false, "Ó÷åíèêè"};
-    variants[4] = {780, 240, 248,248, txLoadImage("Êàðòèíêè/çëàÿ ó÷èëêà.bmp"),false,"Ó÷èòåëÿ"};
-    variants[5] = {930, 230, 225,225, txLoadImage("Êàðòèíêè/Ó÷èòåëü ïî òðóäó.bmp"),false,"Ó÷èòåëÿ"};
+    variants[0] = {780, 240, 200,157, txLoadImage("Картинки/ботан.bmp"),false, "Ученики"};
+    variants[1] = {920, 250, 267,287, txLoadImage("Картинки/фанера.bmp"),false, "Ученики"};
+    variants[2] = {780, 410, 234,234, txLoadImage("Картинки/бревно.bmp"),false, "Ученики"};
+    variants[3] = {920, 410, 252,189, txLoadImage("Картинки/картошка.bmp"),false, "Ученики"};
+    variants[4] = {780, 240, 248,248, txLoadImage("Картинки/злая училка.bmp"),false,"Учителя"};
+    variants[5] = {930, 230, 225,225, txLoadImage("Картинки/Учитель по труду.bmp"),false,"Учителя"};
 
     Picture centr[1000];
+    int n_pics = 0;
+
 
     Objects mesto [8];
     mesto[0] = {247, 352};
@@ -104,17 +108,15 @@ int main()
         txSetColor (TX_WHITE);
         txSetFillColor (TX_TRANSPARENT);
         txRectangle (50, 50, 300, 490);
-        txRectangle (1107, 24, 1241, 66);
 
 
 
         txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
-        for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)   // îïðåäåëåíèå àêòèâíîãî ïåðñîíàæà
-         {
-
+        for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)   // определение активного персонажа
+        {
             if (txMouseX() >= centr[nomer].x &&
                txMouseY() >= centr[nomer].y &&
-               txMouseX() <= centr[nomer].x + pic_width &&
+               txMouseX() <= centr[nomer].x + pic_width  &&
                txMouseY() <= centr[nomer].y + pic_height &&
                txMouseButtons()== 1)
             {
@@ -122,9 +124,9 @@ int main()
             }
         }
 
-        for (int nomer = 0; nomer < 8; nomer = nomer + 1)   // òåëåïîðò íà ïàðòó
-         {
-        txRectangle (mesto[nomer].x, mesto[nomer].y, mesto[nomer].x + 30, mesto[nomer].y + 30);
+        for (int nomer = 0; nomer < 8; nomer = nomer + 1)   // телепорт на парту
+        {
+            txRectangle (mesto[nomer].x, mesto[nomer].y, mesto[nomer].x + 30, mesto[nomer].y + 30);
 
             if (txMouseX() >= mesto[nomer].x &&
                txMouseY() >= mesto[nomer].y &&
@@ -140,7 +142,7 @@ int main()
 
         txRectangle (stol_ychitela[0].x, stol_ychitela[0].y, stol_ychitela[0].x + 30, stol_ychitela[0].y + 30);
 
-            if (txMouseX() >= stol_ychitela[0].x &&  // òåëåïîðò íà ñòîë ó÷èòåëÿ
+            if (txMouseX() >= stol_ychitela[0].x &&  // телепорт на стол учителя
                txMouseY() >= stol_ychitela[0].y &&
                txMouseX() <= stol_ychitela[0].x + 30  &&
                txMouseY() <= stol_ychitela[0].y + 30 &&
@@ -150,7 +152,7 @@ int main()
                centr[n_active].y = stol_ychitela[0].y ;
             }
 
-        //Äâèæåíèå
+        //Движение
         {
         if(GetAsyncKeyState(VK_LEFT) && centr[n_active].visible)
         {
@@ -173,7 +175,7 @@ int main()
         }
         }
 
-        //Ðèñîâàíèå âàðèàíòîâ
+        //Рисование вариантов
          for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
          {
              if (variants[nomer].category == active_category){
@@ -181,9 +183,9 @@ int main()
              }
         }
 
-        txRectangle(933,638,1042,687);    // âûõîä
+        txRectangle(933,638,1042,687);    // выход
 
-          txDrawText(940,653,1031,676, "Âûõîä");
+          txDrawText(940,653,1031,676, "Выход");
          if(txMouseX() >= 933 &&
                txMouseY() >= 638 &&
                txMouseX() <= 1042 &&
@@ -194,6 +196,36 @@ int main()
                  GameOver = true;
             }
 
+
+        //Рисование центральных картинок
+        for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)
+        {
+            if (centr[nomer].visible)
+            {
+                Win32::TransparentBlt (txDC(), centr[nomer].x,   centr[nomer].y, pic_width, pic_height, centr[nomer].pic, 0, 0, centr[nomer].width, centr[nomer].height, TX_WHITE);
+            }
+        }
+
+           txDrawText(747,78,1242,100,"Игра находится в разработке ");
+
+           txDrawText(885,146,1195,179,"Выбери персонажа");
+
+
+
+            if (active_category == "Учителя")
+                txSetColor(TX_BLUE);
+            else
+                txSetColor(TX_WHITE);
+            txDrawText(1114,180,1269,222,"Учителя");
+
+
+            if (active_category == "Ученики")
+                txSetColor(TX_BLUE);
+            else
+                txSetColor(TX_WHITE);
+           txDrawText(736,184,885,221,"Ученики");
+
+
             if(txMouseX() >= 1107 &&    //(1107, 24, 1241, 66  // ñïðàâêà
                txMouseY() >= 24 &&
                txMouseX() <= 1241 &&
@@ -203,47 +235,15 @@ int main()
 
             }
 
-        //Ðèñîâàíèå öåíòðàëüíûõ êàðòèíîê
-         for (int nomer = 0; nomer < 5; nomer = nomer + 1)
-         {
-                if(centr[nomer].visible)
-                {
-                Win32::TransparentBlt (txDC(), centr[nomer].x,   centr[nomer].y, pic_width, 100, centr[nomer].pic, 0, 0, centr[nomer].width, centr[nomer].height, TX_WHITE);
-                 }
 
-         }
-
-
-           txDrawText(747,78,1242,100,"Èãðà íàõîäèòñÿ â ðàçðàáîòêå ");
-
-           txDrawText(885,146,1195,179,"Âûáåðè ïåðñîíàæà");
-
-
-
-            if (active_category == "Ó÷èòåëÿ")
-                txSetColor(TX_BLUE);
-            else
-                txSetColor(TX_WHITE);
-            txDrawText(1114,180,1269,222,"Ó÷èòåëÿ");
-
-
-            if (active_category == "Ó÷åíèêè")
-                txSetColor(TX_BLUE);
-            else
-                txSetColor(TX_WHITE);
-           txDrawText(736,184,885,221,"Ó÷åíèêè");
-
-
-
-
-            //Âûáîð êàòåãîðèè
+            //Выбор категории
             if (txMouseX() >= 1114 &&
                txMouseY() >= 180 &&
                txMouseX() <= 1269+30 &&
                txMouseY() <= 222+30 &&
                txMouseButtons()== 1)
             {
-                active_category = "Ó÷èòåëÿ" ;
+                active_category = "Учителя" ;
             }
 
             if (txMouseX() >= 736 &&
@@ -252,41 +252,42 @@ int main()
                txMouseY() <= 221+30 &&
                txMouseButtons()== 1)
             {
-                active_category = "Ó÷åíèêè" ;
+                active_category = "Ученики" ;
             }
 
-         // ðèñîâàíèå áîòàíà ïî êëèêó (pic2)
+         // рисование ботана по клику (pic2)
          for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
          {
             if (txMouseX() >= variants[nomer].x &&
                txMouseY() >= variants[nomer].y &&
                txMouseX() <= variants[nomer].x + 100 &&
                txMouseY() <= variants[nomer].y + 100 &&
-               txMouseButtons()== 1)
+               txMouseButtons()== 1 && centr[nomer].visible)
             {
-                //Äîáàâëÿåòñÿ íîâàÿ öåíòðàëüíàÿ êàðòèíêà
-                centr[n_pics] = {458, 608, 100,100, variants[nomer].pic, true, "Ó÷åíèêè"};
+                //Добавляется новая центральная картинка
+                centr[n_pics] = {458, 608, 100,100, variants[nomer].pic, true, "Учителя"};
                 n_pics++;
                 txSleep(100);
             }
         }
-        txSleep(20);
-        exit();
 
+        exit();
+        txEnd();
+        txSleep(20);
     }
 
-        for (int nomer = 0; nomer <= n_pics; nomer++)
-         {
+    //Удаление картинок
+    for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
+    {
         txDeleteDC(variants[nomer].pic);
-         }
+    }
 
-        for(int nomer = 0; nomer <= n_pics; nomer++)
-         {
+    for(int nomer = 0; nomer < 5; nomer = nomer + 1)
+    {
         txDeleteDC(centr[nomer].pic);
-         }
+    }
 
-         txDeleteDC(pic1);
-         txEnd();
+    txDeleteDC(pic1);
 
 
     return 0;
