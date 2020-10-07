@@ -45,36 +45,33 @@ void exit ()
 }
 void menu ()
 {
-}    //пока не используется
+}    //ГЇГ®ГЄГ  Г­ГҐ ГЁГ±ГЇГ®Г«ГјГ§ГіГҐГІГ±Гї
 
 
 
 int main()
 {
- txTextCursor (false);
+    txTextCursor (false);
 
     txCreateWindow (1280, 895);
-const char* active_category;
-    HDC  pic1 = txLoadImage ("Картинки/задний фон.bmp");
+    const char* active_category;
+    HDC  pic1 = txLoadImage ("ГЉГ Г°ГІГЁГ­ГЄГЁ/Г§Г Г¤Г­ГЁГ© ГґГ®Г­.bmp");
     int speed_x = 1;
     int speed_y = 1;
     int pic_width = 30;
     int pic_height = 30;
-    Picture variants[5];
-    variants[0] = {740, 190, 100,100, txLoadImage("Картинки/ботан.bmp"),false, "Ученики"};
-    variants[1] = {990, 190, 100,100, txLoadImage("Картинки/фанера.bmp"),false, "Ученики"};
-    variants[2] = {740, 390, 100,100, txLoadImage("Картинки/бревно.bmp"),false, "Ученики"};
-    variants[3] = {990, 390, 100,100, txLoadImage("Картинки/картошка.bmp"),false, "Ученики"};
-    variants[4] = {740, 590, 100,100, txLoadImage("Картинки/злая училка.bmp"),false,"Учителя"};
-
-    //Картинки в центре
     int n_pics = 0;
+
+    const int N_VARS = 6;
+    Picture variants[N_VARS];
+    variants[0] = {780, 240, 200,157, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЎГ®ГІГ Г­.bmp"),false, "Г“Г·ГҐГ­ГЁГЄГЁ"};
+    variants[1] = {920, 250, 267,287, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГґГ Г­ГҐГ°Г .bmp"),false, "Г“Г·ГҐГ­ГЁГЄГЁ"};
+    variants[2] = {780, 410, 234,234, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЎГ°ГҐГўГ­Г®.bmp"),false, "Г“Г·ГҐГ­ГЁГЄГЁ"};
+    variants[3] = {920, 410, 252,189, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЄГ Г°ГІГ®ГёГЄГ .bmp"),false, "Г“Г·ГҐГ­ГЁГЄГЁ"};
+    variants[4] = {780, 240, 248,248, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/Г§Г«Г Гї ГіГ·ГЁГ«ГЄГ .bmp"),false,"Г“Г·ГЁГІГҐГ«Гї"};
+    variants[5] = {930, 230, 225,225, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/Г“Г·ГЁГІГҐГ«Гј ГЇГ® ГІГ°ГіГ¤Гі.bmp"),false,"Г“Г·ГЁГІГҐГ«Гї"};
+
     Picture centr[1000];
-    /*centr[0] = {458, 608, 200,157, txLoadImage("Картинки/ботан.bmp"), false, "Ученики"};
-    centr[1] = {229, 379, 267,287, txLoadImage("Картинки/фанера.bmp"), false, "Ученики"};
-    centr[2] = {609, 479, 234,234, txLoadImage("Картинки/бревно.bmp"), false, "Ученики"};
-    centr[3] = {229, 379, 252,189, txLoadImage("Картинки/картошка.bmp"), false, "Ученики"};
-    centr[4] = {320, 787, 248,248, txLoadImage("Картинки/злая училка.bmp"), false, "Учителя"}; */
 
     Objects mesto [8];
     mesto[0] = {247, 352};
@@ -112,7 +109,7 @@ const char* active_category;
 
 
         txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
-        for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)   // определение активного персонажа
+        for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)   // Г®ГЇГ°ГҐГ¤ГҐГ«ГҐГ­ГЁГҐ Г ГЄГІГЁГўГ­Г®ГЈГ® ГЇГҐГ°Г±Г®Г­Г Г¦Г 
          {
 
             if (txMouseX() >= centr[nomer].x &&
@@ -125,7 +122,7 @@ const char* active_category;
             }
         }
 
-        for (int nomer = 0; nomer < 8; nomer = nomer + 1)   // телепорт на парту
+        for (int nomer = 0; nomer < 8; nomer = nomer + 1)   // ГІГҐГ«ГҐГЇГ®Г°ГІ Г­Г  ГЇГ Г°ГІГі
          {
         txRectangle (mesto[nomer].x, mesto[nomer].y, mesto[nomer].x + 30, mesto[nomer].y + 30);
 
@@ -143,7 +140,7 @@ const char* active_category;
 
         txRectangle (stol_ychitela[0].x, stol_ychitela[0].y, stol_ychitela[0].x + 30, stol_ychitela[0].y + 30);
 
-            if (txMouseX() >= stol_ychitela[0].x &&  // телепорт на стол учителя
+            if (txMouseX() >= stol_ychitela[0].x &&  // ГІГҐГ«ГҐГЇГ®Г°ГІ Г­Г  Г±ГІГ®Г« ГіГ·ГЁГІГҐГ«Гї
                txMouseY() >= stol_ychitela[0].y &&
                txMouseX() <= stol_ychitela[0].x + 30  &&
                txMouseY() <= stol_ychitela[0].y + 30 &&
@@ -153,7 +150,7 @@ const char* active_category;
                centr[n_active].y = stol_ychitela[0].y ;
             }
 
-        //Движение
+        //Г„ГўГЁГ¦ГҐГ­ГЁГҐ
         {
         if(GetAsyncKeyState(VK_LEFT) && centr[n_active].visible)
         {
@@ -176,17 +173,17 @@ const char* active_category;
         }
         }
 
-        //Рисование вариантов
-         for (int nomer = 0; nomer < 5; nomer = nomer + 1)
+        //ГђГЁГ±Г®ГўГ Г­ГЁГҐ ГўГ Г°ГЁГ Г­ГІГ®Гў
+         for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
          {
              if (variants[nomer].category == active_category){
                 Win32::TransparentBlt (txDC(), variants[nomer].x,   variants[nomer].y, 100, 100, variants[nomer].pic, 0, 0, variants[nomer].width, variants[nomer].height, TX_WHITE);
              }
         }
 
-        txRectangle(933,638,1042,687);    // выход
+        txRectangle(933,638,1042,687);    // ГўГ»ГµГ®Г¤
 
-          txDrawText(940,653,1031,676, "Выход");
+          txDrawText(940,653,1031,676, "Г‚Г»ГµГ®Г¤");
          if(txMouseX() >= 933 &&
                txMouseY() >= 638 &&
                txMouseX() <= 1042 &&
@@ -197,7 +194,7 @@ const char* active_category;
                  GameOver = true;
             }
 
-            if(txMouseX() >= 1107 &&    //(1107, 24, 1241, 66  // справка
+            if(txMouseX() >= 1107 &&    //(1107, 24, 1241, 66  // Г±ГЇГ°Г ГўГЄГ 
                txMouseY() >= 24 &&
                txMouseX() <= 1241 &&
                txMouseY() <= 66 &&
@@ -206,7 +203,7 @@ const char* active_category;
 
             }
 
-        //Рисование центральных картинок
+        //ГђГЁГ±Г®ГўГ Г­ГЁГҐ Г¶ГҐГ­ГІГ°Г Г«ГјГ­Г»Гµ ГЄГ Г°ГІГЁГ­Г®ГЄ
          for (int nomer = 0; nomer < 5; nomer = nomer + 1)
          {
                 if(centr[nomer].visible)
@@ -217,23 +214,36 @@ const char* active_category;
          }
 
 
-           txDrawText(747,78,1242,100,"Игра находится в разработке ");
+           txDrawText(747,78,1242,100,"Г€ГЈГ°Г  Г­Г ГµГ®Г¤ГЁГІГ±Гї Гў Г°Г Г§Г°Г ГЎГ®ГІГЄГҐ ");
 
-           txDrawText(885,146,1195,179,"Выбери персонажа");
-
-            txDrawText(736,184,885,221,"Ученики");
-
-             txDrawText(1114,180,1269,222,"Учителя");
+           txDrawText(885,146,1195,179,"Г‚Г»ГЎГҐГ°ГЁ ГЇГҐГ°Г±Г®Г­Г Г¦Г ");
 
 
-            //Выбор категории
+
+            if (active_category == "Г“Г·ГЁГІГҐГ«Гї")
+                txSetColor(TX_BLUE);
+            else
+                txSetColor(TX_WHITE);
+            txDrawText(1114,180,1269,222,"Г“Г·ГЁГІГҐГ«Гї");
+
+
+            if (active_category == "Г“Г·ГҐГ­ГЁГЄГЁ")
+                txSetColor(TX_BLUE);
+            else
+                txSetColor(TX_WHITE);
+           txDrawText(736,184,885,221,"Г“Г·ГҐГ­ГЁГЄГЁ");
+
+
+
+
+            //Г‚Г»ГЎГ®Г° ГЄГ ГІГҐГЈГ®Г°ГЁГЁ
             if (txMouseX() >= 1114 &&
                txMouseY() >= 180 &&
                txMouseX() <= 1269+30 &&
                txMouseY() <= 222+30 &&
                txMouseButtons()== 1)
             {
-                active_category = "Учителя" ;
+                active_category = "Г“Г·ГЁГІГҐГ«Гї" ;
             }
 
             if (txMouseX() >= 736 &&
@@ -242,11 +252,11 @@ const char* active_category;
                txMouseY() <= 221+30 &&
                txMouseButtons()== 1)
             {
-                active_category = "Ученики" ;
+                active_category = "Г“Г·ГҐГ­ГЁГЄГЁ" ;
             }
 
-         // рисование ботана по клику (pic2)
-         for (int nomer = 0; nomer < 5; nomer = nomer + 1)
+         // Г°ГЁГ±Г®ГўГ Г­ГЁГҐ ГЎГ®ГІГ Г­Г  ГЇГ® ГЄГ«ГЁГЄГі (pic2)
+         for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
          {
             if (txMouseX() >= variants[nomer].x &&
                txMouseY() >= variants[nomer].y &&
@@ -254,8 +264,8 @@ const char* active_category;
                txMouseY() <= variants[nomer].y + 100 &&
                txMouseButtons()== 1)
             {
-                //Добавляется новая центральная картинка
-                centr[n_pics] = {458, 608, 100,100, variants[nomer].pic, true, "Ученики"};
+                //Г„Г®ГЎГ ГўГ«ГїГҐГІГ±Гї Г­Г®ГўГ Гї Г¶ГҐГ­ГІГ°Г Г«ГјГ­Г Гї ГЄГ Г°ГІГЁГ­ГЄГ 
+                centr[n_pics] = {458, 608, 100,100, variants[nomer].pic, true, "Г“Г·ГҐГ­ГЁГЄГЁ"};
                 n_pics++;
                 txSleep(100);
             }
