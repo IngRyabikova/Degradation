@@ -182,12 +182,35 @@ int main()
             }
         }
 
-        txRectangle(933,638,1042,687);    // выход
+        // окно подсказки
+        txDrawText(710, 480, 890, 640, "Выбранный персонаж");
+        txRectangle(702, 550, 930, 800);
+        if (n_active >= 0)
+        Win32::TransparentBlt (txDC(), 702,  550, 228, 250, centr[n_active].pic, 0, 0, centr[n_active].width, variants[n_active].height, TX_WHITE);
 
-        txDrawText(940,653,1031,676, "Выход");
-        if(txMouseX() >= 933 &&
+
+        txBitBlt(txDC(), 0, 0, 699, 895, pic1, 0, 0);
+        for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)
+        {
+            if (txMouseX() >= centr[nomer].x &&
+               txMouseY() >= centr[nomer].y &&
+               txMouseX() <= centr[nomer].x + pic_width  &&
+               txMouseY() <= centr[nomer].y + pic_height &&
+               txMouseButtons()== 1)
+            {
+                n_active = nomer;
+            }
+        }
+
+
+
+
+        txRectangle(1033,638,1242,687);    // выход
+
+        txDrawText (1040,653,1231,676, "Выход");
+        if(txMouseX() >= 1033 &&
                txMouseY() >= 638 &&
-               txMouseX() <= 1042 &&
+               txMouseX() <= 1242 &&
                txMouseY() <= 687 &&
                txMouseButtons()== 1)
         {
@@ -207,21 +230,25 @@ int main()
 
            txDrawText(747,78,1242,100,"Игра находится в разработке ");
 
-           txDrawText(885,146,1195,179,"Выбери персонажа");
+           txDrawText(850,146,1100,179,"Выбери персонажа");
 
 
 
             if (active_category == "Учителя")
-                txSetColor(TX_BLUE);
+                txSetFillColor(TX_BLUE);
             else
-                txSetColor(TX_WHITE);
+                txSetFillColor(TX_WHITE);
+            txSetColor(TX_BLACK);
+            Win32::RoundRect(txDC(), 1114, 180, 1269, 222, 50, 50);
             txDrawText(1114,180,1269,222,"Учителя");
 
 
             if (active_category == "Ученики")
-                txSetColor(TX_BLUE);
+                txSetFillColor(TX_BLUE);
             else
-                txSetColor(TX_WHITE);
+                txSetFillColor(TX_WHITE);
+            txSetColor(TX_BLACK);
+            Win32::RoundRect(txDC(), 728, 180, 883, 222, 50, 50);
            txDrawText(736,184,885,221,"Ученики");
 
 
