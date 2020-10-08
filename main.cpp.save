@@ -179,7 +179,7 @@ for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)
         }
 
 }
-int risovanie_po_categorii(Picture* variants, Picture* centr, int N_VARS, int n_pics)
+void risovanie_po_categorii(Picture* variants, Picture* centr, int N_VARS, int n_pics)
 {
  for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
          {
@@ -195,9 +195,7 @@ int risovanie_po_categorii(Picture* variants, Picture* centr, int N_VARS, int n_
                 txSleep(100);
             }
         }
-
-        return n_pics;
-}
+          }
 int main()
 {
     txTextCursor (false);
@@ -245,7 +243,7 @@ int main()
 
         txSetColor (TX_WHITE);
         txSetFillColor (TX_TRANSPARENT);
-        //txRectangle (50, 50, 300, 490);
+        txRectangle (50, 50, 300, 490);
 
 
 
@@ -262,7 +260,7 @@ int main()
         draw_centr_pic(centr, n_pics, pic_width, pic_height);
 
         txRectangle (stol_ychitela[0].x, stol_ychitela[0].y, stol_ychitela[0].x + 30, stol_ychitela[0].y + 30);
-        n_pics = risovanie_po_categorii(variants, centr, N_VARS, n_pics);
+        risovanie_po_categorii(variants, centr, N_VARS, n_pics);
 
 
          // рисование ботана по клику (pic2)
