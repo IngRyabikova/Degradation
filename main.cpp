@@ -26,9 +26,9 @@ void exit ()
 
 
 
-        txRectangle(1033,638,1242,687);    // РІС‹С…РѕРґ
+        txRectangle(1033,638,1242,687);    // выход
 
-        txDrawText (1040,653,1231,676, "Р’С‹С…РѕРґ");
+        txDrawText (1040,653,1231,676, "Выход");
         if(txMouseX() >= 1033 &&
                txMouseY() >= 638 &&
                txMouseX() <= 1242 &&
@@ -41,7 +41,7 @@ void exit ()
 }
 void menu ()
 {
-}    //РїРѕРєР° РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ
+}    //пока не используется
 
 void select_category()
 {
@@ -52,7 +52,7 @@ void select_category()
                txMouseY() <= 222 &&
                txMouseButtons()== 1)
             {
-                active_category = "РЈС‡РёС‚РµР»СЏ" ;
+                active_category = "Учителя" ;
             }
 
             if (txMouseX() >= 736 &&
@@ -61,30 +61,30 @@ void select_category()
                txMouseY() <= 221 &&
                txMouseButtons()== 1)
             {
-                active_category = "РЈС‡РµРЅРёРєРё" ;
+                active_category = "Ученики" ;
             }
 
 
-            if (active_category == "РЈС‡РёС‚РµР»СЏ")
+            if (active_category == "Учителя")
                 txSetFillColor(TX_BLUE);
             else
                 txSetFillColor(TX_WHITE);
             txSetColor(TX_BLACK);
             Win32::RoundRect(txDC(), 1114, 180, 1269, 222, 50, 50);
-            txDrawText(1114,180,1269,222,"РЈС‡РёС‚РµР»СЏ");
+            txDrawText(1114,180,1269,222,"Учителя");
 
 
-            if (active_category == "РЈС‡РµРЅРёРєРё")
+            if (active_category == "Ученики")
                 txSetFillColor(TX_BLUE);
             else
                 txSetFillColor(TX_WHITE);
             txSetColor(TX_BLACK);
             Win32::RoundRect(txDC(), 728, 180, 883, 222, 50, 50);
-           txDrawText(736,184,885,221,"РЈС‡РµРЅРёРєРё");
+           txDrawText(736,184,885,221,"Ученики");
 }
 void teleport_na_party(Picture* centr, Objects* mesto, int n_active)
 {
-    for (int nomer = 0; nomer < 8; nomer = nomer + 1)   // С‚РµР»РµРїРѕСЂС‚ РЅР° РїР°СЂС‚Сѓ
+    for (int nomer = 0; nomer < 8; nomer = nomer + 1)   // телепорт на парту
         {
             txRectangle (mesto[nomer].x, mesto[nomer].y, mesto[nomer].x + 30, mesto[nomer].y + 30);
 
@@ -104,7 +104,7 @@ void teleport_na_party(Picture* centr, Objects* mesto, int n_active)
 
 int select_active(Picture* centr, int n_pics, int pic_width, int pic_height, int n_active)
 {
-    for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)   // РѕРїСЂРµРґРµР»РµРЅРёРµ Р°РєС‚РёРІРЅРѕРіРѕ РїРµСЂСЃРѕРЅР°Р¶Р°
+    for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)   // определение активного персонажа
     {
         if (txMouseX() >= centr[nomer].x &&
            txMouseY() >= centr[nomer].y &&
@@ -119,46 +119,9 @@ int select_active(Picture* centr, int n_pics, int pic_width, int pic_height, int
     return n_active;
 }
 
-void del_pic (Picture* centr, Picture* variants, HDC  pic1, int N_VARS )
-{
-    //РЈРґР°Р»РµРЅРёРµ РєР°СЂС‚РёРЅРѕРє
-    for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
-    {
-        txDeleteDC(variants[nomer].pic);
-    }
-
-    for(int nomer = 0; nomer < 5; nomer = nomer + 1)
-    {
-        txDeleteDC(centr[nomer].pic);
-    }
-    txDeleteDC(pic1);
-}
-void dvizhenie(Picture* centr, int speed_x, int speed_y, int n_active)
-{
-
-        if(GetAsyncKeyState(VK_LEFT) && centr[n_active].visible)
-        {
-            centr[n_active].x = centr[n_active].x  -speed_x;
-        }
-
-        if(GetAsyncKeyState(VK_RIGHT) && centr[n_active].visible)
-        {
-            centr[n_active].x = centr[n_active].x  +speed_x;
-        }
-
-        if(GetAsyncKeyState(VK_UP) && centr[n_active].visible )
-        {
-            centr[n_active].y = centr[n_active].y  -speed_y;
-        }
-
-        if(GetAsyncKeyState(VK_DOWN) && centr[n_active].visible  )
-        {
-            centr[n_active].y = centr[n_active].y  +speed_y;
-        }
-        }
 void teleport_na_stol_uchitela(Objects* stol_ychitela, Picture* centr, int n_active)
 {
-    if (txMouseX() >= stol_ychitela[0].x &&  // С‚РµР»РµРїРѕСЂС‚ РЅР° СЃС‚РѕР» СѓС‡РёС‚РµР»СЏ
+    if (txMouseX() >= stol_ychitela[0].x &&  // телепорт на стол учителя
        txMouseY() >= stol_ychitela[0].y &&
        txMouseX() <= stol_ychitela[0].x + 30  &&
        txMouseY() <= stol_ychitela[0].y + 30 &&
@@ -170,8 +133,8 @@ void teleport_na_stol_uchitela(Objects* stol_ychitela, Picture* centr, int n_act
 }
 void draw_text()
 {
-txDrawText(747,78,1242,100,"РРіСЂР° РЅР°С…РѕРґРёС‚СЃСЏ РІ СЂР°Р·СЂР°Р±РѕС‚РєРµ ");
-txDrawText(885,146,1195,179,"Р’С‹Р±РµСЂРё РїРµСЂСЃРѕРЅР°Р¶Р°");
+    txDrawText(747,78,1242,100,"Игра находится в разработке ");
+    txDrawText(885,146,1195,179,"Выбери персонажа");
 }
 void draw_centr_pic(Picture* centr, int n_pics, int pic_width, int pic_height)
 {
@@ -194,7 +157,7 @@ int risovanie_po_categorii(Picture* variants, Picture* centr, int N_VARS, int n_
                txMouseY() <= variants[nomer].y + 100 &&
                txMouseButtons() == 1 && variants[nomer].category == active_category)
             {
-                //Р”РѕР±Р°РІР»СЏРµС‚СЃСЏ РЅРѕРІР°СЏ С†РµРЅС‚СЂР°Р»СЊРЅР°СЏ РєР°СЂС‚РёРЅРєР°
+                //Добавляется новая центральная картинка
                 centr[n_pics] = {458, 608, 100,100, variants[nomer].pic, true, active_category};
                 n_pics++;
                 txSleep(100);
@@ -208,7 +171,7 @@ int main()
     txTextCursor (false);
 
     txCreateWindow (1280, 895);
-    HDC  pic1 = txLoadImage ("РљР°СЂС‚РёРЅРєРё/Р·Р°РґРЅРёР№ С„РѕРЅ.bmp");
+    HDC  pic1 = txLoadImage ("Картинки/задний фон.bmp");
     const int speed_x = 1;
     const int speed_y = 1;
     const int pic_width = 75;
@@ -217,12 +180,12 @@ int main()
 
     const int N_VARS = 6;
     Picture variants[N_VARS];
-    variants[0] = {780, 240, 100, 100, txLoadImage("РљР°СЂС‚РёРЅРєРё/Р±РѕС‚Р°РЅ.bmp"),false, "РЈС‡РµРЅРёРєРё"};
-    variants[1] = {920, 250, 100, 100, txLoadImage("РљР°СЂС‚РёРЅРєРё/С„Р°РЅРµСЂР°.bmp"),false, "РЈС‡РµРЅРёРєРё"};
-    variants[2] = {780, 410, 100, 100, txLoadImage("РљР°СЂС‚РёРЅРєРё/Р±СЂРµРІРЅРѕ.bmp"),false, "РЈС‡РµРЅРёРєРё"};
-    variants[3] = {920, 410, 100, 100, txLoadImage("РљР°СЂС‚РёРЅРєРё/РєР°СЂС‚РѕС€РєР°.bmp"),false, "РЈС‡РµРЅРёРєРё"};
-    variants[4] = {780, 240, 100, 100, txLoadImage("РљР°СЂС‚РёРЅРєРё/Р·Р»Р°СЏ СѓС‡РёР»РєР°.bmp"),false,"РЈС‡РёС‚РµР»СЏ"};
-    variants[5] = {930, 230, 100, 100, txLoadImage("РљР°СЂС‚РёРЅРєРё/РЈС‡РёС‚РµР»СЊ РїРѕ С‚СЂСѓРґСѓ.bmp"),false,"РЈС‡РёС‚РµР»СЏ"};
+    variants[0] = {780, 240, 100, 100, txLoadImage("Картинки/ботан.bmp"),false, "Ученики"};
+    variants[1] = {920, 250, 100, 100, txLoadImage("Картинки/фанера.bmp"),false, "Ученики"};
+    variants[2] = {780, 410, 100, 100, txLoadImage("Картинки/бревно.bmp"),false, "Ученики"};
+    variants[3] = {920, 410, 100, 100, txLoadImage("Картинки/картошка.bmp"),false, "Ученики"};
+    variants[4] = {780, 240, 100, 100, txLoadImage("Картинки/злая училка.bmp"),false,"Учителя"};
+    variants[5] = {930, 230, 100, 100, txLoadImage("Картинки/Учитель по труду.bmp"),false,"Учителя"};
 
     Picture centr[1000];
     int n_pics = 0;
@@ -259,8 +222,8 @@ int main()
         n_active = select_active(centr, n_pics,pic_width, pic_height, n_active);
         draw_variants(variants, N_VARS, active_category);
 
-        // РѕРєРЅРѕ РїРѕРґСЃРєР°Р·РєРё
-        txDrawText(710, 480, 890, 640, "Р’С‹Р±СЂР°РЅРЅС‹Р№ РїРµСЂСЃРѕРЅР°Р¶");
+        // окно подсказки
+        txDrawText(710, 480, 890, 640, "Выбранный персонаж");
         txRectangle(702, 550, 930, 800);
         if (n_active >= 0)
         Win32::TransparentBlt (txDC(), 702,  550, 228, 250, centr[n_active].pic, 0, 0, centr[n_active].width, variants[n_active].height, TX_WHITE);
@@ -277,7 +240,7 @@ int main()
         n_pics = risovanie_po_categorii(variants, centr, N_VARS, n_pics);
 
 
-         // СЂРёСЃРѕРІР°РЅРёРµ Р±РѕС‚Р°РЅР° РїРѕ РєР»РёРєСѓ (pic2)
+         // рисование ботана по клику (pic2)
 
 
 
@@ -285,6 +248,6 @@ int main()
         txSleep(20);
     }
 
-    del_pic(centr,variants, pic1, N_VARS);
+    del_pic(centr, n_pics, variants, N_VARS, pic1);
     return 0;
 }
