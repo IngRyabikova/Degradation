@@ -3,7 +3,6 @@
 #include "Picture.cpp"
 #include "Stoly.cpp"
 
-int n_active ;
 const char* active_category;
 
 bool GameOver = false;
@@ -27,12 +26,12 @@ void exit ()
 
 
 
-        txRectangle(933,638,1042,687);    // выход
+        txRectangle(1033,638,1242,687);    // выход
 
-        txDrawText(940,653,1031,676, "Выход");
-        if(txMouseX() >= 933 &&
+        txDrawText (1040,653,1231,676, "Выход");
+        if(txMouseX() >= 1033 &&
                txMouseY() >= 638 &&
-               txMouseX() <= 1042 &&
+               txMouseX() <= 1242 &&
                txMouseY() <= 687 &&
                txMouseButtons()== 1)
         {
@@ -49,8 +48,8 @@ void select_category()
 
             if (txMouseX() >= 1114 &&
                txMouseY() >= 180 &&
-               txMouseX() <= 1269+30 &&
-               txMouseY() <= 222+30 &&
+               txMouseX() <= 1269 &&
+               txMouseY() <= 222 &&
                txMouseButtons()== 1)
             {
                 active_category = "Учителя" ;
@@ -58,8 +57,8 @@ void select_category()
 
             if (txMouseX() >= 736 &&
                txMouseY() >= 184 &&
-               txMouseX() <= 885+30 &&
-               txMouseY() <= 221+30 &&
+               txMouseX() <= 885 &&
+               txMouseY() <= 221 &&
                txMouseButtons()== 1)
             {
                 active_category = "Ученики" ;
@@ -67,23 +66,27 @@ void select_category()
 
 
             if (active_category == "Учителя")
-                txSetColor(TX_BLUE);
+                txSetFillColor(TX_BLUE);
             else
-                txSetColor(TX_WHITE);
+                txSetFillColor(TX_WHITE);
+            txSetColor(TX_BLACK);
+            Win32::RoundRect(txDC(), 1114, 180, 1269, 222, 50, 50);
             txDrawText(1114,180,1269,222,"Учителя");
 
 
             if (active_category == "Ученики")
-                txSetColor(TX_RED);
+                txSetFillColor(TX_BLUE);
             else
-                txSetColor(TX_WHITE);
+                txSetFillColor(TX_WHITE);
+            txSetColor(TX_BLACK);
+            Win32::RoundRect(txDC(), 728, 180, 883, 222, 50, 50);
            txDrawText(736,184,885,221,"Ученики");
 }
-void teleport_na_party(Picture* centr, Objects* mesto)
+void teleport_na_party(Picture* centr, Objects* mesto, int n_active)
 {
- for (int nomer = 0; nomer < 8; nomer = nomer + 1)   // телепорт на парту
+    for (int nomer = 0; nomer < 8; nomer = nomer + 1)   // телепорт на парту
         {
-            txRectangle (mesto[nomer].x, mesto[nomer].y, mesto[nomer].x + 30, mesto[nomer].y + 30);
+
 
             if (txMouseX() >= mesto[nomer].x &&
                txMouseY() >= mesto[nomer].y &&
@@ -98,112 +101,86 @@ void teleport_na_party(Picture* centr, Objects* mesto)
 
 
 }
-void select_active(Picture* centr, int n_pics, int pic_width, int pic_height )
-{
- for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)   // определение активного персонажа
-        {
-            if (txMouseX() >= centr[nomer].x &&
-               txMouseY() >= centr[nomer].y &&
-               txMouseX() <= centr[nomer].x + pic_width  &&
-               txMouseY() <= centr[nomer].y + pic_height &&
-               txMouseButtons()== 1)
-            {
-                n_active = nomer;
-            }
-        }
 
-}
-
-void del_pic (Picture* centr, Picture* variants, HDC  pic1, int N_VARS )
+void teleport_na_stol_uchitela(Objects* stol_ychitela, Picture* centr, int n_active)
 {
-  //Удаление картинок
-    for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
+    if (txMouseX() >= stol_ychitela[0].x &&  // телепорт на стол учителя
+       txMouseY() >= stol_ychitela[0].y &&
+       txMouseX() <= stol_ychitela[0].x + 30  &&
+       txMouseY() <= stol_ychitela[0].y + 30 &&
+       txMouseButtons()== 1 && centr[n_active].visible)
     {
-        txDeleteDC(variants[nomer].pic);
+       centr[n_active].x  = stol_ychitela[0].x ;
+       centr[n_active].y = stol_ychitela[0].y ;
     }
-
-    for(int nomer = 0; nomer < 5; nomer = nomer + 1)
-    {
-        txDeleteDC(centr[nomer].pic);
-    }
-    txDeleteDC(pic1);
-    }
-void dvizhenie(Picture* centr, int speed_x, int speed_y)
-{
-
-        if(GetAsyncKeyState(VK_LEFT) && centr[n_active].visible)
-        {
-            centr[n_active].x = centr[n_active].x  -speed_x;
-        }
-
-        if(GetAsyncKeyState(VK_RIGHT) && centr[n_active].visible)
-        {
-            centr[n_active].x = centr[n_active].x  +speed_x;
-        }
-
-        if(GetAsyncKeyState(VK_UP) && centr[n_active].visible )
-        {
-            centr[n_active].y = centr[n_active].y  -speed_y;
-        }
-
-        if(GetAsyncKeyState(VK_DOWN) && centr[n_active].visible  )
-        {
-            centr[n_active].y = centr[n_active].y  +speed_y;
-        }
-        }
-void teleport_na_stol_uchitela(Objects* stol_ychitela, Picture* centr)
-{
-if (txMouseX() >= stol_ychitela[0].x &&  // телепорт на стол учителя
-               txMouseY() >= stol_ychitela[0].y &&
-               txMouseX() <= stol_ychitela[0].x + 30  &&
-               txMouseY() <= stol_ychitela[0].y + 30 &&
-               txMouseButtons()== 1 && centr[n_active].visible)
-            {
-               centr[n_active].x  = stol_ychitela[0].x ;
-               centr[n_active].y = stol_ychitela[0].y ;
-            }
 }
 void draw_text()
 {
-txDrawText(747,78,1242,100,"Игра находится в разработке ");
-txDrawText(885,146,1195,179,"Выбери персонажа");
+    txDrawText(747,78,1242,100,"Игра находится в разработке ");
+    txDrawText(885,146,1195,179,"Выбери персонажа");
 }
-void draw_centr_pic(Picture* centr, int n_pics, int pic_width, int pic_height)
-{
-for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)
-        {
-            if (centr[nomer].visible)
-            {
-                Win32::TransparentBlt (txDC(), centr[nomer].x,   centr[nomer].y, pic_width, pic_height, centr[nomer].pic, 0, 0, centr[nomer].width, centr[nomer].height, TX_WHITE);
-            }
-        }
 
-}
-void risovanie_po_categorii(Picture* variants, Picture* centr, int N_VARS, int n_pics)
+int risovanie_po_categorii(Picture* variants, Picture* centr, int N_VARS, int n_pics, int n_active)
 {
- for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
-         {
-            if (txMouseX() >= variants[nomer].x &&
-               txMouseY() >= variants[nomer].y &&
-               txMouseX() <= variants[nomer].x + 100 &&
-               txMouseY() <= variants[nomer].y + 100 &&
-               txMouseButtons() == 1 && variants[nomer].category == active_category)
+    for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
+    {
+        if (txMouseX() >= variants[nomer].x &&
+           txMouseY() >= variants[nomer].y &&
+           txMouseX() <= variants[nomer].x + 100 &&
+           txMouseY() <= variants[nomer].y + 100 &&
+           txMouseButtons() == 1 && variants[nomer].category == active_category)
+        {
+            //Добавляется новая центральная картинка
+            centr[n_pics] = {458, 608, 100,100, variants[nomer].pic, true, active_category};
+            n_pics++;
+            txSleep(100);
+        }
+    }
+
+
+    //for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)
+    {
+        if (GetAsyncKeyState(VK_DELETE))
+        {
+
+            if(n_pics>0)
             {
-                //Добавляется новая центральная картинка
-                centr[n_pics] = {458, 608, 100,100, variants[nomer].pic, true, active_category};
-                n_pics++;
+                n_pics--;
+                centr[n_active].x = centr[n_pics].x;
+                centr[n_active].y = centr[n_pics].y;
+                centr[n_active].pic = centr[n_pics].pic;
                 txSleep(100);
             }
         }
-          }
+    }
+
+    return n_pics;
+}
+
+void draw_fon(HDC pic1)
+{
+txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
+}
+
+void okno_podskazki(int n_active, Picture* centr, )
+{
+txDrawText(710, 480, 890, 640, "Выбранный персонаж");
+        txRectangle(702, 550, 930, 800);
+        if (n_active >= 0)
+            Win32::TransparentBlt (txDC(), 702,  550, 228, 250, centr[n_active].pic, 0, 0, centr[n_active].width, variants[n_active].height, TX_WHITE);
+
+
+}
+
 int main()
 {
     txTextCursor (false);
+    bool developerMode = false;
 
     txCreateWindow (1280, 895);
     HDC  pic1 = txLoadImage ("Картинки/задний фон.bmp");
-    const int speed_x = 1;
-    const int speed_y = 1;
+    const int speed_x = 5;
+    const int speed_y = 5;
     const int pic_width = 75;
     const int pic_height = 75;
 
@@ -219,6 +196,7 @@ int main()
 
     Picture centr[1000];
     int n_pics = 0;
+    int n_active = 0;
 
 
     mesto[0] = {247, 352};
@@ -240,39 +218,41 @@ int main()
         txBegin();
         txSetFillColor(TX_BLACK);
         txClear();
+        draw_fon(pic1);
+        n_pics = del_all (n_pics);
 
         txSetColor (TX_WHITE);
         txSetFillColor (TX_TRANSPARENT);
-        txRectangle (50, 50, 300, 490);
 
 
 
-        txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
-
-         exit();
-        select_active(centr, n_pics,pic_width, pic_height);
+        exit();
+        n_active = select_active(centr, n_pics,pic_width, pic_height, n_active);
         draw_variants(variants, N_VARS, active_category);
+
+        // окно подсказки
+        
+
+        developerMode = dev_mode(mesto, developerMode);
         select_category();
-        teleport_na_party(centr, mesto);
-        dvizhenie(centr, speed_x, speed_y);
-        teleport_na_stol_uchitela(stol_ychitela, centr);
+        teleport_na_party(centr, mesto, n_active);
+        dvizhenie(centr, speed_x, speed_y, n_active);
+        teleport_na_stol_uchitela(stol_ychitela, centr, n_active);
         draw_text();
         draw_centr_pic(centr, n_pics, pic_width, pic_height);
 
-        txRectangle (stol_ychitela[0].x, stol_ychitela[0].y, stol_ychitela[0].x + 30, stol_ychitela[0].y + 30);
-        risovanie_po_categorii(variants, centr, N_VARS, n_pics);
 
+        n_pics = risovanie_po_categorii(variants, centr, N_VARS, n_pics, n_active);
+        n_pics = del_all (n_pics);
 
          // рисование ботана по клику (pic2)
-
 
 
         txEnd();
         txSleep(20);
     }
 
-
-
-        del_pic(centr,variants, pic1, N_VARS);
+    del_pic(centr, n_pics, variants, N_VARS, pic1);
     return 0;
-}
+
+ 
