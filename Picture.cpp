@@ -62,3 +62,48 @@ void del_pic (Picture* centr, int n_pics, Picture* variants, int N_VARS, HDC pic
     txDeleteDC(pic1);
 }
 
+
+int select_active(Picture* centr, int n_pics, int pic_width, int pic_height, int n_active)
+{
+    for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)   // определение активного персонажа
+    {
+        if (txMouseX() >= centr[nomer].x &&
+           txMouseY() >= centr[nomer].y &&
+           txMouseX() <= centr[nomer].x + pic_width  &&
+           txMouseY() <= centr[nomer].y + pic_height &&
+           txMouseButtons()== 1)
+        {
+            n_active = nomer;
+        }
+    }
+
+    return n_active;
+}
+
+void draw_centr_pic(Picture* centr, int n_pics, int pic_width, int pic_height)
+{
+    for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)
+    {
+        if (centr[nomer].visible)
+        {
+            Win32::TransparentBlt (txDC(), centr[nomer].x,   centr[nomer].y, pic_width, pic_height, centr[nomer].pic, 0, 0, centr[nomer].width, centr[nomer].height, TX_WHITE);
+        }
+    }
+}
+
+//Удалить все картинки в центре
+int del_all (int n_pics)
+{
+    txRectangle(1021,27,1234,92);
+    txDrawText(1021,27,1234,92,"Удалить все!");
+    if (txMouseX() >= 1021 &&
+       txMouseY() >= 27 &&
+       txMouseX() <= 1234 + 5 &&
+       txMouseY() <= 92 + 5 &&
+       txMouseButtons() == 1 )
+    {
+       n_pics = 0;
+    }
+
+    return n_pics;
+}

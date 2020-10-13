@@ -86,7 +86,7 @@ void teleport_na_party(Picture* centr, Objects* mesto, int n_active)
 {
     for (int nomer = 0; nomer < 8; nomer = nomer + 1)   // телепорт на парту
         {
-            txRectangle (mesto[nomer].x, mesto[nomer].y, mesto[nomer].x + 30, mesto[nomer].y + 30);
+
 
             if (txMouseX() >= mesto[nomer].x &&
                txMouseY() >= mesto[nomer].y &&
@@ -100,23 +100,6 @@ void teleport_na_party(Picture* centr, Objects* mesto, int n_active)
         }
 
 
-}
-
-int select_active(Picture* centr, int n_pics, int pic_width, int pic_height, int n_active)
-{
-    for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)   // определение активного персонажа
-    {
-        if (txMouseX() >= centr[nomer].x &&
-           txMouseY() >= centr[nomer].y &&
-           txMouseX() <= centr[nomer].x + pic_width  &&
-           txMouseY() <= centr[nomer].y + pic_height &&
-           txMouseButtons()== 1)
-        {
-            n_active = nomer;
-        }
-    }
-
-    return n_active;
 }
 
 void teleport_na_stol_uchitela(Objects* stol_ychitela, Picture* centr, int n_active)
@@ -136,44 +119,68 @@ void draw_text()
     txDrawText(747,78,1242,100,"»гра находитс€ в разработке ");
     txDrawText(885,146,1195,179,"¬ыбери персонажа");
 }
-void draw_centr_pic(Picture* centr, int n_pics, int pic_width, int pic_height)
-{
-for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)
-        {
-            if (centr[nomer].visible)
-            {
-                Win32::TransparentBlt (txDC(), centr[nomer].x,   centr[nomer].y, pic_width, pic_height, centr[nomer].pic, 0, 0, centr[nomer].width, centr[nomer].height, TX_WHITE);
-            }
-        }
 
-}
-int risovanie_po_categorii(Picture* variants, Picture* centr, int N_VARS, int n_pics)
+int risovanie_po_categorii(Picture* variants, Picture* centr, int N_VARS, int n_pics, int n_active)
 {
- for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
-         {
-            if (txMouseX() >= variants[nomer].x &&
-               txMouseY() >= variants[nomer].y &&
-               txMouseX() <= variants[nomer].x + 100 &&
-               txMouseY() <= variants[nomer].y + 100 &&
-               txMouseButtons() == 1 && variants[nomer].category == active_category)
+    for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
+    {
+        if (txMouseX() >= variants[nomer].x &&
+           txMouseY() >= variants[nomer].y &&
+           txMouseX() <= variants[nomer].x + 100 &&
+           txMouseY() <= variants[nomer].y + 100 &&
+           txMouseButtons() == 1 && variants[nomer].category == active_category)
+        {
+            //ƒобавл€етс€ нова€ центральна€ картинка
+            centr[n_pics] = {458, 608, 100,100, variants[nomer].pic, true, active_category};
+            n_pics++;
+            txSleep(100);
+        }
+    }
+
+
+    //for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)
+    {
+        if (GetAsyncKeyState(VK_DELETE))
+        {
+
+            if(n_pics>0)
             {
-                //ƒобавл€етс€ нова€ центральна€ картинка
-                centr[n_pics] = {458, 608, 100,100, variants[nomer].pic, true, active_category};
-                n_pics++;
+                n_pics--;
+                centr[n_active].x = centr[n_pics].x;
+                centr[n_active].y = centr[n_pics].y;
+                centr[n_active].pic = centr[n_pics].pic;
                 txSleep(100);
             }
         }
+    }
 
-        return n_pics;
+    return n_pics;
 }
+
+void draw_fon(HDC pic1)
+{
+txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
+}
+
+void okno_podskazki(int n_active, Picture* centr, Picture* variants)
+{
+txDrawText(710, 480, 890, 640, "¬ыбранный персонаж");
+        txRectangle(702, 550, 930, 800);
+        if (n_active >= 0)
+            Win32::TransparentBlt (txDC(), 702,  550, 228, 250, centr[n_active].pic, 0, 0, centr[n_active].width, variants[n_active].height, TX_WHITE);
+
+
+}
+
 int main()
 {
     txTextCursor (false);
+    bool developerMode = false;
 
     txCreateWindow (1280, 895);
     HDC  pic1 = txLoadImage (" артинки/задний фон.bmp");
-    const int speed_x = 1;
-    const int speed_y = 1;
+    const int speed_x = 5;
+    const int speed_y = 5;
     const int pic_width = 75;
     const int pic_height = 75;
 
@@ -211,24 +218,22 @@ int main()
         txBegin();
         txSetFillColor(TX_BLACK);
         txClear();
+        n_pics = del_all (n_pics);
+        draw_fon(pic1);
 
         txSetColor (TX_WHITE);
         txSetFillColor (TX_TRANSPARENT);
 
 
-        txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
 
         exit();
         n_active = select_active(centr, n_pics,pic_width, pic_height, n_active);
         draw_variants(variants, N_VARS, active_category);
 
         // окно подсказки
-        txDrawText(710, 480, 890, 640, "¬ыбранный персонаж");
-        txRectangle(702, 550, 930, 800);
-        if (n_active >= 0)
-        Win32::TransparentBlt (txDC(), 702,  550, 228, 250, centr[n_active].pic, 0, 0, centr[n_active].width, variants[n_active].height, TX_WHITE);
+        okno_podskazki(n_active,centr, variants);
 
-
+        developerMode = dev_mode(mesto, developerMode);
         select_category();
         teleport_na_party(centr, mesto, n_active);
         dvizhenie(centr, speed_x, speed_y, n_active);
@@ -236,12 +241,11 @@ int main()
         draw_text();
         draw_centr_pic(centr, n_pics, pic_width, pic_height);
 
-        txRectangle (stol_ychitela[0].x, stol_ychitela[0].y, stol_ychitela[0].x + 30, stol_ychitela[0].y + 30);
-        n_pics = risovanie_po_categorii(variants, centr, N_VARS, n_pics);
 
+        n_pics = risovanie_po_categorii(variants, centr, N_VARS, n_pics, n_active);
+        n_pics = del_all (n_pics);
 
          // рисование ботана по клику (pic2)
-
 
 
         txEnd();
@@ -250,4 +254,5 @@ int main()
 
     del_pic(centr, n_pics, variants, N_VARS, pic1);
     return 0;
-}
+
+   }
