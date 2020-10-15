@@ -3,8 +3,7 @@
 #include "Picture.cpp"
 #include "Stoly.cpp"
 
-const char* active_category;
-
+\
 bool GameOver = false;
 
 void exit ()
@@ -82,6 +81,7 @@ void select_category()
             Win32::RoundRect(txDC(), 728, 180, 883, 222, 50, 50);
            txDrawText(736,184,885,221,"Ученики");
 }
+
 void teleport_na_party(Picture* centr, Objects* mesto, int n_active)
 {
     for (int nomer = 0; nomer < 8; nomer = nomer + 1)   // телепорт на парту
@@ -120,55 +120,33 @@ void draw_text()
     txDrawText(885,146,1195,179,"Выбери персонажа");
 }
 
-int risovanie_po_categorii(Picture* variants, Picture* centr, int N_VARS, int n_pics, int n_active)
-{
-    for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
-    {
-        if (txMouseX() >= variants[nomer].x &&
-           txMouseY() >= variants[nomer].y &&
-           txMouseX() <= variants[nomer].x + 100 &&
-           txMouseY() <= variants[nomer].y + 100 &&
-           txMouseButtons() == 1 && variants[nomer].category == active_category)
-        {
-            //Добавляется новая центральная картинка
-            centr[n_pics] = {458, 608, 100,100, variants[nomer].pic, true, active_category};
-            n_pics++;
-            txSleep(100);
-        }
-    }
-
-
-    //for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)
-    {
-        if (GetAsyncKeyState(VK_DELETE))
-        {
-
-            if(n_pics>0)
-            {
-                n_pics--;
-                centr[n_active].x = centr[n_pics].x;
-                centr[n_active].y = centr[n_pics].y;
-                centr[n_active].pic = centr[n_pics].pic;
-                txSleep(100);
-            }
-        }
-    }
-
-    return n_pics;
-}
-
 void draw_fon(HDC pic1)
 {
 txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
 }
 
-void okno_podskazki(int n_active, Picture* centr, )
+void okno_podskazki(int n_active, Picture* centr, Picture* variants)
 {
-txDrawText(710, 480, 890, 640, "Выбранный персонаж");
+    txDrawText(710, 480, 890, 640, "Выбранный персонаж");
         txRectangle(702, 550, 930, 800);
         if (n_active >= 0)
             Win32::TransparentBlt (txDC(), 702,  550, 228, 250, centr[n_active].pic, 0, 0, centr[n_active].width, variants[n_active].height, TX_WHITE);
 
+
+}
+
+void uroven_otstalosti(Picture* centr, int n_pics){
+
+    txSetColor (TX_WHITE);
+    int total = 0;
+    for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)
+    {
+        total = total + centr[nomer].otstalost;
+    }
+
+    char str[100];
+    sprintf(str, "Уровень отсталости класса %d / 100", total);
+    txTextOut(965, 12, str);
 
 }
 
@@ -179,20 +157,20 @@ int main()
 
     txCreateWindow (1280, 895);
     HDC  pic1 = txLoadImage ("Картинки/задний фон.bmp");
-    const int speed_x = 5;
-    const int speed_y = 5;
+    const int speed_x = 7;
+    const int speed_y = 7;
     const int pic_width = 75;
     const int pic_height = 75;
 
 
     const int N_VARS = 6;
     Picture variants[N_VARS];
-    variants[0] = {780, 240, 100, 100, txLoadImage("Картинки/ботан.bmp"),false, "Ученики"};
-    variants[1] = {920, 250, 100, 100, txLoadImage("Картинки/фанера.bmp"),false, "Ученики"};
-    variants[2] = {780, 410, 100, 100, txLoadImage("Картинки/бревно.bmp"),false, "Ученики"};
-    variants[3] = {920, 410, 100, 100, txLoadImage("Картинки/картошка.bmp"),false, "Ученики"};
-    variants[4] = {780, 240, 100, 100, txLoadImage("Картинки/злая училка.bmp"),false,"Учителя"};
-    variants[5] = {930, 230, 100, 100, txLoadImage("Картинки/Учитель по труду.bmp"),false,"Учителя"};
+    variants[0] = {780, 240, 100, 100, txLoadImage("Картинки/ботан.bmp"),false, "Ученики", 0};
+    variants[1] = {920, 250, 100, 100, txLoadImage("Картинки/фанера.bmp"),false, "Ученики", 10};
+    variants[2] = {780, 410, 100, 100, txLoadImage("Картинки/бревно.bmp"),false, "Ученики", 11};
+    variants[3] = {920, 410, 100, 100, txLoadImage("Картинки/картошка.bmp"),false, "Ученики", 28};
+    variants[4] = {780, 240, 100, 100, txLoadImage("Картинки/злая училка.bmp"),false,"Учителя", 0};
+    variants[5] = {930, 230, 100, 100, txLoadImage("Картинки/Учитель по труду.bmp"),false,"Учителя", 0};
 
     Picture centr[1000];
     int n_pics = 0;
@@ -218,8 +196,8 @@ int main()
         txBegin();
         txSetFillColor(TX_BLACK);
         txClear();
-        draw_fon(pic1);
         n_pics = del_all (n_pics);
+        draw_fon(pic1);
 
         txSetColor (TX_WHITE);
         txSetFillColor (TX_TRANSPARENT);
@@ -230,9 +208,7 @@ int main()
         n_active = select_active(centr, n_pics,pic_width, pic_height, n_active);
         draw_variants(variants, N_VARS, active_category);
 
-        // окно подсказки
-        
-
+        okno_podskazki(n_active,centr, variants);
         developerMode = dev_mode(mesto, developerMode);
         select_category();
         teleport_na_party(centr, mesto, n_active);
@@ -240,13 +216,12 @@ int main()
         teleport_na_stol_uchitela(stol_ychitela, centr, n_active);
         draw_text();
         draw_centr_pic(centr, n_pics, pic_width, pic_height);
-
-
-        n_pics = risovanie_po_categorii(variants, centr, N_VARS, n_pics, n_active);
         n_pics = del_all (n_pics);
+        uroven_otstalosti(centr, n_pics);
 
-         // рисование ботана по клику (pic2)
 
+        n_pics = newCenterPic(variants, centr, N_VARS, n_pics, n_active) ;
+        n_pics = deleteCenterPic(centr, n_pics, n_active);
 
         txEnd();
         txSleep(20);
@@ -255,4 +230,4 @@ int main()
     del_pic(centr, n_pics, variants, N_VARS, pic1);
     return 0;
 
- 
+   }

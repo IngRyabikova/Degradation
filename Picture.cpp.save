@@ -1,5 +1,4 @@
 #include "Lib/TXLib.h"
-const char* active_category;
 
 struct Picture
 {
@@ -62,7 +61,6 @@ void del_pic (Picture* centr, int n_pics, Picture* variants, int N_VARS, HDC pic
     }
 
     txDeleteDC(pic1);
-
 }
 
 
@@ -93,44 +91,6 @@ void draw_centr_pic(Picture* centr, int n_pics, int pic_width, int pic_height)
         }
     }
 }
-
-int newCenterPic(Picture* variants, Picture* centr, int N_VARS, int n_pics, int n_active)
-{
-    for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
-    {
-        if (txMouseX() >= variants[nomer].x &&
-           txMouseY() >= variants[nomer].y &&
-           txMouseX() <= variants[nomer].x + 100 &&
-           txMouseY() <= variants[nomer].y + 100 &&
-           txMouseButtons() == 1 && variants[nomer].category == active_category)
-        {
-            //Добавляется новая центральная картинка
-            centr[n_pics] = {458, 608, 100,100, variants[nomer].pic, true, active_category, variants[nomer].otstalost};
-            n_pics++;
-            txSleep(100);
-        }
-    }
-
-    return n_pics;
-}
-
-int deleteCenterPic(Picture* centr, int n_pics, int n_active)
-{
-    if (GetAsyncKeyState(VK_DELETE))
-    {
-        if(n_pics>0)
-        {
-            n_pics--;
-            centr[n_active].x = centr[n_pics].x;
-            centr[n_active].y = centr[n_pics].y;
-            centr[n_active].pic = centr[n_pics].pic;
-            txSleep(100);
-        }
-    }
-
-    return n_pics;
-}
-
 
 //Удалить все картинки в центре
 int del_all (int n_pics)
