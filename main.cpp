@@ -4,9 +4,32 @@
 #include "Stoly.cpp"
 
 const char* active_category;
+const char* menait;
 
 bool GameOver = false;
 
+
+HDC smena_classa(HDC pic, HDC pic1, HDC pic2)
+{
+    txRectangle (700, 1, 750, 50);
+
+    txDrawText (700, 1, 750, 50, "1");
+
+
+    txRectangle (750, 1, 800, 50);
+
+    txDrawText (750, 1, 800, 50, "2");
+    if(txMouseX() >= 750 &&
+           txMouseY() >= 1 &&
+           txMouseX() <= 800 &&
+           txMouseY() <= 50 &&
+           txMouseButtons()== 1)
+    {
+         pic = pic2;
+    }
+
+    return pic;
+}
 void exit ()
 {
 
@@ -157,6 +180,11 @@ int risovanie_po_categorii(Picture* variants, Picture* centr, int N_VARS, int n_
     return n_pics;
 }
 
+void draw_fon2(HDC pic3)
+{
+txBitBlt (txDC(), 0, 0, 625,625, pic3, 0, 0);
+}
+
 void draw_fon(HDC pic1)
 {
 txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
@@ -178,7 +206,9 @@ int main()
     bool developerMode = false;
 
     txCreateWindow (1280, 895);
+    HDC  pic3 = txLoadImage ("Картинки/задний фон 2.bmp");
     HDC  pic1 = txLoadImage ("Картинки/задний фон.bmp");
+    HDC pic = pic1;
     const int speed_x = 5;
     const int speed_y = 5;
     const int pic_width = 75;
@@ -219,13 +249,13 @@ int main()
         txSetFillColor(TX_BLACK);
         txClear();
         n_pics = del_all (n_pics);
-        draw_fon(pic1);
+        draw_fon(pic);
 
         txSetColor (TX_WHITE);
         txSetFillColor (TX_TRANSPARENT);
 
 
-
+        pic = smena_classa(pic, pic1, pic3);
         exit();
         n_active = select_active(centr, n_pics,pic_width, pic_height, n_active);
         draw_variants(variants, N_VARS, active_category);
