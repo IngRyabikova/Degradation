@@ -5,14 +5,23 @@ struct Picture
 {
     int x;
     int y;
-    int width;
-    int height;
-    HDC pic;
+    const char* adres;
     bool visible;
     const char* category;
     int otstalost;
+    HDC pic;
+    int width;
+    int height;
 };
-
+void drawkrugbutton(int x, int y, int x1, int y1, const char* text)
+{
+    Win32::RoundRect(txDC(), x,y,x1,y1, 50, 50);
+    txDrawText (x,y,x1,y1, text);
+}
+void drawkrugbutton(int x, int y,const char* text)
+{
+    drawkrugbutton(x, y, x + 160, y + 60, text);
+}
 //Рисование вариантов учеников/учителей
 void draw_variants(Picture* variants, int N_VARS, const char* active_category)
 {
@@ -105,7 +114,8 @@ int newCenterPic(Picture* variants, Picture* centr, int N_VARS, int n_pics, int 
            txMouseButtons() == 1 && variants[nomer].category == active_category)
         {
             //Добавляется новая центральная картинка
-            centr[n_pics] = {458, 608, 100,100, variants[nomer].pic, true, active_category, variants[nomer].otstalost};
+            centr[n_pics] = {458, 608, variants[nomer].adres, true, active_category, variants[nomer].otstalost,
+                            variants[nomer].pic, variants[nomer].width, variants[nomer].height};
             n_pics++;
             txSleep(100);
         }
@@ -135,12 +145,12 @@ int deleteCenterPic(Picture* centr, int n_pics, int n_active)
 //Удалить все картинки в центре
 int del_all (int n_pics)
 {
-    txRectangle(1021,27,1234,92);
-    txDrawText(1021,27,1234,92,"Удалить все!");
+    txSetFillColour(TX_WHITE);
+    drawkrugbutton(1021,27,1234,92,"Удалить все!");
     if (txMouseX() >= 1021 &&
        txMouseY() >= 27 &&
-       txMouseX() <= 1234 + 5 &&
-       txMouseY() <= 92 + 5 &&
+       txMouseX() <= 1234 &&
+       txMouseY() <= 92 &&
        txMouseButtons() == 1 )
     {
        n_pics = 0;

@@ -1,12 +1,10 @@
 #include "Lib/TXLib.h"
 #include "windows.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include "Picture.cpp"
 #include "Stoly.cpp"
-
-const char* menait;
-
 bool GameOver = false;
-
 
 HDC smena_classa(HDC pic, HDC pic1, HDC pic2)
 {
@@ -57,9 +55,7 @@ void exit ()
 
 
 
-        txRectangle(1033,638,1242,687);    // выход
-
-        txDrawText (1040,653,1231,676, "Выход");
+        drawkrugbutton(1033,638,1242,687, "Выход");
         if(txMouseX() >= 1033 &&
                txMouseY() >= 638 &&
                txMouseX() <= 1242 &&
@@ -76,42 +72,31 @@ void menu ()
 
 void select_category()
 {
+    if (txMouseX() >= 1114 &&       txMouseY() >= 180 &&
+       txMouseX() <= 1269 &&       txMouseY() <= 222 &&       txMouseButtons()== 1)
+    {
+        active_category = "Учителя" ;
+    }
 
-            if (txMouseX() >= 1114 &&
-               txMouseY() >= 180 &&
-               txMouseX() <= 1269 &&
-               txMouseY() <= 222 &&
-               txMouseButtons()== 1)
-            {
-                active_category = "Учителя" ;
-            }
-
-            if (txMouseX() >= 736 &&
-               txMouseY() >= 184 &&
-               txMouseX() <= 885 &&
-               txMouseY() <= 221 &&
-               txMouseButtons()== 1)
-            {
-                active_category = "Ученики" ;
-            }
+    if (txMouseX() >= 736 &&       txMouseY() >= 184 &&
+       txMouseX() <= 885 &&       txMouseY() <= 221 &&       txMouseButtons()== 1)
+    {
+        active_category = "Ученики" ;
+    }
 
 
-            if (active_category == "Учителя")
-                txSetFillColor(TX_BLUE);
-            else
-                txSetFillColor(TX_WHITE);
-            txSetColor(TX_BLACK);
-            Win32::RoundRect(txDC(), 1114, 180, 1269, 222, 50, 50);
-            txDrawText(1114,180,1269,222,"Учителя");
+    txSetColor(TX_BLACK);
+    txSetFillColor(TX_WHITE);
+    if (active_category == "Учителя")
+        txSetFillColor(TX_BLUE);
+
+    drawkrugbutton(1114, 180,"Учителя");
 
 
-            if (active_category == "Ученики")
-                txSetFillColor(TX_BLUE);
-            else
-                txSetFillColor(TX_WHITE);
-            txSetColor(TX_BLACK);
-            Win32::RoundRect(txDC(), 728, 180, 883, 222, 50, 50);
-           txDrawText(736,184,885,221,"Ученики");
+    txSetFillColor(TX_WHITE);
+    if (active_category == "Ученики")
+        txSetFillColor(TX_BLUE);
+    drawkrugbutton(728, 180,"Ученики");
 }
 
 void teleport_na_party(Picture* centr, Objects* mesto, int n_active)
@@ -154,7 +139,7 @@ void draw_text()
 
 void draw_fon(HDC pic1)
 {
-txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
+    txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
 }
 
 void okno_podskazki(int n_active, Picture* centr, Picture* variants)
@@ -182,6 +167,27 @@ void uroven_otstalosti(Picture* centr, int n_pics){
 
 }
 
+void opredelenie_razmera(Picture* variants){
+
+
+    for(int nomer = 0; nomer < 8; nomer++)
+    {
+        FILE * pFile;
+        BITMAPFILEHEADER bmfHeader ;
+        BITMAPINFOHEADER bmiHeader ;
+
+        pFile = fopen (variants[nomer].adres , "rb" );
+
+        fread( (LPSTR)&bmfHeader, 1, sizeof(bmfHeader), pFile );
+
+        fread( (LPSTR)&bmiHeader, 1, sizeof(bmiHeader), pFile );
+
+        variants[nomer].width = bmiHeader.biWidth ;
+        variants[nomer].height = bmiHeader.biHeight ;
+    }
+}
+
+
 int main()
 {
     txTextCursor (false);
@@ -196,15 +202,23 @@ int main()
     const int pic_width = 75;
     const int pic_height = 75;
 
-
     const int N_VARS = 6;
     Picture variants[N_VARS];
-    variants[0] = {780, 240, 100, 100, txLoadImage("Картинки/ботан.bmp"),false, "Ученики", 0};
-    variants[1] = {920, 250, 100, 100, txLoadImage("Картинки/фанера.bmp"),false, "Ученики", 10};
-    variants[2] = {780, 410, 100, 100, txLoadImage("Картинки/бревно.bmp"),false, "Ученики", 11};
-    variants[3] = {920, 410, 100, 100, txLoadImage("Картинки/картошка.bmp"),false, "Ученики", 28};
-    variants[4] = {780, 240, 100, 100, txLoadImage("Картинки/злая училка.bmp"),false,"Учителя", 0};
-    variants[5] = {930, 230, 100, 100, txLoadImage("Картинки/Учитель по труду.bmp"),false,"Учителя", 0};
+    variants[0] = {780, 240, "Картинки/ботан.bmp",false, "Ученики", 0};
+    variants[1] = {920, 250, "Картинки/фанера.bmp",false, "Ученики", 10};
+    variants[2] = {780, 410, "Картинки/бревно.bmp",false, "Ученики", 11};
+    variants[3] = {920, 410, "Картинки/картошка.bmp",false, "Ученики", 28};
+    variants[4] = {780, 240, "Картинки/злая училка.bmp",false,"Учителя", 0};
+    variants[5] = {930, 230, "Картинки/Учитель по труду.bmp",false,"Учителя", 0};
+
+
+    for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
+    {
+        variants[nomer].pic = txLoadImage(variants[nomer].adres);
+    }
+    opredelenie_razmera(variants);
+
+
 
     Picture centr[1000];
     int n_pics = 0;
