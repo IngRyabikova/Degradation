@@ -13,6 +13,15 @@ HDC smena_classa(HDC pic, HDC pic1, HDC pic2)
     txRectangle (700, 1, 750, 50);
 
     txDrawText (700, 1, 750, 50, "1");
+    if(txMouseX() >= 700 &&
+           txMouseY() >= 1 &&
+           txMouseX() <= 750 &&
+           txMouseY() <= 50 &&
+           txMouseButtons()== 1)
+    {
+         pic = pic1;
+    }
+
 
 
     txRectangle (750, 1, 800, 50);
