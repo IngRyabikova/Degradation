@@ -6,18 +6,26 @@
 #include "Stoly.cpp"
 bool GameOver = false;
 
-HDC smena_classa(HDC pic, HDC pic1, HDC pic2)
+HDC smena_classa(HDC pic, HDC pic1, HDC pic2, Objects* mesto)
 {
     txRectangle (700, 1, 750, 50);
 
     txDrawText (700, 1, 750, 50, "1");
-    if(txMouseX() >= 700 &&
-           txMouseY() >= 1 &&
-           txMouseX() <= 750 &&
-           txMouseY() <= 50 &&
-           txMouseButtons()== 1)
+    if (txMouseX() >= 700 &&            txMouseY() >= 1 &&
+        txMouseX() <= 750 &&            txMouseY() <= 50 &&
+        txMouseButtons()== 1)
     {
-         pic = pic1;
+        pic = pic1;
+
+        N_MEST = 8;
+        mesto[0] = {247, 352};
+        mesto[1] = {322, 344};
+        mesto[2] = {383, 356};
+        mesto[3] = {449, 356};
+        mesto[4] = {246, 490};
+        mesto[5] = {309, 488};
+        mesto[6] = {385, 490};
+        mesto[7] = {449, 491};
     }
 
 
@@ -32,6 +40,15 @@ HDC smena_classa(HDC pic, HDC pic1, HDC pic2)
            txMouseButtons()== 1)
     {
          pic = pic2;
+
+        N_MEST = 7;
+        mesto[0] = {100, 150};   //место учителя
+        mesto[1] = {100, 380};
+        mesto[2] = {100, 550};
+        mesto[3] = {280, 380};
+        mesto[4] = {280, 550};
+        mesto[5] = {480, 380};
+        mesto[6] = {480, 550};
     }
 
     return pic;
@@ -99,9 +116,9 @@ void select_category()
     drawkrugbutton(728, 180,"Ученики");
 }
 
-void teleport_na_party(Picture* centr, Objects* mesto, int n_active)
+void teleport_na_party(Picture* centr, Objects* mesto, int n_active, int N_MEST)
 {
-    for (int nomer = 0; nomer < 8; nomer = nomer + 1)   // телепорт на парту
+    for (int nomer = 0; nomer < N_MEST; nomer = nomer + 1)   // телепорт на парту
         {
 
 
@@ -170,7 +187,7 @@ void uroven_otstalosti(Picture* centr, int n_pics){
 void opredelenie_razmera(Picture* variants){
 
 
-    for(int nomer = 0; nomer < 8; nomer++)
+    for(int nomer = 0; nomer < N_MEST; nomer++)
     {
         FILE * pFile;
         BITMAPFILEHEADER bmfHeader ;
@@ -249,7 +266,7 @@ int main()
 
         txSetColor (TX_WHITE);
         txSetFillColor (TX_TRANSPARENT);
-        pic = smena_classa(pic, pic1, pic3);
+        pic = smena_classa(pic, pic1, pic3, mesto);
 
 
 
@@ -260,7 +277,7 @@ int main()
         okno_podskazki(n_active,centr, variants);
         developerMode = dev_mode(mesto, developerMode);
         select_category();
-        teleport_na_party(centr, mesto, n_active);
+        teleport_na_party(centr, mesto, n_active, N_MEST);
         dvizhenie(centr, speed_x, speed_y, n_active);
         teleport_na_stol_uchitela(stol_ychitela, centr, n_active);
         draw_text();
