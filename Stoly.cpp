@@ -5,6 +5,7 @@ struct Objects
     int y;
 };
 
+int N_MEST = 8;
 Objects mesto [8];
 Objects stol_ychitela [1];
 
