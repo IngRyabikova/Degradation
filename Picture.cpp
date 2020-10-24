@@ -1,4 +1,5 @@
 #include "Lib/TXLib.h"
+
 const char* active_category;
 
 struct Picture

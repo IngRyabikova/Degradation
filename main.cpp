@@ -55,7 +55,8 @@ HDC smena_classa(HDC pic, HDC pic1, HDC pic2, Objects* mesto)
 }
 void exit ()
 {
-
+            txSetColor(TX_BLACK);
+            txSetFillColor(TX_WHITE);
 
 
     if(GetAsyncKeyState(VK_MENU) &&  GetAsyncKeyState(VK_F4))
@@ -159,13 +160,14 @@ void draw_fon(HDC pic1)
     txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
 }
 
-void okno_podskazki(int n_active, Picture* centr, Picture* variants)
+void okno_podskazki(int n_active, Picture* centr, Picture* variants , int n_pics)
 {
     txDrawText(710, 480, 890, 640, "Выбранный персонаж");
         txRectangle(702, 550, 930, 800);
-        if (n_active >= 0)
+        if (n_active >= 0 && n_pics > 0)
             Win32::TransparentBlt (txDC(), 702,  550, 228, 250, centr[n_active].pic, 0, 0, centr[n_active].width, variants[n_active].height, TX_WHITE);
-
+         else
+         n_active = 0;
 
 }
 
@@ -221,13 +223,56 @@ int main()
 
     const int N_VARS = 6;
     Picture variants[N_VARS];
-    variants[0] = {780, 240, "Картинки/ботан.bmp",false, "Ученики", 0};
-    variants[1] = {920, 250, "Картинки/фанера.bmp",false, "Ученики", 10};
-    variants[2] = {780, 410, "Картинки/бревно.bmp",false, "Ученики", 11};
-    variants[3] = {920, 410, "Картинки/картошка.bmp",false, "Ученики", 28};
-    variants[4] = {780, 240, "Картинки/злая училка.bmp",false,"Учителя", 0};
-    variants[5] = {930, 230, "Картинки/Учитель по труду.bmp",false,"Учителя", 0};
+    variants[0] = {0, 240, "Картинки/ботан.bmp",false, "Ученики", 0};
+    variants[1] = {0, 240, "Картинки/фанера.bmp",false, "Ученики", 10};
+    variants[2] = {0, 410, "Картинки/бревно.bmp",false, "Ученики", 11};
+    variants[3] = {0, 410, "Картинки/картошка.bmp",false, "Ученики", 28};
+    variants[4] = {0, 240, "Картинки/злая училка.bmp",false,"Учителя", 0};
+    variants[5] = {0, 240, "Картинки/Учитель по труду.bmp",false,"Учителя", 0};
 
+    int x_student = 780;
+    int y_student = 240;
+
+    int x_teacher = 780;
+    int y_teacher = 240;
+
+
+    for(int i = 0; i < N_VARS; i++)
+    {
+        if (variants[i].category == "Ученики")
+        {
+            variants[i].x = x_student;
+            x_student += 140;
+
+            if (x_student > 1000)
+            {
+                 x_student = 780; //y = 150;
+                 y_student += 140;
+            }
+
+        }
+    }
+
+
+
+
+
+
+     for(int i = 0; i < N_VARS; i++)
+    {
+        if (variants[i].category == "Учителя")
+        {
+            variants[i].x = x_teacher;
+            x_teacher += 140;
+
+            if (x_teacher > 1000)
+            {
+                 x_teacher = 780; //y = 150;
+                 y_teacher += 140;
+            }
+
+        }
+    }
 
     for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
     {
@@ -263,6 +308,7 @@ int main()
         txClear();
         n_pics = del_all (n_pics);
         draw_fon(pic);
+        exit();
 
         txSetColor (TX_WHITE);
         txSetFillColor (TX_TRANSPARENT);
@@ -270,11 +316,11 @@ int main()
 
 
 
-        exit();
+
         n_active = select_active(centr, n_pics,pic_width, pic_height, n_active);
         draw_variants(variants, N_VARS, active_category);
 
-        okno_podskazki(n_active,centr, variants);
+        okno_podskazki(n_active,centr, variants, n_pics);
         developerMode = dev_mode(mesto, developerMode);
         select_category();
         teleport_na_party(centr, mesto, n_active, N_MEST);
@@ -288,7 +334,6 @@ int main()
 
         n_pics = newCenterPic(variants, centr, N_VARS, n_pics, n_active) ;
         n_pics = deleteCenterPic(centr, n_pics, n_active);
-
         txEnd();
         txSleep(20);
     }
