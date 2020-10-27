@@ -6,53 +6,61 @@
 #include "Stoly.cpp"
 bool GameOver = false;
 
+struct Plan
+{
+    int x;
+    int y;
+    HDC pic;
+    int N_MEST;
+    Objects mesto[10];
+};
+
+Plan plans[2];
+
+
+
 HDC smena_classa(HDC pic, HDC pic1, HDC pic2, Objects* mesto)
 {
-    txRectangle (700, 1, 750, 50);
+    txRectangle (plans[0].x, 1, plans[0].x + 50, 50);
 
-    txDrawText (700, 1, 750, 50, "1");
-    if (txMouseX() >= 700 &&            txMouseY() >= 1 &&
-        txMouseX() <= 750 &&            txMouseY() <= 50 &&
+    txDrawText (plans[0].x, 1, plans[0].x + 50, 50, "1");
+    if (txMouseX() >= plans[0].x &&            txMouseY() >= 1 &&
+        txMouseX() <= plans[0].x + 50 &&            txMouseY() <= 50 &&
         txMouseButtons()== 1)
     {
-        pic = pic1;
+        pic = plans[0].pic;
 
-        N_MEST = 8;
-        mesto[0] = {247, 352};
-        mesto[1] = {322, 344};
-        mesto[2] = {383, 356};
-        mesto[3] = {449, 356};
-        mesto[4] = {246, 490};
-        mesto[5] = {309, 488};
-        mesto[6] = {385, 490};
-        mesto[7] = {449, 491};
+        N_MEST = plans[0].N_MEST;
+        for (int v = 0; v < plans[0].N_MEST; v = v + 1)
+        {
+            mesto[v] = plans[0].mesto[v];
+        }
     }
 
 
 
-    txRectangle (750, 1, 800, 50);
+    txRectangle (plans[1].x, 1, plans[1].x + 50, 50);
 
-    txDrawText (750, 1, 800, 50, "2");
-    if(txMouseX() >= 750 &&
+    txDrawText (plans[1].x, 1, plans[1].x + 50, 50, "2");
+    if(txMouseX() >= plans[1].x &&
            txMouseY() >= 1 &&
-           txMouseX() <= 800 &&
+           txMouseX() <= plans[1].x + 50 &&
            txMouseY() <= 50 &&
            txMouseButtons()== 1)
     {
-         pic = pic2;
+         pic = plans[1].pic;
 
-        N_MEST = 7;
-        mesto[0] = {100, 150};   //место учителя
-        mesto[1] = {100, 380};
-        mesto[2] = {100, 550};
-        mesto[3] = {280, 380};
-        mesto[4] = {280, 550};
-        mesto[5] = {480, 380};
-        mesto[6] = {480, 550};
+        N_MEST = plans[1].N_MEST;
+        for (int v = 0; v < plans[1].N_MEST; v = v + 1)
+        {
+            mesto[v] = plans[1].mesto[v];
+        }
     }
 
     return pic;
 }
+
+
 void exit ()
 {
             txSetColor(TX_BLACK);
@@ -213,6 +221,15 @@ int main()
     bool developerMode = false;
 
     txCreateWindow (1280, 895);
+
+
+    plans[0] = {700, 0, txLoadImage ("Картинки/задний фон.bmp"), 8,
+        {{247, 352},
+         {322, 344}
+        }
+    };
+
+
     HDC  pic3 = txLoadImage ("Картинки/задний фон 2.bmp");
     HDC  pic1 = txLoadImage ("Картинки/задний фон.bmp");
     HDC pic = pic1;
