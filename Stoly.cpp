@@ -9,7 +9,7 @@ int N_MEST = 8;
 Objects mesto [8];
 Objects stol_ychitela [1];
 
-
+//Рисование столов в режиме разработчика (Да, комменты к функциям нужны)
 bool dev_mode(Objects* mesto, bool stat)
 {
     if(GetAsyncKeyState(VK_TAB) &&  GetAsyncKeyState(VK_SPACE))
@@ -20,6 +20,7 @@ bool dev_mode(Objects* mesto, bool stat)
 
     if (stat == true)
     {
+        //Их разве всегда 8???
         for (int nomer = 0; nomer < 8; nomer = nomer + 1)   // телепорт на парту
         {
             txSetFillColor(TX_RED);
