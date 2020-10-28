@@ -2,10 +2,13 @@
 #include "windows.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
+#include <fstream>
+#include <cstring>
 #include "Picture.cpp"
 #include "Stoly.cpp"
 bool GameOver = false;
-
+using namespace std;
 HDC smena_classa(HDC pic, HDC pic1, HDC pic2, Objects* mesto)
 {
     txRectangle (700, 1, 750, 50);
@@ -186,10 +189,11 @@ void uroven_otstalosti(Picture* centr, int n_pics){
 
 }
 
-void opredelenie_razmera(Picture* variants){
+void opredelenie_razmera(Picture* variants, int N){
 
 
-    for(int nomer = 0; nomer < N_MEST; nomer++)
+
+    for(int nomer = 0; nomer < N; nomer++)
     {
         FILE * pFile;
         BITMAPFILEHEADER bmfHeader ;
@@ -203,12 +207,18 @@ void opredelenie_razmera(Picture* variants){
 
         variants[nomer].width = bmiHeader.biWidth ;
         variants[nomer].height = bmiHeader.biHeight ;
+        variants[nomer].pic = txLoadImage(variants[nomer].adres);
     }
-}
 
-
+ }
 int main()
 {
+    char str[256];
+    //cin.getline(str, 256, ';'));
+    //cout << str;
+
+    ifstream fin("Settings.txt");
+
     txTextCursor (false);
     bool developerMode = false;
 
@@ -216,8 +226,10 @@ int main()
     HDC  pic3 = txLoadImage ("Картинки/задний фон 2.bmp");
     HDC  pic1 = txLoadImage ("Картинки/задний фон.bmp");
     HDC pic = pic1;
-    const int speed_x = 7;
-    const int speed_y = 7;
+    int speed_x;
+    int speed_y;
+    fin >> speed_x;
+    fin >> speed_y;
     const int pic_width = 75;
     const int pic_height = 75;
 
@@ -237,7 +249,8 @@ int main()
     int y_teacher = 240;
 
 
-    for(int i = 0; i < N_VARS; i++)
+//Координаты вариантов людей
+    for (int i = 0; i < N_VARS; i++)
     {
         if (variants[i].category == "Ученики")
         {
@@ -249,18 +262,9 @@ int main()
                  x_student = 780; //y = 150;
                  y_student += 140;
             }
-
         }
-    }
 
-
-
-
-
-
-     for(int i = 0; i < N_VARS; i++)
-    {
-        if (variants[i].category == "Учителя")
+        else if (variants[i].category == "Учителя")
         {
             variants[i].x = x_teacher;
             x_teacher += 140;
@@ -270,15 +274,11 @@ int main()
                  x_teacher = 780; //y = 150;
                  y_teacher += 140;
             }
-
         }
-    }
+            }
 
-    for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
-    {
-        variants[nomer].pic = txLoadImage(variants[nomer].adres);
-    }
-    opredelenie_razmera(variants);
+
+    opredelenie_razmera(variants, N_VARS);
 
 
 
@@ -336,9 +336,10 @@ int main()
         n_pics = deleteCenterPic(centr, n_pics, n_active);
         txEnd();
         txSleep(20);
-    }
 
+       }
     del_pic(centr, n_pics, variants, N_VARS, pic1);
     return 0;
 
-   }
+
+    }
