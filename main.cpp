@@ -2,6 +2,9 @@
 #include "windows.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
+#include <fstream>
+#include <cstring>
 #include "Picture.cpp"
 #include "Stoly.cpp"
 bool GameOver = false;
@@ -19,13 +22,18 @@ Plan plans[2];
 
 
 
+using namespace std;
+
+//Сюда могли бы прилететь планы, да и вообще это в отдельный файл просится
 HDC smena_classa(HDC pic, HDC pic1, HDC pic2, Objects* mesto)
 {
     txRectangle (plans[0].x, 1, plans[0].x + 50, 50);
-
     txDrawText (plans[0].x, 1, plans[0].x + 50, 50, "1");
+    txRectangle (plans[1].x, 1, plans[1].x + 50, 50);
+    txDrawText (plans[1].x, 1, plans[1].x + 50, 50, "2");
+
     if (txMouseX() >= plans[0].x &&            txMouseY() >= 1 &&
-        txMouseX() <= plans[0].x + 50 &&            txMouseY() <= 50 &&
+        txMouseX() <= plans[0].x + 50 &&       txMouseY() <= 50 &&
         txMouseButtons()== 1)
     {
         pic = plans[0].pic;
@@ -39,16 +47,11 @@ HDC smena_classa(HDC pic, HDC pic1, HDC pic2, Objects* mesto)
 
 
 
-    txRectangle (plans[1].x, 1, plans[1].x + 50, 50);
-
-    txDrawText (plans[1].x, 1, plans[1].x + 50, 50, "2");
-    if(txMouseX() >= plans[1].x &&
-           txMouseY() >= 1 &&
-           txMouseX() <= plans[1].x + 50 &&
-           txMouseY() <= 50 &&
-           txMouseButtons()== 1)
+    if (txMouseX() >= plans[1].x &&            txMouseY() >= 1 &&
+        txMouseX() <= plans[1].x + 50 &&       txMouseY() <= 50 &&
+        txMouseButtons()== 1)
     {
-         pic = plans[1].pic;
+        pic = plans[1].pic;
 
         N_MEST = plans[1].N_MEST;
         for (int v = 0; v < plans[1].N_MEST; v = v + 1)
@@ -63,38 +66,26 @@ HDC smena_classa(HDC pic, HDC pic1, HDC pic2, Objects* mesto)
 
 void exit ()
 {
-            txSetColor(TX_BLACK);
-            txSetFillColor(TX_WHITE);
+    txSetColor(TX_BLACK);
+    txSetFillColor(TX_WHITE);
+    drawkrugbutton(1033,638,1242,687, "Выход");
 
-
-    if(GetAsyncKeyState(VK_MENU) &&  GetAsyncKeyState(VK_F4))
+    if (GetAsyncKeyState(VK_MENU) && GetAsyncKeyState(VK_F4) ||
+        GetAsyncKeyState(VK_ESCAPE))
     {
-         txDisableAutoPause();
-         GameOver = true;
+        txDisableAutoPause();
+        GameOver = true;
     }
-        if(GetAsyncKeyState(VK_ESCAPE))
-        {
-         txDisableAutoPause();
-         GameOver = true;
-        }
 
 
-
-
-        drawkrugbutton(1033,638,1242,687, "Выход");
-        if(txMouseX() >= 1033 &&
-               txMouseY() >= 638 &&
-               txMouseX() <= 1242 &&
-               txMouseY() <= 687 &&
-               txMouseButtons()== 1)
-        {
-            txDisableAutoPause();
-             GameOver = true;
-        }
+    if (txMouseX() >= 1033 && txMouseY() >= 638 &&
+        txMouseX() <= 1242 && txMouseY() <= 687 &&
+        txMouseButtons()== 1)
+    {
+        txDisableAutoPause();
+        GameOver = true;
+    }
 }
-void menu ()
-{
-}    //пока не используется
 
 void select_category()
 {
@@ -171,12 +162,11 @@ void draw_fon(HDC pic1)
 void okno_podskazki(int n_active, Picture* centr, Picture* variants , int n_pics)
 {
     txDrawText(710, 480, 890, 640, "Выбранный персонаж");
-        txRectangle(702, 550, 930, 800);
-        if (n_active >= 0 && n_pics > 0)
-            Win32::TransparentBlt (txDC(), 702,  550, 228, 250, centr[n_active].pic, 0, 0, centr[n_active].width, variants[n_active].height, TX_WHITE);
-         else
-         n_active = 0;
-
+    txRectangle(702, 550, 930, 800);
+    if (n_active >= 0 && n_pics > 0)
+        Win32::TransparentBlt (txDC(), 702,  550, 228, 250, centr[n_active].pic, 0, 0, centr[n_active].width, variants[n_active].height, TX_WHITE);
+    else
+        n_active = 0;
 }
 
 void uroven_otstalosti(Picture* centr, int n_pics){
@@ -194,67 +184,98 @@ void uroven_otstalosti(Picture* centr, int n_pics){
 
 }
 
-void opredelenie_razmera(Picture* variants){
-
-
-    for(int nomer = 0; nomer < N_MEST; nomer++)
+void opredelenie_razmera(Picture* variants, int N)
+{
+    for (int nomer = 0; nomer < N; nomer++)
     {
-        FILE * pFile;
-        BITMAPFILEHEADER bmfHeader ;
-        BITMAPINFOHEADER bmiHeader ;
-
-        pFile = fopen (variants[nomer].adres , "rb" );
-
+        BITMAPFILEHEADER bmfHeader;
+        BITMAPINFOHEADER bmiHeader;
+        FILE* pFile = fopen (variants[nomer].adres , "rb" );
         fread( (LPSTR)&bmfHeader, 1, sizeof(bmfHeader), pFile );
-
         fread( (LPSTR)&bmiHeader, 1, sizeof(bmiHeader), pFile );
 
         variants[nomer].width = bmiHeader.biWidth ;
         variants[nomer].height = bmiHeader.biHeight ;
+        variants[nomer].pic = txLoadImage(variants[nomer].adres);
     }
 }
 
-
 int main()
 {
+    char str[256];
+    //cin.getline(str, 256, ';'));
+    //cout << str;
+
+    ifstream fin("Settings.txt");
+
     txTextCursor (false);
     bool developerMode = false;
 
     txCreateWindow (1280, 895);
 
 
-    plans[0] = {700, 0, txLoadImage ("Картинки/задний фон.bmp"), 8,
+    plans[0] = {700, 0, txLoadImage ("Картинки/задний фон.bmp"), 3,
         {{247, 352},
-         {322, 344}
+         {322, 344},
+         {383, 356}
+        }
+    };
+    plans[1] = {750, 0, txLoadImage ("Картинки/задний фон 2.bmp"), 2,
+        {{100, 150},
+         {100, 380}
         }
     };
 
+     /* Ты на фига места-то стер? Они же тоже в plans[0] входят
+     N_MEST = 8;	        N_MEST = plans[0].N_MEST;
+        mesto[0] = {247, 352};	        for (int v = 0; v < plans[0].N_MEST; v = v + 1)
+        mesto[1] = {322, 344};	        {
+        mesto[2] = {383, 356};	            mesto[v] = plans[0].mesto[v];
+        mesto[3] = {449, 356};	        }
+        mesto[4] = {246, 490};
+        mesto[5] = {309, 488};
+        mesto[6] = {385, 490};
+        mesto[7] = {449, 491};
 
+
+
+        N_MEST = 7;	        N_MEST = plans[1].N_MEST;
+        mesto[0] = {100, 150};          for (int v = 0; v < plans[1].N_MEST; v = v + 1)
+        mesto[1] = {100, 380};	        {
+        mesto[2] = {100, 550};	            mesto[v] = plans[1].mesto[v];
+        mesto[3] = {280, 380};	        }
+        mesto[4] = {280, 550};
+        mesto[5] = {480, 380};
+        mesto[6] = {480, 550};
+     */
     HDC  pic3 = txLoadImage ("Картинки/задний фон 2.bmp");
     HDC  pic1 = txLoadImage ("Картинки/задний фон.bmp");
     HDC pic = pic1;
-    const int speed_x = 7;
-    const int speed_y = 7;
+
+    //Зачем нам скорость-то читать? Нам скорее расположение мест интереснее
+    int speed_x;
+    int speed_y;
+    fin >> speed_x;
+    fin >> speed_y;
     const int pic_width = 75;
     const int pic_height = 75;
 
     const int N_VARS = 6;
     Picture variants[N_VARS];
-    variants[0] = {0, 240, "Картинки/ботан.bmp",false, "Ученики", 0};
+    //Хочу не заполнять категорию и координаты
+    variants[0] = {0, 240, "Картинки/Ученики/ботан.bmp",false, "Ученики", 0};
     variants[1] = {0, 240, "Картинки/фанера.bmp",false, "Ученики", 10};
-    variants[2] = {0, 410, "Картинки/бревно.bmp",false, "Ученики", 11};
+    variants[2] = {0, 410, "Картинки/Ученики/бревно.bmp",false, "Ученики", 11};
     variants[3] = {0, 410, "Картинки/картошка.bmp",false, "Ученики", 28};
     variants[4] = {0, 240, "Картинки/злая училка.bmp",false,"Учителя", 0};
     variants[5] = {0, 240, "Картинки/Учитель по труду.bmp",false,"Учителя", 0};
 
-    int x_student = 780;
-    int y_student = 240;
-
-    int x_teacher = 780;
-    int y_teacher = 240;
+    int x_student = 780, y_student = 250;
+    int x_teacher = 780, y_teacher = 250;
 
 
-    for(int i = 0; i < N_VARS; i++)
+//Координаты вариантов людей
+    for (int i = 0; i < N_VARS; i++)
     {
         if (variants[i].category == "Ученики")
         {
@@ -266,18 +287,9 @@ int main()
                  x_student = 780; //y = 150;
                  y_student += 140;
             }
-
         }
-    }
 
-
-
-
-
-
-     for(int i = 0; i < N_VARS; i++)
-    {
-        if (variants[i].category == "Учителя")
+        else if (variants[i].category == "Учителя")
         {
             variants[i].x = x_teacher;
             x_teacher += 140;
@@ -287,15 +299,11 @@ int main()
                  x_teacher = 780; //y = 150;
                  y_teacher += 140;
             }
-
         }
     }
 
-    for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
-    {
-        variants[nomer].pic = txLoadImage(variants[nomer].adres);
-    }
-    opredelenie_razmera(variants);
+
+    opredelenie_razmera(variants, N_VARS);
 
 
 
@@ -357,5 +365,4 @@ int main()
 
     del_pic(centr, n_pics, variants, N_VARS, pic1);
     return 0;
-
-   }
+}
