@@ -98,9 +98,8 @@ void teleport_na_stol_uchitela(Objects* stol_ychitela, Picture* centr, int n_act
     }
 }
 void draw_text()
-{   txSetColor (TX_WHITE);
-    txDrawText(714,14,1239,68,"Цель - рассадить учеников так, чтобы\n класс получился mаксимально отсталым");
-    txSetColor (TX_BLACK);
+{
+    txDrawText(687,9,1209,75,"Цель - рассадить учеников так, чтобы/n класс получился саксимально отсталым");
     txDrawText(747,78,1242,100,"Игра находится в разработке ");
     txDrawText(885,146,1195,179,"Выбери персонажа");
 }
@@ -131,7 +130,7 @@ void uroven_otstalosti(Picture* centr, int n_pics){
 
     char str[100];
     sprintf(str, "Уровень отсталости класса %d / 100", total);
-    txTextOut(950, 100, str);
+    txTextOut(965, 12, str);
 
 }
 

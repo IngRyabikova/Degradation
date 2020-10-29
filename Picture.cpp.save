@@ -148,7 +148,7 @@ int deleteCenterPic(Picture* centr, int n_pics, int n_active)
 int del_all (int n_pics)
 {
     txSetFillColour(TX_WHITE);
-    drawkrugbutton(1021,27,1234,92,"Удалить все!");
+    drawkrugbutton(1128,412,1265,92,"Удалить все!");
     if (txMouseX() >= 1021 &&
        txMouseY() >= 27 &&
        txMouseX() <= 1234 &&
