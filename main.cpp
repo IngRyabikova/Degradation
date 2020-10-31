@@ -102,7 +102,6 @@ void draw_text()
     txDrawText(714,14,1239,68,"Цель - рассадить учеников так, чтобы\n класс получился mаксимально отсталым");
     txSetColor (TX_BLACK);
     txDrawText(747,78,1242,100,"Игра находится в разработке ");
-    txDrawText(885,146,1195,179,"Выбери персонажа");
 }
 
 void draw_fon(HDC pic1)
@@ -177,6 +176,9 @@ int main()
         }
     };
 
+
+
+
      /* Ты на фига места-то стер? Они же тоже в plans[0] входят
      N_MEST = 8;	        N_MEST = plans[0].N_MEST;
         mesto[0] = {247, 352};	        for (int v = 0; v < plans[0].N_MEST; v = v + 1)
@@ -221,9 +223,10 @@ int main()
     variants[4] = {0, 240, "Картинки/злая училка.bmp",false,"Учителя", 0};
     variants[5] = {0, 240, "Картинки/Учитель по труду.bmp",false,"Учителя", 0};
 
-    int x_student = 780, y_student = 250;
-    int x_teacher = 780, y_teacher = 250;
 
+
+    int x_student = 780, y_student = 350;
+    int x_teacher = 780, y_teacher = 350;
 
 //Координаты вариантов людей
     for (int i = 0; i < N_VARS; i++)
@@ -231,9 +234,10 @@ int main()
         if (variants[i].category == "Ученики")
         {
             variants[i].x = x_student;
-            x_student += 140;
+            variants[i].y = y_student;
+            x_student += 110;
 
-            if (x_student > 1000)
+            if (x_student > 1200)
             {
                  x_student = 780; //y = 150;
                  y_student += 140;
@@ -243,9 +247,10 @@ int main()
         else if (variants[i].category == "Учителя")
         {
             variants[i].x = x_teacher;
-            x_teacher += 140;
+            variants[i].y = y_teacher;
+            x_teacher += 110;
 
-            if (x_teacher > 1000)
+            if (x_teacher > 1200)
             {
                  x_teacher = 780; //y = 150;
                  y_teacher += 140;
@@ -276,7 +281,7 @@ int main()
     stol_ychitela[0]  = {412, 115};
 
 
-
+    //Тут редактирование
     while (GameOver == false)
     {
         txBegin();
@@ -290,7 +295,10 @@ int main()
         txSetFillColor (TX_TRANSPARENT);
         pic = smena_classa(pic,mesto);
 
- //txBitBlt (txDC(), 734, 305, 0, 0, pic1, 0, 0);
+        txSelectFont("Arial", 30);
+        txSetColor(TX_WHITE, 5);
+        txSetFillColor(TX_BLACK);
+        txDrawText(885,146,1195,179,"Выбери персонажа");
 
 
         n_active = select_active(centr, n_pics,pic_width, pic_height, n_active);
