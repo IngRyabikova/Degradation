@@ -8,60 +8,9 @@
 #include "Picture.cpp"
 #include "Stoly.cpp"
 bool GameOver = false;
-
-struct Plan
-{
-    int x;
-    int y;
-    HDC pic;
-    int N_MEST;
-    Objects mesto[10];
-};
-
-Plan plans[2];
-
-
-
 using namespace std;
 
 //Сюда могли бы прилететь планы, да и вообще это в отдельный файл просится
-HDC smena_classa(HDC pic, HDC pic1, HDC pic2, Objects* mesto)
-{
-    txRectangle (plans[0].x, 1, plans[0].x + 50, 50);
-    txDrawText (plans[0].x, 1, plans[0].x + 50, 50, "1");
-    txRectangle (plans[1].x, 1, plans[1].x + 50, 50);
-    txDrawText (plans[1].x, 1, plans[1].x + 50, 50, "2");
-
-    if (txMouseX() >= plans[0].x &&            txMouseY() >= 1 &&
-        txMouseX() <= plans[0].x + 50 &&       txMouseY() <= 50 &&
-        txMouseButtons()== 1)
-    {
-        pic = plans[0].pic;
-
-        N_MEST = plans[0].N_MEST;
-        for (int v = 0; v < plans[0].N_MEST; v = v + 1)
-        {
-            mesto[v] = plans[0].mesto[v];
-        }
-    }
-
-
-
-    if (txMouseX() >= plans[1].x &&            txMouseY() >= 1 &&
-        txMouseX() <= plans[1].x + 50 &&       txMouseY() <= 50 &&
-        txMouseButtons()== 1)
-    {
-        pic = plans[1].pic;
-
-        N_MEST = plans[1].N_MEST;
-        for (int v = 0; v < plans[1].N_MEST; v = v + 1)
-        {
-            mesto[v] = plans[1].mesto[v];
-        }
-    }
-
-    return pic;
-}
 
 
 void exit ()
@@ -149,7 +98,9 @@ void teleport_na_stol_uchitela(Objects* stol_ychitela, Picture* centr, int n_act
     }
 }
 void draw_text()
-{
+{   txSetColor (TX_WHITE);
+    txDrawText(714,14,1239,68,"Цель - рассадить учеников так, чтобы\n класс получился mаксимально отсталым");
+    txSetColor (TX_BLACK);
     txDrawText(747,78,1242,100,"Игра находится в разработке ");
 }
 
@@ -179,7 +130,7 @@ void uroven_otstalosti(Picture* centr, int n_pics){
 
     char str[100];
     sprintf(str, "Уровень отсталости класса %d / 100", total);
-    txTextOut(965, 12, str);
+    txTextOut(950, 100, str);
 
 }
 
@@ -342,7 +293,7 @@ int main()
 
         txSetColor (TX_WHITE);
         txSetFillColor (TX_TRANSPARENT);
-        pic = smena_classa(pic, pic1, pic3, mesto);
+        pic = smena_classa(pic,mesto);
 
         txSelectFont("Arial", 30);
         txSetColor(TX_WHITE, 5);
@@ -371,6 +322,6 @@ int main()
         txSleep(20);
     }
 
-    del_pic(centr, n_pics, variants, N_VARS, pic1);
+    del_pic(centr, n_pics, variants, N_VARS, pic1, pic3, pic);
     return 0;
 }

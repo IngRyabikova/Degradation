@@ -4,7 +4,16 @@ struct Objects
     int x;
     int y;
 };
+struct Plan
+{
+    int x;
+    int y;
+    HDC pic;
+    int N_MEST;
+    Objects mesto[10];
+};
 
+Plan plans[2];
 int N_MEST = 8;
 Objects mesto [8];
 Objects stol_ychitela [1];
@@ -31,3 +40,42 @@ bool dev_mode(Objects* mesto, bool stat)
 
     return stat;
 }
+
+HDC smena_classa(HDC pic, Objects* mesto)
+{     //    txRectangle(702, 550, 930, 800);
+
+    txRectangle (734, 305, 833, 433);
+    txDrawText (plans[0].x, 1, plans[0].x + 50, 50, "1");
+    txRectangle (871, 307, 969, 401);
+    txDrawText (plans[1].x, 1, plans[1].x + 50, 50, "2");
+
+    if (txMouseX() >= plans[0].x &&            txMouseY() >= 1 &&
+        txMouseX() <= plans[0].x + 50 &&       txMouseY() <= 50 &&
+        txMouseButtons()== 1)
+    {
+        pic = plans[0].pic;
+
+        N_MEST = plans[0].N_MEST;
+        for (int v = 0; v < plans[0].N_MEST; v = v + 1)
+        {
+            mesto[v] = plans[0].mesto[v];
+        }
+    }
+
+    if (txMouseX() >= plans[1].x &&            txMouseY() >= 1 &&
+        txMouseX() <= plans[1].x + 50 &&       txMouseY() <= 50 &&
+        txMouseButtons()== 1)
+    {
+        pic = plans[1].pic;
+
+        N_MEST = plans[1].N_MEST;
+        for (int v = 0; v < plans[1].N_MEST; v = v + 1)
+        {
+            mesto[v] = plans[1].mesto[v];
+        }
+    }
+
+    return pic;
+}
+
+

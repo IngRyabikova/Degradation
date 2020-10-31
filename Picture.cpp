@@ -59,7 +59,7 @@ void dvizhenie(Picture* centr, int speed_x, int speed_y, int n_active)
 }
 
 //Удаление картинок
-void del_pic (Picture* centr, int n_pics, Picture* variants, int N_VARS, HDC pic1)
+void del_pic (Picture* centr, int n_pics, Picture* variants, int N_VARS, HDC pic1, HDC pic3, HDC pic)
 {
     for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
     {
@@ -141,6 +141,7 @@ int deleteCenterPic(Picture* centr, int n_pics, int n_active)
 
     return n_pics;
 }
+
 
 
 //Удалить все картинки в центре
