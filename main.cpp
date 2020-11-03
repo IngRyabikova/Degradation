@@ -155,24 +155,34 @@ int main()
     char str[256];
     //cin.getline(str, 256, ';'));
     //cout << str;
-
+    std::ofstream out("coord.txt"); // окрываем файл для записи
     ifstream fin("Settings.txt");
 
     txTextCursor (false);
     bool developerMode = false;
 
     txCreateWindow (1280, 895);
-
+    txSetFillColor (TX_WHITE);
 
     plans[0] = {700, 0, txLoadImage ("Картинки/задний фон.bmp"), 3,
         {{247, 352},
          {322, 344},
-         {383, 356}
+         {383, 356},
+         {449, 356},
+         {246, 490},
+         {309, 488},
+         {385, 490},
+         {449, 491},
         }
     };
     plans[1] = {750, 0, txLoadImage ("Картинки/задний фон 2.bmp"), 2,
         {{100, 150},
-         {100, 380}
+         {100, 380},
+         {100, 550},
+         {280, 380},
+         {280, 550},
+         {480, 380},
+         {480, 550},
         }
     };
 
@@ -285,6 +295,23 @@ int main()
     while (GameOver == false)
     {
         txBegin();
+        txSetFillColor(TX_BLUE);
+        //txDrawText(0,0,10,80, "сохранение");
+    if (GetAsyncKeyState(VK_MENU) && GetAsyncKeyState(0x53))
+
+    {
+               if (out.is_open())
+        {
+            for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)
+    {
+
+            //Добавляется новая центральная картинка
+               out  << nomer << " " << centr[nomer].x << " " << centr[nomer].y << std::endl;
+
+        }
+         }
+          }
+
         txSetFillColor(TX_BLACK);
         txClear();
         n_pics = del_all (n_pics);
