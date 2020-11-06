@@ -1,12 +1,12 @@
-#include "Lib/TXLib.h"
+#include "Libs/TXLib.h"
 #include "windows.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
 #include <cstring>
-#include "Picture.cpp"
-#include "Stoly.cpp"
+#include "Libs/Picture.cpp"
+#include "Libs/Stoly.cpp"
 bool GameOver = false;
 using namespace std;
 
@@ -164,7 +164,8 @@ int main()
     txCreateWindow (1280, 895);
     txSetFillColor (TX_WHITE);
 
-    plans[0] = {700, 0, txLoadImage ("Картинки/задний фон.bmp"), 3,
+    //Планировки класса
+    plans[0] = {700, 0, txLoadImage ("Картинки/Фоны/задний фон.bmp"), 8,
         {{247, 352},
          {322, 344},
          {383, 356},
@@ -175,7 +176,7 @@ int main()
          {449, 491},
         }
     };
-    plans[1] = {750, 0, txLoadImage ("Картинки/задний фон 2.bmp"), 2,
+    plans[1] = {750, 0, txLoadImage ("Картинки/Фоны/задний фон 2.bmp"), 7,
         {{100, 150},
          {100, 380},
          {100, 550},
@@ -186,34 +187,7 @@ int main()
         }
     };
 
-
-
-
-     /* Ты на фига места-то стер? Они же тоже в plans[0] входят
-     N_MEST = 8;	        N_MEST = plans[0].N_MEST;
-        mesto[0] = {247, 352};	        for (int v = 0; v < plans[0].N_MEST; v = v + 1)
-        mesto[1] = {322, 344};	        {
-        mesto[2] = {383, 356};	            mesto[v] = plans[0].mesto[v];
-        mesto[3] = {449, 356};	        }
-        mesto[4] = {246, 490};
-        mesto[5] = {309, 488};
-        mesto[6] = {385, 490};
-        mesto[7] = {449, 491};
-
-
-
-        N_MEST = 7;	        N_MEST = plans[1].N_MEST;
-        mesto[0] = {100, 150};          for (int v = 0; v < plans[1].N_MEST; v = v + 1)
-        mesto[1] = {100, 380};	        {
-        mesto[2] = {100, 550};	            mesto[v] = plans[1].mesto[v];
-        mesto[3] = {280, 380};	        }
-        mesto[4] = {280, 550};
-        mesto[5] = {480, 380};
-        mesto[6] = {480, 550};
-     */
-    HDC  pic3 = txLoadImage ("Картинки/задний фон 2.bmp");
-    HDC  pic1 = txLoadImage ("Картинки/задний фон.bmp");
-    HDC pic = pic1;
+    HDC pic = plans[0].pic;
 
     //Зачем нам скорость-то читать? Нам скорее расположение мест интереснее
     int speed_x;
@@ -223,15 +197,17 @@ int main()
     const int pic_width = 75;
     const int pic_height = 75;
 
-    const int N_VARS = 6;
+    const int N_VARS = 8;
     Picture variants[N_VARS];
     //Хочу не заполнять категорию и координаты
     variants[0] = {0, 240, "Картинки/Ученики/ботан.bmp",false, "Ученики", 0};
-    variants[1] = {0, 240, "Картинки/фанера.bmp",false, "Ученики", 10};
+    variants[1] = {0, 240, "Картинки/Ученики/фанера.bmp",false, "Ученики", 10};
     variants[2] = {0, 410, "Картинки/Ученики/бревно.bmp",false, "Ученики", 11};
-    variants[3] = {0, 410, "Картинки/картошка.bmp",false, "Ученики", 28};
-    variants[4] = {0, 240, "Картинки/злая училка.bmp",false,"Учителя", 0};
-    variants[5] = {0, 240, "Картинки/Учитель по труду.bmp",false,"Учителя", 0};
+    variants[3] = {0, 410, "Картинки/Ученики/картошка.bmp",false, "Ученики", 28};
+    variants[4] = {0, 410, "Картинки/Ученики/человек.bmp",false, "Ученики", 28};
+    variants[5] = {0, 410, "Картинки/Ученики/крыса.bmp",false, "Ученики", 28};
+    variants[6] = {0, 240, "Картинки/Учителя/злая училка.bmp",false,"Учителя", 0};
+    variants[7] = {0, 240, "Картинки/Учителя/Учитель по труду.bmp",false,"Учителя", 0};
 
 
 
@@ -349,6 +325,6 @@ int main()
         txSleep(20);
     }
 
-    del_pic(centr, n_pics, variants, N_VARS, pic1, pic3, pic);
+    del_pic(centr, n_pics, variants, N_VARS, pic);
     return 0;
 }
