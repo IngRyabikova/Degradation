@@ -43,9 +43,10 @@ bool dev_mode(Objects* mesto, bool stat)
 
 HDC smena_classa(HDC pic, Objects* mesto)
 {     //    txRectangle(702, 550, 930, 800);
-
-    txRectangle (734, 305, 833, 433);
-    txRectangle (871, 307, 969, 401);
+  Win32::TransparentBlt (txDC(), 734, 305, 100, 130, plans[0].pic, 0, 0, 699, 895, TX_RED);
+  Win32::TransparentBlt (txDC(), 871, 305, 100, 130, plans[1].pic, 0, 0, 628, 895, TX_RED);
+    txRectangle (784, 395, 837, 435);
+    txRectangle (891, 387, 966, 404);
 
     if (txMouseX() >= 734 &&            txMouseY() >= 305+50 &&
         txMouseX() <= 833  &&       txMouseY() <= 433+50 &&

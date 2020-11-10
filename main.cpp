@@ -9,8 +9,8 @@
 #include "Libs/Stoly.cpp"
 bool GameOver = false;
 using namespace std;
+string faili;
 
-//Сюда могли бы прилететь планы, да и вообще это в отдельный файл просится
 
 
 void exit ()
@@ -152,9 +152,23 @@ void opredelenie_razmera(Picture* variants, int N)
 
 int main()
 {
+
+
+    WIN32_FIND_DATA FindFileData;
+	HANDLE hf;
+	hf=FindFirstFile("Картинки\Ученики\*.bmp", &FindFileData);
+	if (hf!=INVALID_HANDLE_VALUE)
+	{
+		do
+		{
+			//cout << FindFileData.cFileName << endl;
+			faili = FindFileData.cFileName;
+		}
+		while (FindNextFile(hf,&FindFileData)!=0);
+		FindClose(hf);
+		}
     char str[256];
-    //cin.getline(str, 256, ';'));
-    //cout << str;
+
     std::ofstream out("coord.txt"); // окрываем файл для записи
     ifstream fin("Settings.txt");
 
@@ -164,8 +178,7 @@ int main()
     txCreateWindow (1280, 895);
     txSetFillColor (TX_WHITE);
 
-    //Планировки класса
-    plans[0] = {700, 0, txLoadImage ("Картинки/Фоны/задний фон.bmp"), 8,
+    plans[0] = {700, 0, txLoadImage ("Картинки/Фоны/задний фон.bmp"), 3,
         {{247, 352},
          {322, 344},
          {383, 356},
@@ -176,7 +189,7 @@ int main()
          {449, 491},
         }
     };
-    plans[1] = {750, 0, txLoadImage ("Картинки/Фоны/задний фон 2.bmp"), 7,
+    plans[1] = {750, 0, txLoadImage ("Картинки/Фоны/задний фон 2.bmp"), 2,
         {{100, 150},
          {100, 380},
          {100, 550},
@@ -186,6 +199,32 @@ int main()
          {480, 550},
         }
     };
+
+
+
+
+     /* Ты на фига места-то стер? Они же тоже в plans[0] входят
+     N_MEST = 8;	        N_MEST = plans[0].N_MEST;
+        mesto[0] = {247, 352};	        for (int v = 0; v < plans[0].N_MEST; v = v + 1)
+        mesto[1] = {322, 344};	        {
+        mesto[2] = {383, 356};	            mesto[v] = plans[0].mesto[v];
+        mesto[3] = {449, 356};	        }
+        mesto[4] = {246, 490};
+        mesto[5] = {309, 488};
+        mesto[6] = {385, 490};
+        mesto[7] = {449, 491};
+
+
+
+        N_MEST = 7;	        N_MEST = plans[1].N_MEST;
+        mesto[0] = {100, 150};          for (int v = 0; v < plans[1].N_MEST; v = v + 1)
+        mesto[1] = {100, 380};	        {
+        mesto[2] = {100, 550};	            mesto[v] = plans[1].mesto[v];
+        mesto[3] = {280, 380};	        }
+        mesto[4] = {280, 550};
+        mesto[5] = {480, 380};
+        mesto[6] = {480, 550};
+     */
 
     HDC pic = plans[0].pic;
 
@@ -197,17 +236,15 @@ int main()
     const int pic_width = 75;
     const int pic_height = 75;
 
-    const int N_VARS = 8;
+    const int N_VARS = 6;
     Picture variants[N_VARS];
     //Хочу не заполнять категорию и координаты
     variants[0] = {0, 240, "Картинки/Ученики/ботан.bmp",false, "Ученики", 0};
     variants[1] = {0, 240, "Картинки/Ученики/фанера.bmp",false, "Ученики", 10};
     variants[2] = {0, 410, "Картинки/Ученики/бревно.bmp",false, "Ученики", 11};
     variants[3] = {0, 410, "Картинки/Ученики/картошка.bmp",false, "Ученики", 28};
-    variants[4] = {0, 410, "Картинки/Ученики/человек.bmp",false, "Ученики", 28};
-    variants[5] = {0, 410, "Картинки/Ученики/крыса.bmp",false, "Ученики", 28};
-    variants[6] = {0, 240, "Картинки/Учителя/злая училка.bmp",false,"Учителя", 0};
-    variants[7] = {0, 240, "Картинки/Учителя/Учитель по труду.bmp",false,"Учителя", 0};
+    variants[4] = {0, 240, "Картинки/Учителя/злая училка.bmp",false,"Учителя", 0};
+    variants[5] = {0, 240, "Картинки/Учителя/Учитель по труду.bmp",false,"Учителя", 0};
 
 
 
@@ -270,23 +307,31 @@ int main()
     //Тут редактирование
     while (GameOver == false)
     {
+
+
+
+
         txBegin();
         txSetFillColor(TX_BLUE);
-        //txDrawText(0,0,10,80, "сохранение");
-    if (GetAsyncKeyState(VK_MENU) && GetAsyncKeyState(0x53))
+        if (GetAsyncKeyState(VK_MENU) && GetAsyncKeyState('S'))
 
-    {
-               if (out.is_open())
         {
-            for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)
-    {
 
-            //Добавляется новая центральная картинка
-               out  << nomer << " " << centr[nomer].x << " " << centr[nomer].y << std::endl;
+            if (out.is_open())
+            {
+                for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)
+                {
+
+                    //Добавляется новая центральная картинка
+                    out  << centr[nomer].adres << " " << centr[nomer].x << " " << centr[nomer].y << std::endl;
+
+
+                }
+             txMessageBox ("Сохранено!");
+
+            }
 
         }
-         }
-          }
 
         txSetFillColor(TX_BLACK);
         txClear();
@@ -319,6 +364,7 @@ int main()
         uroven_otstalosti(centr, n_pics);
 
 
+
         n_pics = newCenterPic(variants, centr, N_VARS, n_pics, n_active) ;
         n_pics = deleteCenterPic(centr, n_pics, n_active);
         txEnd();
@@ -327,4 +373,5 @@ int main()
 
     del_pic(centr, n_pics, variants, N_VARS, pic);
     return 0;
+
 }

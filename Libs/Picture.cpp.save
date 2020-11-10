@@ -118,16 +118,15 @@ int newCenterPic(Picture* variants, Picture* centr, int N_VARS, int n_pics, int 
             //ƒобавл€етс€ нова€ центральна€ картинка
 
             centr[n_pics] = {458, 608, variants[nomer].adres, true, active_category, variants[nomer].otstalost,
-
+           
+            if(variants[nomer].x >= 1278)
+            variants[nomer].x = 1278;
+        }
                             variants[nomer].pic, variants[nomer].width, variants[nomer].height};
             n_pics++;
             txSleep(100);
         }
-
-            if(centr[n_pics].x >= 1200)
-            centr[n_pics].x = 1200;
-        }
-
+    }
 
     return n_pics;
 }
