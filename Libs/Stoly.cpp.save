@@ -37,15 +37,13 @@ bool dev_mode(Objects* mesto, bool stat)
             txRectangle (mesto[nomer].x, mesto[nomer].y, mesto[nomer].x + 30, mesto[nomer].y + 30);
             txRectangle (stol_ychitela[0].x, stol_ychitela[0].y, stol_ychitela[0].x + 30, stol_ychitela[0].y + 30);
         }
-         char strx[5000];
+    }
+        char strx[5000];
         char stry[5000];
     sprintf(strx, "Координата х: %d ", x_mouse);
     sprintf(stry, "Координата y: %d ", y_mouse);
     txSetColor(TX_WHITE);
-txDrawText(955,501,1158,556,strx);
-txDrawText(958,585,1161,639,stry);
-    }
-
+txDrawText(1079,561,1249,871,strx);
 
 
 
@@ -61,7 +59,7 @@ HDC smena_classa(HDC pic, Objects* mesto)
   Win32::TransparentBlt (txDC(), 871, 305, 100, 130, plans[1].pic, 0, 0, 628, 895, TX_RED);
 
     if (txMouseX() >= 734 &&            txMouseY() >= 305+50 &&
-        txMouseX() <= 833  &&       txMouseY() <= 433+50 &&
+        txMouseX() <= 833  N_VARS&&       txMouseY() <= 433+50 &&
         txMouseButtons()== 1)
     {
         pic = plans[0].pic;

@@ -4,8 +4,6 @@ const char* active_category;
 
 struct Picture
 {
-    int x;
-    int y;
     const char* adres;
     bool visible;
     const char* category;
@@ -13,6 +11,8 @@ struct Picture
     HDC pic;
     int width;
     int height;
+    int x;
+    int y;
 };
 void drawkrugbutton(int x, int y, int x1, int y1, const char* text)
 {
@@ -115,8 +115,8 @@ int newCenterPic(Picture* variants, Picture* centr, int N_VARS, int n_pics, int 
            txMouseButtons() == 1 && variants[nomer].category == active_category)
         {
             //Добавляется новая центральная картинка
-            centr[n_pics] = {458, 608, variants[nomer].adres, true, active_category, variants[nomer].otstalost,
-                            variants[nomer].pic, variants[nomer].width, variants[nomer].height};
+            centr[n_pics] = { variants[nomer].adres, true, active_category, variants[nomer].otstalost,
+                            variants[nomer].pic, variants[nomer].width, variants[nomer].height,458, 608,};
             n_pics++;
             txSleep(100);
         }
@@ -148,7 +148,7 @@ int deleteCenterPic(Picture* centr, int n_pics, int n_active)
 int del_all (int n_pics)
 {
     txSetFillColour(TX_WHITE);
-    drawkrugbutton(1021,27,1234,92,"Удалить все!");
+    drawkrugbutton(922,187,1075,230,"Удалить все!");
     if (txMouseX() >= 1021 &&
        txMouseY() >= 27 &&
        txMouseX() <= 1234 &&

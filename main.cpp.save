@@ -28,8 +28,8 @@ void exit ()
     }
 
 
-    if (txMouseX() >= 1046 && txMouseY() >= 745 &&
-        txMouseX() <= 1207 && txMouseY() <= 787 &&
+    if (txMouseX() >= 1046 && txMouseY() >= 638 &&
+        txMouseX() <= 1242 && txMouseY() <= 687 &&
         txMouseButtons()== 1)
     {
         txDisableAutoPause();
