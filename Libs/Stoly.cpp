@@ -53,15 +53,13 @@ txDrawText(958,585,1161,639,stry);
 }
 
 HDC smena_classa(HDC pic, Objects* mesto)
-{     //    txRectangle(702, 550, 930, 800);
+{
+    //Цикл?
+    Win32::TransparentBlt (txDC(), 730 +   0, 450, 100, 130, plans[0].pic, 0, 0, 699, 895, TX_RED);
+    Win32::TransparentBlt (txDC(), 730 + 120, 450, 100, 130, plans[1].pic, 0, 0, 628, 895, TX_RED);
 
-    txRectangle (734, 305, 833, 433);
-    txRectangle (871, 307, 969, 401);
-    Win32::TransparentBlt (txDC(), 734, 305, 100, 130, plans[0].pic, 0, 0, 699, 895, TX_RED);
-  Win32::TransparentBlt (txDC(), 871, 305, 100, 130, plans[1].pic, 0, 0, 628, 895, TX_RED);
-
-    if (txMouseX() >= 734 &&            txMouseY() >= 305+50 &&
-        txMouseX() <= 833  &&       txMouseY() <= 433+50 &&
+    if (txMouseX() >= 730 && txMouseY() >= 450 &&
+        txMouseX() <= 830 && txMouseY() <= 580 &&
         txMouseButtons()== 1)
     {
         pic = plans[0].pic;
@@ -73,8 +71,8 @@ HDC smena_classa(HDC pic, Objects* mesto)
         }
     }
 
-    if (txMouseX() >= 871 &&            txMouseY() >= 307+50 &&
-        txMouseX() <= 969  &&       txMouseY() <= 401+50 &&
+    if (txMouseX() >= 850 && txMouseY() >= 450 &&
+        txMouseX() <= 950 && txMouseY() <= 580 &&
         txMouseButtons()== 1)
     {
         pic = plans[1].pic;

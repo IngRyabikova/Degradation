@@ -164,10 +164,8 @@ int fillVariants(const char* address, Picture* variants, int N)
 
             if(str.find(".bmp") != -1)
             {
-                //cout << str << endl;
                 variants[N] = {str.c_str(),false, "Ученики", 0};
                 N = N + 1;
-
             }
 
         }
@@ -253,33 +251,22 @@ int main()
     //Хочу не заполнять категорию и координаты
     N_VARS = fillVariants("Картинки/Ученики/", variants, N_VARS);
     N_VARS = fillVariants2("Картинки/Учителя/", variants, N_VARS);
-    /*variants[0] = {"Картинки/Ученики/ботан.bmp",false, "Ученики", 0};
-    variants[1] = {"Картинки/Ученики/фанера.bmp",false, "Ученики", 10};
-    variants[2] = {"Картинки/Ученики/бревно.bmp",false, "Ученики", 11};
-    variants[3] = {"Картинки/Ученики/картошка.bmp",false, "Ученики", 28};
-    variants[4] = {"Картинки/Ученики/человек.bmp",false, "Ученики", 28};
-    variants[5] = {0, 410, "Картинки/Ученики/крыса.bmp",false, "Ученики", 28};
-    variants[6] = {0, 240, "Картинки/Учителя/злая училка.bmp",false,"Учителя", 0};
-    variants[7] = {0, 240, "Картинки/Учителя/Учитель по труду.bmp",false,"Учителя", 0};*/
 
-
-
-    int x_student = 780, y_student = 350;
-    int x_teacher = 780, y_teacher = 350;
-
-//Координаты вариантов людей
+    //Координаты вариантов учеников и учителей
+    int x_student = 730, y_student = 250;
+    int x_teacher = 730, y_teacher = 250;
     for (int i = 0; i < N_VARS; i++)
     {
         if (variants[i].category == "Ученики")
         {
             variants[i].x = x_student;
             variants[i].y = y_student;
-            x_student += 110;
 
+            x_student += 110;
             if (x_student > 1200)
             {
-                 x_student = 780; //y = 150;
-                 y_student += 140;
+                 x_student = 730;
+                 y_student += 110;
             }
         }
 
@@ -287,12 +274,12 @@ int main()
         {
             variants[i].x = x_teacher;
             variants[i].y = y_teacher;
-            x_teacher += 110;
 
+            x_teacher += 110;
             if (x_teacher > 1200)
             {
-                 x_teacher = 780; //y = 150;
-                 y_teacher += 140;
+                 x_teacher = 730;
+                 y_teacher += 110;
             }
         }
     }
