@@ -141,13 +141,13 @@ void opredelenie_razmera(Picture* variants, int N)
     {
         BITMAPFILEHEADER bmfHeader;
         BITMAPINFOHEADER bmiHeader;
-        FILE* pFile = fopen (variants[nomer].adres , "rb" );
+        FILE* pFile = fopen (variants[nomer].adres.c_str() , "rb" );
         fread( (LPSTR)&bmfHeader, 1, sizeof(bmfHeader), pFile );
         fread( (LPSTR)&bmiHeader, 1, sizeof(bmiHeader), pFile );
 
         variants[nomer].width = bmiHeader.biWidth ;
         variants[nomer].height = bmiHeader.biHeight ;
-        variants[nomer].pic = txLoadImage(variants[nomer].adres);
+        variants[nomer].pic = txLoadImage(variants[nomer].adres.c_str());
     }
 }
 
@@ -164,7 +164,7 @@ int fillVariants(const char* address, Picture* variants, int N)
 
             if(str.find(".bmp") != -1)
             {
-                variants[N] = {str.c_str(),false, "Ученики", 0};
+                variants[N] = {str,false, "Ученики", 0};
                 N = N + 1;
             }
 
@@ -188,7 +188,7 @@ int fillVariants2 (const char* address, Picture* variants, int N)
             if(str.find(".bmp") != -1)
             {
                 //cout << str << endl;
-                variants[N] = {str.c_str(),false, "Учителя", 0};
+                variants[N] = {str,false, "Учителя", 0};
                 N = N + 1;
 
             }
