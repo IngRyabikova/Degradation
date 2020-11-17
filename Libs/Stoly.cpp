@@ -6,6 +6,8 @@ struct Objects
 };
 struct Plan
 {
+    int schirina;
+    int visota;
     int x;
     int y;
     HDC pic;
@@ -13,6 +15,7 @@ struct Plan
     Objects mesto[10];
 };
 
+int urovni = 1;
 Plan plans[2];
 int N_MEST = 8;
 Objects mesto [8];
@@ -54,10 +57,12 @@ txDrawText(958,585,1161,639,stry);
 
 HDC smena_classa(HDC pic, Objects* mesto)
 {
-    //Цикл?
-    Win32::TransparentBlt (txDC(), 730 +   0, 450, 100, 130, plans[0].pic, 0, 0, 699, 895, TX_RED);
-    Win32::TransparentBlt (txDC(), 730 + 120, 450, 100, 130, plans[1].pic, 0, 0, 628, 895, TX_RED);
+    for (int i = 0; i < urovni; i = i + 1)
+    {
+        Win32::TransparentBlt (txDC(), 730 + 120 * i, 450, 100, 130, plans[i].pic, 0, 0, plans[i].schirina, plans[i].visota, TX_RED);
+    }
 
+    //Цикл?
     if (txMouseX() >= 730 && txMouseY() >= 450 &&
         txMouseX() <= 830 && txMouseY() <= 580 &&
         txMouseButtons()== 1)
