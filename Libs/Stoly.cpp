@@ -57,10 +57,10 @@ txDrawText(958,585,1161,639,stry);
 
 HDC smena_classa(HDC pic, Objects* mesto)
 {
-    for (int i = 0; i < urovni; i = i + 1)
+    for (int i = 0; i < 2; i = i + 1)
     {
         Win32::TransparentBlt (txDC(), 730 + 120 * i, 450, 100, 130, plans[i].pic, 0, 0, plans[i].schirina, plans[i].visota, TX_RED);
-
+        Win32::TransparentBlt (txDC(), 867 + 446 * i, 450, 100, 130, plans[i].pic, 0, 0, plans[i].schirina, plans[i].visota, TX_RED);
 
 
         if (txMouseX() >= 730 + 120 * i && txMouseY() >= 450 &&
