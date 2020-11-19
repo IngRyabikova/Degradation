@@ -305,6 +305,7 @@ int main()
         {
             variants[i].x = x_student;
             variants[i].y = y_student;
+            variants[i].otstalost = 12;
 
             x_student += 110;
             if (x_student > 1200)
@@ -318,6 +319,7 @@ int main()
         {
             variants[i].x = x_teacher;
             variants[i].y = y_teacher;
+            variants[i].otstalost = 3;
 
             x_teacher += 110;
             if (x_teacher > 1200)
