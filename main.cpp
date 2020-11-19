@@ -8,6 +8,8 @@
 #include "Libs/Picture.cpp"
 #include "Libs/Stoly.cpp"
 #include "dirent.h"
+
+
 bool GameOver = false;
 using namespace std;
 
@@ -199,6 +201,48 @@ int fillVariants2 (const char* address, Picture* variants, int N)
 
     return N;
 }
+
+
+
+
+void open_file()
+{
+
+    if (GetAsyncKeyState('A')){
+
+ OPENFILENAME ofn;       // структура станд. блока диалога
+char szFile[260];       // буфер для имени файла
+HWND hwnd;              // окно-владелец
+HANDLE hf;              // дескриптор файла
+
+// Инициализация структуры OPENFILENAME
+ZeroMemory(&ofn, sizeof(ofn));
+ofn.lStructSize = sizeof(ofn);
+ofn.hwndOwner = txWindow();
+ofn.lpstrFile = szFile;
+ofn.nMaxFile = sizeof(szFile);
+ofn.lpstrFilter = "*.txt";
+ofn.nFilterIndex = 1;
+ofn.lpstrFileTitle = NULL;
+ofn.nMaxFileTitle = 0;
+ofn.lpstrInitialDir = NULL;
+ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+// Показываем на экране диалоговое окно Открыть (Open).
+
+if (GetOpenFileName(&ofn)==TRUE)
+{
+    hf = CreateFile(ofn.lpstrFile, GENERIC_READ,
+        0, (LPSECURITY_ATTRIBUTES) NULL,
+        OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL,
+        (HANDLE) NULL);
+}
+}
+}
+
+
+
+
 int main()
 {
     char str[256];
@@ -342,7 +386,7 @@ int main()
         txSetColor(TX_WHITE, 5);
         txSetFillColor(TX_BLACK);
         txDrawText(885,146,1195,179,"Выбери персонажа");
-
+        open_file();
 
         n_active = select_active(centr, n_pics,pic_width, pic_height, n_active);
         draw_variants(variants, N_VARS, active_category);
