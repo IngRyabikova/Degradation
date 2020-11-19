@@ -60,32 +60,20 @@ HDC smena_classa(HDC pic, Objects* mesto)
     for (int i = 0; i < urovni; i = i + 1)
     {
         Win32::TransparentBlt (txDC(), 730 + 120 * i, 450, 100, 130, plans[i].pic, 0, 0, plans[i].schirina, plans[i].visota, TX_RED);
-    }
 
-    //Цикл?
-    if (txMouseX() >= 730 && txMouseY() >= 450 &&
-        txMouseX() <= 830 && txMouseY() <= 580 &&
-        txMouseButtons()== 1)
-    {
-        pic = plans[0].pic;
 
-        N_MEST = plans[0].N_MEST;
-        for (int v = 0; v < plans[0].N_MEST; v = v + 1)
+
+        if (txMouseX() >= 730 + 120 * i && txMouseY() >= 450 &&
+            txMouseX() <= 830 + 120 * i && txMouseY() <= 580 &&
+            txMouseButtons()== 1)
         {
-            mesto[v] = plans[0].mesto[v];
-        }
-    }
+            pic = plans[i].pic;
 
-    if (txMouseX() >= 850 && txMouseY() >= 450 &&
-        txMouseX() <= 950 && txMouseY() <= 580 &&
-        txMouseButtons()== 1)
-    {
-        pic = plans[1].pic;
-
-        N_MEST = plans[1].N_MEST;
-        for (int v = 0; v < plans[1].N_MEST; v = v + 1)
-        {
-            mesto[v] = plans[1].mesto[v];
+            N_MEST = plans[i].N_MEST;
+            for (int v = 0; v < plans[i].N_MEST; v = v + 1)
+            {
+                mesto[v] = plans[i].mesto[v];
+            }
         }
     }
 

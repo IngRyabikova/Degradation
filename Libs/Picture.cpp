@@ -4,7 +4,7 @@ const char* active_category;
 
 struct Picture
 {
-    const char* adres;
+    string adres;
     bool visible;
     const char* category;
     int otstalost;
@@ -119,6 +119,17 @@ int newCenterPic(Picture* variants, Picture* centr, int N_VARS, int n_pics, int 
                             variants[nomer].pic, variants[nomer].width, variants[nomer].height,458, 608,};
             n_pics++;
             txSleep(100);
+        }
+
+
+
+        if (txMouseX() >= variants[nomer].x &&
+           txMouseY() >= variants[nomer].y &&
+           txMouseX() <= variants[nomer].x + 100  &&
+           txMouseY() <= variants[nomer].y + 100 &&
+           variants[nomer].category == active_category)
+        {
+            txTextOut(variants[nomer].x+ 50, variants[nomer].y + 100, "10");
         }
     }
 
