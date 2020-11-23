@@ -123,13 +123,16 @@ int newCenterPic(Picture* variants, Picture* centr, int N_VARS, int n_pics, int 
 
 
 
+
         if (txMouseX() >= variants[nomer].x &&
            txMouseY() >= variants[nomer].y &&
            txMouseX() <= variants[nomer].x + 100  &&
            txMouseY() <= variants[nomer].y + 100 &&
            variants[nomer].category == active_category)
         {
-            txTextOut(variants[nomer].x+ 50, variants[nomer].y + 100, "10");
+            char str[100];
+            sprintf(str, "%d", variants[nomer].otstalost);  //Writing car_x_coord value to str
+            txTextOut(variants[nomer].x+ 50, variants[nomer].y + 100, str);
         }
     }
 

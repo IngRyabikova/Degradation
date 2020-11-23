@@ -1,4 +1,9 @@
+#pragma once
 #include "TXLib.h"
+
+//Размер места
+const int PLACE_SIZE = 50;
+
 struct Objects
 {
     int x;
@@ -22,37 +27,35 @@ Objects mesto [8];
 Objects stol_ychitela [1];
 
 //Рисование столов в режиме разработчика (Да, комменты к функциям нужны)
-bool dev_mode(Objects* mesto, bool stat)
-{   int x_mouse = txMouseX();
-    int y_mouse = txMouseY();
+bool dev_mode(Objects* mesto, bool showDebug)
+{
     if(GetAsyncKeyState(VK_TAB) &&  GetAsyncKeyState(VK_SPACE))
     {
-        stat = !stat;
+        showDebug = !showDebug;
         txSleep(200);
     }
 
-    if (stat == true)
+    if (showDebug)
     {
         //Их разве всегда 8???
         for (int nomer = 0; nomer < 8; nomer = nomer + 1)   // телепорт на парту
         {
             txSetFillColor(TX_RED);
-            txRectangle (mesto[nomer].x, mesto[nomer].y, mesto[nomer].x + 30, mesto[nomer].y + 30);
-            txRectangle (stol_ychitela[0].x, stol_ychitela[0].y, stol_ychitela[0].x + 30, stol_ychitela[0].y + 30);
+            txRectangle (mesto[nomer].x, mesto[nomer].y, mesto[nomer].x + PLACE_SIZE, mesto[nomer].y + PLACE_SIZE);
+            txRectangle (stol_ychitela[0].x, stol_ychitela[0].y, stol_ychitela[0].x + PLACE_SIZE, stol_ychitela[0].y + PLACE_SIZE);
         }
-         char strx[5000];
+
+        //Вывод координат на экран
+        char strx[5000];
         char stry[5000];
-    sprintf(strx, "Координата х: %d ", x_mouse);
-    sprintf(stry, "Координата y: %d ", y_mouse);
-    txSetColor(TX_WHITE);
-txDrawText(955,501,1158,556,strx);
-txDrawText(958,585,1161,639,stry);
+        sprintf(strx, "Координата х: %d ", txMouseX());
+        sprintf(stry, "Координата y: %d ", txMouseY());
+        txSetColor(TX_WHITE);
+        txDrawText(955,501,1158,556,strx);
+        txDrawText(958,585,1161,639,stry);
     }
 
-
-
-
-    return stat;
+    return showDebug;
 }
 
 HDC smena_classa(HDC pic, Objects* mesto)

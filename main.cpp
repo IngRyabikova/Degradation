@@ -68,24 +68,21 @@ void select_category()
     drawkrugbutton(728, 180,"Ученики");
 }
 
+// телепорт на парту
 void teleport_na_party(Picture* centr, Objects* mesto, int n_active, int N_MEST)
 {
-    for (int nomer = 0; nomer < N_MEST; nomer = nomer + 1)   // телепорт на парту
+    for (int nomer = 0; nomer < N_MEST; nomer = nomer + 1)
+    {
+        if (txMouseX() >= mesto[nomer].x &&
+           txMouseY() >= mesto[nomer].y &&
+           txMouseX() <= mesto[nomer].x + PLACE_SIZE  &&
+           txMouseY() <= mesto[nomer].y + PLACE_SIZE &&
+           txMouseButtons()== 1 && centr[n_active].visible)
         {
-
-
-            if (txMouseX() >= mesto[nomer].x &&
-               txMouseY() >= mesto[nomer].y &&
-               txMouseX() <= mesto[nomer].x + 30  &&
-               txMouseY() <= mesto[nomer].y + 30 &&
-               txMouseButtons()== 1 && centr[n_active].visible)
-            {
-               centr[n_active].x  = mesto[nomer].x ;
-               centr[n_active].y = mesto[nomer].y ;
-            }
+           centr[n_active].x  = mesto[nomer].x ;
+           centr[n_active].y = mesto[nomer].y ;
         }
-
-
+    }
 }
 
 void teleport_na_stol_uchitela(Objects* stol_ychitela, Picture* centr, int n_active)
@@ -273,13 +270,12 @@ int main()
     txCreateWindow (1280, 895);
     txSetFillColor (TX_WHITE);
 
-    //Планировки класса
-
+    //Планировки класса (они мало того ,что неполные, еще и неровные)
     plans[0] = {699, 895, 700, 0, txLoadImage ("Картинки/Фоны/задний фон.bmp"), 8,
-        {{247, 352},
-         {322, 344},
-         {383, 356},
-         {449, 356},
+        {{230, 355},
+         {295, 355},
+         {360, 355},
+         {425, 355},
          {246, 490},
          {309, 488},
          {385, 490},

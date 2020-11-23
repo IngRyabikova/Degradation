@@ -32,6 +32,9 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Libs/Picture.cpp" />
+		<Unit filename="Libs/Stoly.cpp" />
+		<Unit filename="Libs/Teleport.cpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
