@@ -85,7 +85,7 @@ void teleport_na_party(Picture* centr, Objects* mesto, int n_active, int N_MEST)
     }
 }
 
-void teleport_na_stol_uchitela(Objects* stol_ychitela, Picture* centr, Objects* doska, int n_active)
+void teleport_na_stol_uchitela(Objects* stol_ychitela, Picture* centr, doska, int n_active)
 {
     if (txMouseX() >= stol_ychitela[0].x &&  // телепорт на стол учителя
        txMouseY() >= stol_ychitela[0].y &&
@@ -96,7 +96,7 @@ void teleport_na_stol_uchitela(Objects* stol_ychitela, Picture* centr, Objects* 
        centr[n_active].x  = stol_ychitela[0].x ;
        centr[n_active].y = stol_ychitela[0].y ;
     }
-
+    
     if (txMouseX() >= doska[0].x &&  // телепорт на стол учителя
        txMouseY() >= doska[0].y &&
        txMouseX() <= doska[0].x + 30  &&
@@ -453,7 +453,7 @@ int main()
         select_category();
         teleport_na_party(centr, mesto, n_active, N_MEST);
         dvizhenie(centr, speed_x, speed_y, n_active);
-        teleport_na_stol_uchitela(stol_ychitela, centr, doska, n_active);
+        teleport_na_stol_uchitela(stol_ychitela, centr, n_active);
         draw_text();
         draw_centr_pic(centr, n_pics, pic_width, pic_height);
         n_pics = del_all (n_pics);

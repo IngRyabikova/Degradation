@@ -17,14 +17,15 @@ struct Plan
     int y;
     HDC pic;
     int N_MEST;
-    Objects mesto[10];
+    Objects mesto[100];
 };
 
 int urovni = 1;
 Plan plans[2];
-int N_MEST = 8;
-Objects mesto [8];
+int N_MEST = 900;
+Objects mesto [180];
 Objects stol_ychitela [1];
+Objects doska [1];
 
 //Рисование столов в режиме разработчика (Да, комменты к функциям нужны)
 bool dev_mode(Objects* mesto, bool showDebug)
@@ -38,12 +39,14 @@ bool dev_mode(Objects* mesto, bool showDebug)
     if (showDebug)
     {
         //Их разве всегда 8???
-        for (int nomer = 0; nomer < 8; nomer = nomer + 1)   // телепорт на парту
+        for (int nomer = 0; nomer < N_MEST; nomer = nomer + 1)   // телепорт на парту
         {
             txSetFillColor(TX_RED);
             txRectangle (mesto[nomer].x, mesto[nomer].y, mesto[nomer].x + PLACE_SIZE, mesto[nomer].y + PLACE_SIZE);
-            txRectangle (stol_ychitela[0].x, stol_ychitela[0].y, stol_ychitela[0].x + PLACE_SIZE, stol_ychitela[0].y + PLACE_SIZE);
         }
+
+        txRectangle (stol_ychitela[0].x, stol_ychitela[0].y, stol_ychitela[0].x + PLACE_SIZE, stol_ychitela[0].y + PLACE_SIZE);
+
 
         //Вывод координат на экран
         char strx[5000];
@@ -60,11 +63,11 @@ bool dev_mode(Objects* mesto, bool showDebug)
 
 HDC smena_classa(HDC pic, Objects* mesto)
 {
+
+
     for (int i = 0; i < 2; i = i + 1)
     {
         Win32::TransparentBlt (txDC(), 730 + 120 * i, 450, 100, 130, plans[i].pic, 0, 0, plans[i].schirina, plans[i].visota, TX_RED);
-        Win32::TransparentBlt (txDC(), 867 + 446 * i, 450, 100, 130, plans[i].pic, 0, 0, plans[i].schirina, plans[i].visota, TX_RED);
-
 
         if (txMouseX() >= 730 + 120 * i && txMouseY() >= 450 &&
             txMouseX() <= 830 + 120 * i && txMouseY() <= 580 &&
