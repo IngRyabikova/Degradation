@@ -119,7 +119,7 @@ void okno_podskazki(int n_active, Picture* centr, Picture* variants , int n_pics
         n_active = 0;
 }
 
-void uroven_otstalosti(Picture* centr, int n_pics){
+int uroven_otstalosti(Picture* centr, int n_pics){
 
     txSetColor (TX_WHITE);
     int total = 0;
@@ -131,7 +131,7 @@ void uroven_otstalosti(Picture* centr, int n_pics){
     char str[100];
     sprintf(str, "Уровень отсталости класса %d / 100", total);
     txTextOut(850, 100, str);
-
+    return total;
 }
 
 void opredelenie_razmera(Picture* variants, int N)
@@ -365,7 +365,7 @@ int main()
 
 
     stol_ychitela[0]  = {412, 115};
-
+    int total = 0;
 
     while (GameOver == false)
     {
@@ -396,7 +396,7 @@ int main()
 
         txSetColor (TX_WHITE);
         txSetFillColor (TX_TRANSPARENT);
-        pic = smena_classa(pic,mesto);
+        pic = smena_classa(pic,mesto, &n_pics, total);
 
         txSelectFont("Arial", 30);
         txSetColor(TX_WHITE, 5);
@@ -416,7 +416,7 @@ int main()
         draw_text();
         draw_centr_pic(centr, n_pics, pic_width, pic_height);
         n_pics = del_all (n_pics);
-        uroven_otstalosti(centr, n_pics);
+        total = uroven_otstalosti(centr, n_pics);
 
 
         n_pics = newCenterPic(variants, centr, N_VARS, n_pics, n_active) ;
