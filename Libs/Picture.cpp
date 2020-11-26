@@ -27,7 +27,7 @@ void drawkrugbutton(int x, int y,const char* text)
 //Рисование вариантов учеников/учителей
 void draw_variants(Picture* variants, int N_VARS, const char* active_category)
 {
-    for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
+    for (int nomer = 0; nomer < N_VARS; nomer++)
     {
         if (variants[nomer].category == active_category){
             Win32::TransparentBlt (txDC(), variants[nomer].x, variants[nomer].y, 100, 100, variants[nomer].pic, 0, 0, variants[nomer].width, variants[nomer].height, TX_WHITE);
@@ -62,12 +62,12 @@ void dvizhenie(Picture* centr, int speed_x, int speed_y, int n_active)
 //Удаление картинок
 void del_pic (Picture* centr, int n_pics, Picture* variants, int N_VARS, HDC pic)
 {
-    for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
+    for (int nomer = 0; nomer < N_VARS; nomer++)
     {
         txDeleteDC(variants[nomer].pic);
     }
 
-    for(int nomer = 0; nomer < n_pics; nomer = nomer + 1)
+    for(int nomer = 0; nomer < n_pics; nomer++)
     {
         txDeleteDC(centr[nomer].pic);
     }
@@ -79,7 +79,7 @@ void del_pic (Picture* centr, int n_pics, Picture* variants, int N_VARS, HDC pic
 
 int select_active(Picture* centr, int n_pics, int pic_width, int pic_height, int n_active)
 {
-    for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)   // определение активного персонажа
+    for (int nomer = 0; nomer < n_pics; nomer++)   // определение активного персонажа
     {
         if (txMouseX() >= centr[nomer].x &&
            txMouseY() >= centr[nomer].y &&
@@ -96,7 +96,7 @@ int select_active(Picture* centr, int n_pics, int pic_width, int pic_height, int
 
 void draw_centr_pic(Picture* centr, int n_pics, int pic_width, int pic_height)
 {
-    for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)
+    for (int nomer = 0; nomer < n_pics; nomer++)
     {
         if (centr[nomer].visible)
         {
@@ -107,7 +107,7 @@ void draw_centr_pic(Picture* centr, int n_pics, int pic_width, int pic_height)
 
 int newCenterPic(Picture* variants, Picture* centr, int N_VARS, int n_pics, int n_active)
 {
-    for (int nomer = 0; nomer < N_VARS; nomer = nomer + 1)
+    for (int nomer = 0; nomer < N_VARS; nomer++)
     {
         if (txMouseX() >= variants[nomer].x &&
            txMouseY() >= variants[nomer].y &&
@@ -123,8 +123,6 @@ int newCenterPic(Picture* variants, Picture* centr, int N_VARS, int n_pics, int 
         }
 
 
-
-
         if (txMouseX() >= variants[nomer].x &&
            txMouseY() >= variants[nomer].y &&
            txMouseX() <= variants[nomer].x + 100  &&
@@ -132,7 +130,7 @@ int newCenterPic(Picture* variants, Picture* centr, int N_VARS, int n_pics, int 
            variants[nomer].category == active_category)
         {
             char str[100];
-            sprintf(str, "%d", variants[nomer].otstalost);  //Writing car_x_coord value to str
+            sprintf(str, "%d", variants[nomer].otstalost);
             txTextOut(variants[nomer].x+ 50, variants[nomer].y + 100, str);
         }
     }

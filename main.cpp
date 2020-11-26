@@ -6,15 +6,12 @@
 #include <fstream>
 #include <cstring>
 #include "Libs/Picture.cpp"
+#include "Libs/Teleport.cpp"
 #include "Libs/Stoly.cpp"
 #include "dirent.h"
 
-
 bool GameOver = false;
 using namespace std;
-
-//Сюда могли бы прилететь планы, да и вообще это в отдельный файл просится
-
 
 void exit ()
 {
@@ -68,48 +65,9 @@ void select_category()
     drawkrugbutton(728, 180,"Ученики");
 }
 
-// телепорт на парту
-void teleport_na_party(Picture* centr, Objects* mesto, int n_active, int N_MEST)
-{
-    for (int nomer = 0; nomer < N_MEST; nomer = nomer + 1)
-    {
-        if (txMouseX() >= mesto[nomer].x &&
-           txMouseY() >= mesto[nomer].y &&
-           txMouseX() <= mesto[nomer].x + PLACE_SIZE  &&
-           txMouseY() <= mesto[nomer].y + PLACE_SIZE &&
-           txMouseButtons()== 1 && centr[n_active].visible)
-        {
-           centr[n_active].x  = mesto[nomer].x ;
-           centr[n_active].y = mesto[nomer].y ;
-        }
-    }
-}
-
-void teleport_na_stol_uchitela(Objects* stol_ychitela, Picture* centr, Objects* doska, int n_active)
-{
-    if (txMouseX() >= stol_ychitela[0].x &&  // телепорт на стол учителя
-       txMouseY() >= stol_ychitela[0].y &&
-       txMouseX() <= stol_ychitela[0].x + 30  &&
-       txMouseY() <= stol_ychitela[0].y + 30 &&
-       txMouseButtons()== 1 && centr[n_active].visible)
-    {
-       centr[n_active].x  = stol_ychitela[0].x ;
-       centr[n_active].y = stol_ychitela[0].y ;
-    }
-
-    if (txMouseX() >= doska[0].x &&  // телепорт на стол учителя
-       txMouseY() >= doska[0].y &&
-       txMouseX() <= doska[0].x + 30  &&
-       txMouseY() <= doska[0].y + 30 &&
-       txMouseButtons()== 1 && centr[n_active].visible)
-    {
-       centr[n_active].x  = doska[0].x ;
-       centr[n_active].y = doska[0].y ;
-    }
-}
 void draw_text()
 {   txSetColor (TX_WHITE);
-    txDrawText(714,14,1239,68,"Цель - рассадить учеников так, чтобы\n класс получился mаксимально отсталым");
+    txDrawText(714,14,1239,68,"Цель - рассадить учеников так, чтобы\n класс получился максимально отсталым");
     txSetColor (TX_BLACK);
     txDrawText(747,78,1242,100,"Игра находится в разработке ");
 }
@@ -133,7 +91,7 @@ int uroven_otstalosti(Picture* centr, int n_pics){
 
     txSetColor (TX_WHITE);
     int total = 0;
-    for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)
+    for (int nomer = 0; nomer < n_pics; nomer++)
     {
         total = total + centr[nomer].otstalost;
     }
@@ -174,7 +132,7 @@ int fillVariants(const char* address, Picture* variants, int N)
             if(str.find(".bmp") != -1)
             {
                 variants[N] = {str,false, "Ученики", 0};
-                N = N + 1;
+                N++;
             }
 
         }
@@ -198,7 +156,7 @@ int fillVariants2 (const char* address, Picture* variants, int N)
             {
                 //cout << str << endl;
                 variants[N] = {str,false, "Учителя", 0};
-                N = N + 1;
+                N++;
 
             }
 
@@ -228,7 +186,7 @@ ofn.lStructSize = sizeof(ofn);
 ofn.hwndOwner = txWindow();
 ofn.lpstrFile = szFile;
 ofn.nMaxFile = sizeof(szFile);
-ofn.lpstrFilter = "*.txt";
+ofn.lpstrFilter = ".txt";
 ofn.nFilterIndex = 1;
 ofn.lpstrFileTitle = NULL;
 ofn.nMaxFileTitle = 0;
@@ -309,6 +267,8 @@ int main()
          {560, 423},
          {560, 546},
          {560, 675},
+         {265, 53},
+         {331, 91},
 
 
 
@@ -340,14 +300,9 @@ int main()
     int N_VARS = 0;
     Picture variants[1000];
 
-    //Текущее расположение мест
-    //А рисовать-то его зачем, Серхио?
-    Win32::TransparentBlt (txDC(), 730 + 120 , 450, 100, 130, plans[0].pic, 0, 0, plans[0].schirina, plans[0].visota, TX_RED);
-
-
     pic = plans[0].pic;
     N_MEST = plans[0].N_MEST;
-    for (int v = 0; v < plans[0].N_MEST; v = v + 1)
+    for (int v = 0; v < plans[0].N_MEST; v++)
     {
         mesto[v] = plans[0].mesto[v];
     }
@@ -404,8 +359,7 @@ int main()
 
     //Суммарная отсталость класса
     int total = 0;
-    stol_ychitela[0]  = {331, 91};
-    doska[0]  = {265, 53};
+
 
     while (GameOver == false)
     {
@@ -417,7 +371,7 @@ int main()
     {
                if (out.is_open())
         {
-            for (int nomer = 0; nomer < n_pics; nomer = nomer + 1)
+            for (int nomer = 0; nomer < n_pics; nomer++)
     {
 
 
@@ -453,7 +407,6 @@ int main()
         select_category();
         teleport_na_party(centr, mesto, n_active, N_MEST);
         dvizhenie(centr, speed_x, speed_y, n_active);
-        teleport_na_stol_uchitela(stol_ychitela, centr, doska, n_active);
         draw_text();
         draw_centr_pic(centr, n_pics, pic_width, pic_height);
         n_pics = del_all (n_pics);
