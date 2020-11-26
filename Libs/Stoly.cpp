@@ -40,13 +40,14 @@ bool dev_mode(Objects* mesto, bool showDebug)
     if (showDebug)
     {
         //Их разве всегда 8???
-        for (int nomer = 0; nomer < N_MEST; nomer = nomer + 1)   // телепорт на парту
+        for (int nomer = 0; nomer < N_MEST; nomer++)   // телепорт на парту
         {
             txSetFillColor(TX_RED);
             txRectangle (mesto[nomer].x, mesto[nomer].y, mesto[nomer].x + PLACE_SIZE, mesto[nomer].y + PLACE_SIZE);
         }
 
-        txRectangle (stol_ychitela[0].x, stol_ychitela[0].y, stol_ychitela[0].x + PLACE_SIZE, stol_ychitela[0].y + PLACE_SIZE);
+
+
 
 
         //Вывод координат на экран
@@ -64,7 +65,7 @@ bool dev_mode(Objects* mesto, bool showDebug)
 
 HDC smena_classa(HDC pic, Objects* mesto, int* n_pics, int uroven_otstalosti)
 {
-    for (int i = 0; i < urovni; i = i + 1)
+    for (int i = 0; i < urovni; i++)
     {
         Win32::TransparentBlt (txDC(), 730 + 120 * i, 450, 100, 130, plans[i].pic, 0, 0, plans[i].schirina, plans[i].visota, TX_RED);
 
@@ -78,7 +79,7 @@ HDC smena_classa(HDC pic, Objects* mesto, int* n_pics, int uroven_otstalosti)
             pic = plans[i].pic;
 
             N_MEST = plans[i].N_MEST;
-            for (int v = 0; v < plans[i].N_MEST; v = v + 1)
+            for (int v = 0; v < plans[i].N_MEST; v++)
             {
                 mesto[v] = plans[i].mesto[v];
             }
@@ -88,7 +89,7 @@ HDC smena_classa(HDC pic, Objects* mesto, int* n_pics, int uroven_otstalosti)
     //Уровень деградации
     if (uroven_otstalosti >= 100)
     {
-        urovni = urovni + 1;
+        urovni = urovni++;
         if (urovni > 2)
             urovni = 2;
     }
