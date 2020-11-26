@@ -1,3 +1,4 @@
+#pragma once
 #include "TXLib.h"
 
 const char* active_category;
