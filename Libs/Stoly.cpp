@@ -9,6 +9,7 @@ struct Objects
     int x;
     int y;
 };
+
 struct Plan
 {
     int schirina;
@@ -61,11 +62,9 @@ bool dev_mode(Objects* mesto, bool showDebug)
     return showDebug;
 }
 
-HDC smena_classa(HDC pic, Objects* mesto)
+HDC smena_classa(HDC pic, Objects* mesto, int* n_pics, int uroven_otstalosti)
 {
-
-
-    for (int i = 0; i < 2; i = i + 1)
+    for (int i = 0; i < urovni; i = i + 1)
     {
         Win32::TransparentBlt (txDC(), 730 + 120 * i, 450, 100, 130, plans[i].pic, 0, 0, plans[i].schirina, plans[i].visota, TX_RED);
 
@@ -73,6 +72,9 @@ HDC smena_classa(HDC pic, Objects* mesto)
             txMouseX() <= 830 + 120 * i && txMouseY() <= 580 &&
             txMouseButtons()== 1)
         {
+            //Всех учеников удаляем
+            *n_pics = 0;
+
             pic = plans[i].pic;
 
             N_MEST = plans[i].N_MEST;
@@ -83,7 +85,13 @@ HDC smena_classa(HDC pic, Objects* mesto)
         }
     }
 
+    //Уровень деградации
+    if (uroven_otstalosti >= 100)
+    {
+        urovni = urovni + 1;
+        if (urovni > 2)
+            urovni = 2;
+    }
+
     return pic;
 }
-
-

@@ -2,23 +2,20 @@
 <BrowseTracker_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="main.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="8130" topLine="66" />
-		<BrowseMarks positions="2318" />
-		<Book_Marks positions="" />
-	</File>
-	<File name="Libs\Picture.cpp" open="1" top="0" tabpos="0">
-		<Cursor position="4812" topLine="37" />
-		<BrowseMarks positions="2063,3174,5142" />
-		<Book_Marks positions="" />
-	</File>
-	<File name="Libs\Stoly.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="714" topLine="27" />
-		<BrowseMarks positions="2032,2069" />
+		<Cursor position="11442" topLine="398" />
+		<BrowseMarks positions="2318,5079,6226,9744,10246" />
 		<Book_Marks positions="" />
 	</File>
 	<File name="Libs\Teleport.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="20" topLine="0" />
-		<BrowseMarks positions="" />
+		<Cursor position="66" topLine="0" />
+	</File>
+	<File name="Libs\Picture.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="14" topLine="0" />
+		<BrowseMarks positions="2063,3174,5142" />
+	</File>
+	<File name="Libs\Stoly.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="393" topLine="18" />
+		<BrowseMarks positions="0,136,1943,2368,2413" />
 		<Book_Marks positions="" />
 	</File>
 </BrowseTracker_layout_file>
