@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="Libs\Teleport.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="20" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="8130" topLine="66" />
+			<Cursor1 position="13526" topLine="155" />
 		</Cursor>
 		<Folding>
 			<Collapse line="19" />
@@ -18,84 +13,87 @@
 			<Collapse line="45" />
 			<Collapse line="51" />
 			<Collapse line="72" />
+			<Collapse line="74" />
+			<Collapse line="80" />
 			<Collapse line="88" />
 			<Collapse line="94" />
-			<Collapse line="100" />
-			<Collapse line="107" />
-			<Collapse line="112" />
-			<Collapse line="121" />
-			<Collapse line="126" />
-			<Collapse line="137" />
-			<Collapse line="139" />
-			<Collapse line="153" />
-			<Collapse line="157" />
-			<Collapse line="158" />
-			<Collapse line="164" />
-			<Collapse line="176" />
-			<Collapse line="180" />
-			<Collapse line="181" />
-			<Collapse line="187" />
-			<Collapse line="205" />
-			<Collapse line="207" />
-			<Collapse line="230" />
-			<Collapse line="233" />
-			<Collapse line="236" />
-			<Collapse line="316" />
-			<Collapse line="318" />
-			<Collapse line="325" />
-			<Collapse line="332" />
-			<Collapse line="339" />
-			<Collapse line="370" />
-			<Collapse line="375" />
-			<Collapse line="377" />
-			<Collapse line="379" />
+			<Collapse line="104" />
+			<Collapse line="110" />
+			<Collapse line="117" />
+			<Collapse line="122" />
+			<Collapse line="131" />
+			<Collapse line="136" />
+			<Collapse line="147" />
+			<Collapse line="149" />
+			<Collapse line="163" />
+			<Collapse line="167" />
+			<Collapse line="168" />
+			<Collapse line="174" />
+			<Collapse line="186" />
+			<Collapse line="190" />
+			<Collapse line="191" />
+			<Collapse line="197" />
+			<Collapse line="215" />
+			<Collapse line="217" />
+			<Collapse line="240" />
+			<Collapse line="243" />
+			<Collapse line="246" />
+			<Collapse line="363" />
+			<Collapse line="410" />
+			<Collapse line="416" />
+			<Collapse line="418" />
+			<Collapse line="420" />
+		</Folding>
+	</File>
+	<File name="Libs\Teleport.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="66" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Libs\Picture.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4096" topLine="30" />
+		</Cursor>
+		<Folding>
+			<Collapse line="6" />
+			<Collapse line="18" />
+			<Collapse line="23" />
+			<Collapse line="28" />
+			<Collapse line="30" />
+			<Collapse line="31" />
+			<Collapse line="39" />
+			<Collapse line="41" />
+			<Collapse line="46" />
+			<Collapse line="51" />
+			<Collapse line="56" />
+			<Collapse line="63" />
+			<Collapse line="65" />
+			<Collapse line="70" />
+			<Collapse line="80" />
+			<Collapse line="82" />
+			<Collapse line="88" />
+			<Collapse line="97" />
+			<Collapse line="99" />
+			<Collapse line="101" />
+			<Collapse line="116" />
+			<Collapse line="118" />
+			<Collapse line="143" />
+			<Collapse line="145" />
+			<Collapse line="147" />
+			<Collapse line="163" />
+			<Collapse line="171" />
 		</Folding>
 	</File>
 	<File name="Libs\Stoly.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="714" topLine="27" />
+			<Cursor1 position="1690" topLine="18" />
 		</Cursor>
 		<Folding>
-			<Collapse line="7" />
+			<Collapse line="13" />
 			<Collapse line="32" />
-			<Collapse line="61" />
-			<Collapse line="63" />
-			<Collapse line="71" />
-			<Collapse line="76" />
-		</Folding>
-	</File>
-	<File name="Libs\Picture.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4812" topLine="37" />
-		</Cursor>
-		<Folding>
-			<Collapse line="5" />
-			<Collapse line="17" />
-			<Collapse line="22" />
-			<Collapse line="27" />
-			<Collapse line="29" />
-			<Collapse line="30" />
-			<Collapse line="38" />
+			<Collapse line="34" />
 			<Collapse line="40" />
-			<Collapse line="45" />
-			<Collapse line="50" />
-			<Collapse line="55" />
-			<Collapse line="62" />
-			<Collapse line="64" />
-			<Collapse line="69" />
-			<Collapse line="79" />
-			<Collapse line="81" />
-			<Collapse line="87" />
-			<Collapse line="96" />
-			<Collapse line="98" />
-			<Collapse line="100" />
-			<Collapse line="115" />
-			<Collapse line="117" />
-			<Collapse line="142" />
-			<Collapse line="144" />
-			<Collapse line="146" />
-			<Collapse line="162" />
-			<Collapse line="170" />
+			<Collapse line="43" />
 		</Folding>
 	</File>
 </CodeBlocks_layout_file>

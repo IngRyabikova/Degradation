@@ -85,7 +85,7 @@ void teleport_na_party(Picture* centr, Objects* mesto, int n_active, int N_MEST)
     }
 }
 
-void teleport_na_stol_uchitela(Objects* stol_ychitela, Picture* centr, Objects* doska, int n_active)
+void teleport_na_stol_uchitela(Objects* stol_ychitela, Picture* centr, doska, int n_active)
 {
     if (txMouseX() >= stol_ychitela[0].x &&  // телепорт на стол учителя
        txMouseY() >= stol_ychitela[0].y &&
@@ -96,7 +96,7 @@ void teleport_na_stol_uchitela(Objects* stol_ychitela, Picture* centr, Objects* 
        centr[n_active].x  = stol_ychitela[0].x ;
        centr[n_active].y = stol_ychitela[0].y ;
     }
-
+    
     if (txMouseX() >= doska[0].x &&  // телепорт на стол учителя
        txMouseY() >= doska[0].y &&
        txMouseX() <= doska[0].x + 30  &&
@@ -129,7 +129,7 @@ void okno_podskazki(int n_active, Picture* centr, Picture* variants , int n_pics
         n_active = 0;
 }
 
-int uroven_otstalosti(Picture* centr, int n_pics){
+void uroven_otstalosti(Picture* centr, int n_pics){
 
     txSetColor (TX_WHITE);
     int total = 0;
@@ -141,7 +141,7 @@ int uroven_otstalosti(Picture* centr, int n_pics){
     char str[100];
     sprintf(str, "Уровень отсталости класса %d / 100", total);
     txTextOut(850, 100, str);
-    return total;
+
 }
 
 void opredelenie_razmera(Picture* variants, int N)
@@ -340,17 +340,17 @@ int main()
     int N_VARS = 0;
     Picture variants[1000];
 
-    //Текущее расположение мест
-    //А рисовать-то его зачем, Серхио?
-    Win32::TransparentBlt (txDC(), 730 + 120 , 450, 100, 130, plans[0].pic, 0, 0, plans[0].schirina, plans[0].visota, TX_RED);
+
+        Win32::TransparentBlt (txDC(), 730 + 120 , 450, 100, 130, plans[0].pic, 0, 0, plans[0].schirina, plans[0].visota, TX_RED);
 
 
-    pic = plans[0].pic;
-    N_MEST = plans[0].N_MEST;
-    for (int v = 0; v < plans[0].N_MEST; v = v + 1)
-    {
-        mesto[v] = plans[0].mesto[v];
-    }
+           pic = plans[0].pic;
+
+            N_MEST = plans[0].N_MEST;
+            for (int v = 0; v < plans[0].N_MEST; v = v + 1)
+            {
+                mesto[v] = plans[0].mesto[v];
+            }
 
 
     //Хочу не заполнять категорию и координаты
@@ -402,10 +402,10 @@ int main()
     int n_pics = 0;
     int n_active = 0;
 
-    //Суммарная отсталость класса
-    int total = 0;
+
     stol_ychitela[0]  = {331, 91};
     doska[0]  = {265, 53};
+
 
     while (GameOver == false)
     {
@@ -437,7 +437,7 @@ int main()
 
         txSetColor (TX_WHITE);
         txSetFillColor (TX_TRANSPARENT);
-        pic = smena_classa(pic,mesto, &n_pics, total);
+        pic = smena_classa(pic,mesto);
 
         txSelectFont("Arial", 30);
         txSetColor(TX_WHITE, 5);
@@ -453,11 +453,11 @@ int main()
         select_category();
         teleport_na_party(centr, mesto, n_active, N_MEST);
         dvizhenie(centr, speed_x, speed_y, n_active);
-        teleport_na_stol_uchitela(stol_ychitela, centr, doska, n_active);
+        teleport_na_stol_uchitela(stol_ychitela, centr, n_active);
         draw_text();
         draw_centr_pic(centr, n_pics, pic_width, pic_height);
         n_pics = del_all (n_pics);
-        total = uroven_otstalosti(centr, n_pics);
+        uroven_otstalosti(centr, n_pics);
 
 
         n_pics = newCenterPic(variants, centr, N_VARS, n_pics, n_active) ;
