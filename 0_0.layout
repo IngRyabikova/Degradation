@@ -1,24 +1,76 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Libs\Stoly.cpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3921" topLine="137" />
+			<Cursor1 position="296" topLine="70" />
 		</Cursor>
 	</File>
 	<File name="Libs\Picture.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3037" topLine="0" />
+			<Cursor1 position="3818" topLine="0" />
 		</Cursor>
+		<Folding>
+			<Collapse line="6" />
+			<Collapse line="18" />
+			<Collapse line="23" />
+			<Collapse line="28" />
+			<Collapse line="30" />
+			<Collapse line="31" />
+			<Collapse line="39" />
+			<Collapse line="41" />
+			<Collapse line="46" />
+			<Collapse line="51" />
+			<Collapse line="56" />
+			<Collapse line="79" />
+			<Collapse line="81" />
+			<Collapse line="87" />
+			<Collapse line="96" />
+			<Collapse line="98" />
+			<Collapse line="100" />
+			<Collapse line="142" />
+			<Collapse line="144" />
+			<Collapse line="146" />
+		</Folding>
 	</File>
 	<File name="Libs\Teleport.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="197" topLine="0" />
+			<Cursor1 position="287" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Libs\Stoly.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2333" topLine="12" />
+			<Cursor1 position="7555" topLine="52" />
 		</Cursor>
+		<Folding>
+			<Collapse line="16" />
+			<Collapse line="23" />
+			<Collapse line="32" />
+			<Collapse line="39" />
+			<Collapse line="42" />
+			<Collapse line="48" />
+			<Collapse line="68" />
+			<Collapse line="80" />
+			<Collapse line="124" />
+			<Collapse line="128" />
+			<Collapse line="129" />
+			<Collapse line="135" />
+			<Collapse line="147" />
+			<Collapse line="151" />
+			<Collapse line="152" />
+			<Collapse line="158" />
+			<Collapse line="176" />
+			<Collapse line="178" />
+			<Collapse line="201" />
+			<Collapse line="204" />
+			<Collapse line="207" />
+			<Collapse line="334" />
+			<Collapse line="341" />
+			<Collapse line="348" />
+			<Collapse line="355" />
+			<Collapse line="384" />
+			<Collapse line="386" />
+			<Collapse line="388" />
+		</Folding>
 	</File>
 </CodeBlocks_layout_file>

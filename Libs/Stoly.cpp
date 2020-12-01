@@ -21,8 +21,8 @@ struct Plan
     Objects mesto[100];
 };
 
-int urovni = 1;
-Plan plans[2];
+int openedLevels = 1;
+Plan plans[30];
 int N_MEST = 900;
 Objects mesto [180];
 Objects stol_ychitela [1];
@@ -65,7 +65,7 @@ bool dev_mode(Objects* mesto, bool showDebug)
 
 HDC smena_classa(HDC pic, Objects* mesto, int* n_pics, int uroven_otstalosti)
 {
-    for (int i = 0; i < urovni; i++)
+    for (int i = 0; i < openedLevels; i++)
     {
         Win32::TransparentBlt (txDC(), 730 + 120 * i, 450, 100, 130, plans[i].pic, 0, 0, plans[i].schirina, plans[i].visota, TX_RED);
 
@@ -89,9 +89,9 @@ HDC smena_classa(HDC pic, Objects* mesto, int* n_pics, int uroven_otstalosti)
     //Уровень деградации
     if (uroven_otstalosti >= 100)
     {
-        urovni = urovni++;
-        if (urovni > 2)
-            urovni = 2;
+        openedLevels++;
+        if (openedLevels > 3)
+            openedLevels = 3;
     }
 
     return pic;
