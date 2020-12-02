@@ -73,6 +73,7 @@ void del_pic (Picture* centr, int n_pics, Picture* variants, int N_VARS, HDC pic
     }
 
     txDeleteDC(pic);
+
 }
 
 
@@ -104,8 +105,7 @@ void draw_centr_pic(Picture* centr, int n_pics, int pic_width, int pic_height)
     }
 }
 
-//ѕо клику на ученика создаем нового в центре
-int newCenterPic(Picture* variants, Picture* centr, int N_VARS, int n_pics, int n_active, int N_MEST)
+int newCenterPic(Picture* variants, Picture* centr, int N_VARS, int n_pics, int n_active)
 {
     for (int nomer = 0; nomer < N_VARS; nomer++)
     {
@@ -113,9 +113,8 @@ int newCenterPic(Picture* variants, Picture* centr, int N_VARS, int n_pics, int 
            txMouseY() >= variants[nomer].y &&
            txMouseX() <= variants[nomer].x + 100 &&
            txMouseY() <= variants[nomer].y + 100 &&
-           txMouseButtons() == 1 && variants[nomer].category == active_category && n_pics < N_MEST)
+           txMouseButtons() == 1 && variants[nomer].category == active_category)
         {
-
             //ƒобавл€етс€ нова€ центральна€ картинка
             centr[n_pics] = { variants[nomer].adres, true, active_category, variants[nomer].otstalost,
                             variants[nomer].pic, variants[nomer].width, variants[nomer].height,458, 608};
