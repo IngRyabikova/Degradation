@@ -1,8 +1,8 @@
-///\file Teleport.cpp
+///\file main.cpp
 #include "TXLib.h"
 #include "Picture.cpp"
 #include "Stoly.cpp"
-/// Перемещение выбранного персонажа на парту
+// Перемещение выбранного персонажа на п
 void teleport_na_party(Picture* centr, Objects* mesto, int n_active, int N_MEST)
 {
     for (int nomer = 0; nomer < N_MEST; nomer++)

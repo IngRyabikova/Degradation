@@ -1,13 +1,17 @@
+///\file Picture.cpp
 #pragma once
 #include "TXLib.h"
 
 const char* active_category;
 
+///—труктура "человек"
 struct Picture
 {
+    ///јдрес картинки (bmp-файл)
     string adres;
     bool visible;
     const char* category;
+    ///”ровень отсталости ученика (первое слово в адресе)
     int otstalost;
     HDC pic;
     int width;
@@ -15,16 +19,22 @@ struct Picture
     int x;
     int y;
 };
+
+/// –исование закругленной кнопки
 void drawkrugbutton(int x, int y, int x1, int y1, const char* text)
 {
     Win32::RoundRect(txDC(), x,y,x1,y1, 50, 50);
     txDrawText (x,y,x1,y1, text);
 }
+
+/// –исование закругленной кнопки (размера 160*60)
 void drawkrugbutton(int x, int y,const char* text)
 {
     drawkrugbutton(x, y, x + 160, y + 60, text);
 }
-//–исование вариантов учеников/учителей
+
+///–исование вариантов дл€ выбора учеников/учителей
+///\param N_VARS количество вариантов
 void draw_variants(Picture* variants, int N_VARS, const char* active_category)
 {
     for (int nomer = 0; nomer < N_VARS; nomer++)
@@ -35,7 +45,8 @@ void draw_variants(Picture* variants, int N_VARS, const char* active_category)
     }
 }
 
-//ƒвижение активной картинки
+
+///ƒвижение выбранной картинки
 void dvizhenie(Picture* centr, int speed_x, int speed_y, int n_active)
 {
     if(GetAsyncKeyState(VK_LEFT) && centr[n_active].visible)
@@ -59,7 +70,10 @@ void dvizhenie(Picture* centr, int speed_x, int speed_y, int n_active)
     }
 }
 
-//”даление картинок
+/// јвтоматическое удаление картинок из оперативной пам€ти
+///\param N_VARS количество вариантов
+///\param n_pics количество картинок
+///\param HDC pic активный фон
 void del_pic (Picture* centr, int n_pics, Picture* variants, int N_VARS, HDC pic)
 {
     for (int nomer = 0; nomer < N_VARS; nomer++)
@@ -75,10 +89,11 @@ void del_pic (Picture* centr, int n_pics, Picture* variants, int N_VARS, HDC pic
     txDeleteDC(pic);
 }
 
-
+/// ¬ыбор активного (выбранного) персонажа
+///\param n_pics количество картинок
 int select_active(Picture* centr, int n_pics, int pic_width, int pic_height, int n_active)
 {
-    for (int nomer = 0; nomer < n_pics; nomer++)   // определение активного персонажа
+    for (int nomer = 0; nomer < n_pics; nomer++)
     {
         if (txMouseX() >= centr[nomer].x &&
            txMouseY() >= centr[nomer].y &&
@@ -92,7 +107,12 @@ int select_active(Picture* centr, int n_pics, int pic_width, int pic_height, int
 
     return n_active;
 }
-
+/// –исование персонажей
+///\param n_pics количество картинок
+///\param pic_width ширина картинки
+///\param pic_height высота картинки
+///ѕо клику на вариант, создание нового персонажа в центре
+///\param n_pics кол-во картинок
 void draw_centr_pic(Picture* centr, int n_pics, int pic_width, int pic_height)
 {
     for (int nomer = 0; nomer < n_pics; nomer++)
@@ -104,7 +124,11 @@ void draw_centr_pic(Picture* centr, int n_pics, int pic_width, int pic_height)
     }
 }
 
-//ѕо клику на ученика создаем нового в центре
+
+
+
+
+/// –исование картинок по клику на варианты с выбором категории
 int newCenterPic(Picture* variants, Picture* centr, int N_VARS, int n_pics, int n_active, int N_MEST)
 {
     for (int nomer = 0; nomer < N_VARS; nomer++)
@@ -116,7 +140,7 @@ int newCenterPic(Picture* variants, Picture* centr, int N_VARS, int n_pics, int 
            txMouseButtons() == 1 && variants[nomer].category == active_category && n_pics < N_MEST)
         {
 
-            //ƒобавл€етс€ нова€ центральна€ картинка
+            ///ƒобавл€етс€ нова€ центральна€ картинка
             centr[n_pics] = { variants[nomer].adres, true, active_category, variants[nomer].otstalost,
                             variants[nomer].pic, variants[nomer].width, variants[nomer].height,458, 608};
             n_pics++;
@@ -138,7 +162,7 @@ int newCenterPic(Picture* variants, Picture* centr, int N_VARS, int n_pics, int 
 
     return n_pics;
 }
-
+/// ”даление персонажей по кнопке Delete
 int deleteCenterPic(Picture* centr, int n_pics, int n_active)
 {
     if (GetAsyncKeyState(VK_DELETE))
@@ -158,7 +182,7 @@ int deleteCenterPic(Picture* centr, int n_pics, int n_active)
 
 
 
-//”далить все картинки в центре
+///”далить все картинки в центре по нажатию кнопки "”далить все!"
 int del_all (int n_pics)
 {
     txSetFillColour(TX_WHITE);
