@@ -1,3 +1,4 @@
+///\file main.cpp
 #include "Libs/TXLib.h"
 #include "windows.h"
 #include <stdio.h>
@@ -12,7 +13,7 @@
 
 bool GameOver = false;
 using namespace std;
-
+/// Выход
 void exit ()
 {
     txSetColor(TX_BLACK);
@@ -35,7 +36,7 @@ void exit ()
         GameOver = true;
     }
 }
-
+///  Выбор категории(Ученики или учителя)
 void select_category()
 {
     if (txMouseX() >= 1114 &&       txMouseY() >= 180 &&
@@ -64,19 +65,19 @@ void select_category()
         txSetFillColor(TX_BLUE);
     drawkrugbutton(728, 180,"Ученики");
 }
-
+/// Рисование текста
 void draw_text()
 {   txSetColor (TX_WHITE);
     txDrawText(714,14,1239,68,"Цель - рассадить учеников так, чтобы\n класс получился максимально отсталым");
     txSetColor (TX_BLACK);
     txDrawText(747,78,1242,100,"Игра находится в разработке ");
 }
-
+/// Рисование фона
 void draw_fon(HDC pic1)
 {
     txBitBlt (txDC(), 0, 0, 699,895, pic1, 0, 0);
 }
-
+ /// Отображение выбранного персонажа в квадрате
 void okno_podskazki(int n_active, Picture* centr, Picture* variants , int n_pics)
 {
     txDrawText(710, 480, 890, 640, "Выбранный персонаж");
@@ -86,7 +87,7 @@ void okno_podskazki(int n_active, Picture* centr, Picture* variants , int n_pics
     else
         n_active = 0;
 }
-
+/// Подсчет и вывод уровня отсталости класса
 int uroven_otstalosti(Picture* centr, int n_pics){
 
     txSetColor (TX_WHITE);
@@ -104,7 +105,7 @@ int uroven_otstalosti(Picture* centr, int n_pics){
     txTextOut(850, 100, str);
     return total;
 }
-
+/// Автоматическое определение размера картинок
 void opredelenie_razmera(Picture* variants, int N)
 {
     for (int nomer = 0; nomer < N; nomer++)
@@ -121,6 +122,7 @@ void opredelenie_razmera(Picture* variants, int N)
     }
 }
 
+/// Чтение списка учеников из папки
 int fillVariants(const char* address, Picture* variants, int N)
 {
     setlocale(LC_ALL, "Russian");
@@ -144,6 +146,7 @@ int fillVariants(const char* address, Picture* variants, int N)
 
     return N;
 }
+/// Чтение списка учителей из папки учителей
 int fillVariants2 (const char* address, Picture* variants, int N)
 {
     setlocale(LC_ALL, "Russian");
@@ -157,7 +160,6 @@ int fillVariants2 (const char* address, Picture* variants, int N)
 
             if(str.find(".bmp") != -1)
             {
-                //cout << str << endl;
                 variants[N] = {str,false, "Учителя", 0};
                 N++;
 
@@ -172,7 +174,7 @@ int fillVariants2 (const char* address, Picture* variants, int N)
 
 
 
-
+/// Показываем на экране диалоговое окно Открыть (Open).
 void open_file()
 {
 
@@ -196,7 +198,7 @@ ofn.nMaxFileTitle = 0;
 ofn.lpstrInitialDir = NULL;
 ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
-// Показываем на экране диалоговое окно Открыть (Open).
+
 
 if (GetOpenFileName(&ofn)==TRUE)
 {
@@ -226,13 +228,14 @@ if (GetOpenFileName(&ofn)==TRUE)
   }
    }
 
-
+  /// Ширина всех картинок (кроме фонов)
 
 
 int main()
 {
     char str[256];
-    std::ofstream out("coord.txt"); // окрываем файл для записи
+     /// открываем файл для записи
+    std::ofstream out("coord.txt");
     ifstream fin("Settings.txt");
 
     txTextCursor (false);
@@ -241,7 +244,7 @@ int main()
     txCreateWindow (1280, 895);
     txSetFillColor (TX_WHITE);
 
-    //Планировки класса (они мало того ,что неполные, еще и неровные)
+    ///Классы(фоны)
     plans[0] = {699, 895, 700, 0, txLoadImage ("Картинки/Фоны/задний фон.bmp"), 29,
         {{230, 355},         {295, 355},         {360, 355},         {425, 355},
          {230, 490},         {295, 490},         {360, 490},         {425, 490},
@@ -303,12 +306,18 @@ int main()
 
     HDC pic = plans[0].pic;
 
-    //Зачем нам скорость-то читать? Нам скорее расположение мест интереснее
+
+    /// Скорость персонажа по оси х
     int speed_x;
+    /// Скорость персонажа по оси у
     int speed_y;
+    /// Чтение скорости персонажа по оси х из файла Settings.txt
     fin >> speed_x;
+    /// Чтение скорости персонажа по оси у из файла Settings.txt
     fin >> speed_y;
+    /// Ширина всех картинок (кроме фонов)
     const int pic_width = 75;
+    /// Высота всех картинок (кроме фонов)
     const int pic_height = 75;
 
     int N_VARS = 0;
@@ -321,12 +330,10 @@ int main()
         mesto[v] = plans[0].mesto[v];
     }
 
-
-    //Хочу не заполнять категорию и координаты
     N_VARS = fillVariants("Картинки/Ученики/", variants, N_VARS);
     N_VARS = fillVariants2("Картинки/Учителя/", variants, N_VARS);
 
-    //Координаты вариантов учеников и учителей
+    ///Координаты вариантов учеников и учителей
     int x_student = 730, y_student = 250;
     int x_teacher = 730, y_teacher = 250;
     for (int i = 0; i < N_VARS; i++)
@@ -361,20 +368,16 @@ int main()
     }
 
 
-
-
     opredelenie_razmera(variants, N_VARS);
-
-
 
     Picture centr[1000];
     int n_pics = 0;
     int n_active = 0;
 
-    //Суммарная отсталость класса
+    ///Суммарная отсталость класса
     int total = 0;
 
-
+    /// Пока не выполнен выход(переменная GameOver станет равна true)
     while (GameOver == false)
     {
         txBegin();

@@ -4,7 +4,7 @@
 
 ///Размер места на парте
 const int PLACE_SIZE = 50;
-/// Структура "парта"
+/// Структура "пар"
 struct Objects
 {
     int x;
@@ -21,13 +21,13 @@ struct Plan
     int N_MEST;
     Objects mesto[100];
 };
-/// По умолчанию открытые варианты класса
+// Поумолчанию открытые варианты класса
 int openedLevels = 1;
 Plan plans[30];
 int N_MEST = 900;
 Objects mesto [180];
-
-
+Objects stol_ychitela [1];
+Objects doska [1];
 
 ///Рисование столов в режиме разработчика
 bool dev_mode(Objects* mesto, bool showDebug)
