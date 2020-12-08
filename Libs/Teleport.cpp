@@ -2,7 +2,7 @@
 #include "TXLib.h"
 #include "Picture.cpp"
 #include "Stoly.cpp"
-/// ѕеремещение выбранного персонажа на парту
+/// ѕеремещение выбранного(активного) персонажа на парту
 void teleport_na_party(Picture* centr, Objects* mesto, int n_active, int N_MEST)
 {
     for (int nomer = 0; nomer < N_MEST; nomer++)

@@ -211,6 +211,7 @@ void koordvarints(Picture* variants, int N_VARS)
 }
 int main()
 {
+    char str[256];
      /// открываем файл для записи
     std::ofstream out("coord.txt");
     ifstream fin("Settings.txt");
@@ -347,7 +348,7 @@ int main()
         n_pics = del_all (n_pics);
         draw_fon(pic);
         exit();
-        koordvarints(variants,N_VARS);
+    koordvarints(variants,N_VARS);
         txSetColor (TX_WHITE);
         txSetFillColor (TX_TRANSPARENT);
         pic = smena_classa(pic,mesto, &n_pics, total);
@@ -372,7 +373,7 @@ int main()
         total = uroven_otstalosti(centr, n_pics);
 
 
-        n_pics = newCenterPic(variants, centr, N_VARS, n_pics, N_MEST) ;
+        n_pics = newCenterPic(variants, centr, N_VARS, n_pics, n_active, N_MEST) ;
         n_pics = deleteCenterPic(centr, n_pics, n_active);
         txEnd();
         txSleep(20);
