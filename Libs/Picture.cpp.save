@@ -1,7 +1,6 @@
 ///\file Picture.cpp
 #pragma once
 #include "TXLib.h"
-#include "dirent.h"
 
 const char* active_category;
 
@@ -130,7 +129,7 @@ void draw_centr_pic(Picture* centr, int n_pics, int pic_width, int pic_height)
 
 
 /// Рисование картинок по клику на варианты с выбором категории
-int newCenterPic(Picture* variants, Picture* centr, int N_VARS, int n_pics, int N_MEST)
+int newCenterPic(Picture* variants, Picture* centr, int N_VARS, int n_pics, int n_active, int N_MEST)
 {
     for (int nomer = 0; nomer < N_VARS; nomer++)
     {
@@ -202,7 +201,7 @@ int del_all (int n_pics)
 
 
 /// Чтение списка учеников из папки
-int fillVariants(const char* address, Picture* variants, int N, const char* category)
+int fillVariants(const char* address, Picture* variants, int N)
 {
     setlocale(LC_ALL, "Russian");
     DIR *dir;
@@ -221,7 +220,7 @@ int fillVariants(const char* address, Picture* variants, int N, const char* cate
 
             if(str.find(".bmp") != -1)
             {
-                variants[N] = {str,false, category, 0};
+                variants[N] = {str,false, "Ученики", 0};
                 variants[N].otstalost = atoi(str1.c_str()) ;
                 N++;
             }
@@ -232,3 +231,29 @@ int fillVariants(const char* address, Picture* variants, int N, const char* cate
 
     return N;
 }
+/// Чтение списка учителей из папки учителей
+int fillVariants2 (const char* address, Picture* variants, int N)
+{
+    setlocale(LC_ALL, "Russian");
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir (address)) !=NULL) {
+        while((ent = readdir (dir)) !=NULL) {
+            string str = ent->d_name;
+            string folder = address;
+            str = folder + "/" + str;
+
+            if(str.find(".bmp") != -1)
+            {
+                variants[N] = {str,false, "Учителя", 0};
+                N++;
+
+            }
+
+        }
+        closedir (dir);
+    }
+
+    return N;
+}
+
