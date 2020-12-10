@@ -66,15 +66,18 @@ bool dev_mode(Objects* mesto, bool showDebug)
 /// смена класса(фона)
 HDC smena_classa(HDC pic, Objects* mesto, int* n_pics, int uroven_otstalosti)
 {
+    txSelectFont("Arial", 30, 10, true);
+    txDrawText(700, 500, 850, 530, "Выбери класс");
+
     for (int i = 0; i < openedLevels; i++)
     {
-        Win32::TransparentBlt (txDC(), 730 + 120 * i, 450, 100, 130, plans[i].pic, 0, 0, plans[i].schirina, plans[i].visota, TX_RED);
+        Win32::TransparentBlt (txDC(), 715 + 120 * i, 530, 100, 130, plans[i].pic, 0, 0, plans[i].schirina, plans[i].visota, TX_RED);
 
-        if (txMouseX() >= 730 + 120 * i && txMouseY() >= 450 &&
-            txMouseX() <= 830 + 120 * i && txMouseY() <= 580 &&
+        if (txMouseX() >= 715 + 120 * i && txMouseY() >= 530 &&
+            txMouseX() <= 830 + 120 * i && txMouseY() <= 660 &&
             txMouseButtons()== 1)
         {
-            //Всех учеников удаляем
+            //Всех учеников удаляем при смене класса
             *n_pics = 0;
 
             pic = plans[i].pic;
