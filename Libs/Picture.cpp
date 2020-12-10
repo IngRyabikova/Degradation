@@ -1,6 +1,7 @@
 ///\file Picture.cpp
 #pragma once
 #include "TXLib.h"
+#include "Stoly.cpp"
 #include "dirent.h"
 
 const char* active_category;
@@ -8,11 +9,11 @@ const char* active_category;
 ///Структура "человек"
 struct Picture
 {
-    ///Адрес картинки (bmp-файл)
+    ///Адрес картинки (ТОЛЬКО bmp-файл!!)
     string adres;
     bool visible;
     const char* category;
-    ///Уровень отсталости ученика (первое слово в адресе)
+    ///Уровень отсталости ученика (первое число или цифра в названии картинки перед _)
     int otstalost;
     HDC pic;
     int width;
@@ -75,7 +76,7 @@ void dvizhenie(Picture* centr, int speed_x, int speed_y, int n_active)
 ///\param N_VARS количество вариантов
 ///\param n_pics количество картинок
 ///\param HDC pic активный фон
-void del_pic (Picture* centr, int n_pics, Picture* variants, int N_VARS, HDC pic)
+void del_pic (Picture* centr, int n_pics, Picture* variants, int N_VARS, Plan* plans)
 {
     for (int nomer = 0; nomer < N_VARS; nomer++)
     {
@@ -86,8 +87,11 @@ void del_pic (Picture* centr, int n_pics, Picture* variants, int N_VARS, HDC pic
     {
         txDeleteDC(centr[nomer].pic);
     }
+     for(int i = 0; i<= 3; i++)
+     {
 
-    txDeleteDC(pic);
+    txDeleteDC(plans[i].pic);
+    }
 }
 
 /// Выбор активного (выбранного) персонажа

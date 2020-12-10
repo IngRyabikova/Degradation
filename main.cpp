@@ -79,14 +79,15 @@ void draw_fon(HDC pic1)
  /// Отображение выбранного персонажа в квадрате
 void okno_podskazki(int n_active, Picture* centr, Picture* variants , int n_pics)
 {
-    txDrawText(710, 480, 890, 640, "Выбранный персонаж");
-    txRectangle(702, 550, 930, 800);
+    txRectangle(700, 700, 850, 850);
     if (n_active >= 0 && n_pics > 0)
-        Win32::TransparentBlt (txDC(), 702,  550, 228, 250, centr[n_active].pic, 0, 0, centr[n_active].width, variants[n_active].height, TX_WHITE);
+        Win32::TransparentBlt (txDC(), 700, 700, 150, 150, centr[n_active].pic, 0, 0, centr[n_active].width, variants[n_active].height, TX_WHITE);
     else
         n_active = 0;
+
+    txDrawText(675, 675, 965, 695, "Выбранный персонаж");
 }
-/// Подсчет и вывод уровня отсталости класса
+/// Подсчет и вывод уровня отсталости всего класса
 int uroven_otstalosti(Picture* centr, int n_pics){
 
     txSetColor (TX_WHITE);
@@ -378,6 +379,6 @@ int main()
         txSleep(20);
     }
 
-    del_pic(centr, n_pics, variants, N_VARS, pic);
+    del_pic(centr, n_pics, variants, N_VARS, plans);
     return 0;
 }
