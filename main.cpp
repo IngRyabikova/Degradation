@@ -285,6 +285,7 @@ int main()
     HDC pic = plans[0].pic;
 
 
+
     /// Скорость персонажа по оси х
     int speed_x;
     /// Скорость персонажа по оси у
@@ -325,6 +326,13 @@ int main()
     {
         txBegin();
         txSetFillColor(TX_BLUE);
+
+    //Скриншот
+    if(GetAsyncKeyState(VK_SNAPSHOT))
+    {
+      ScreenCapture(0, 0, 699,895, "screen.bmp", txWindow());
+      txMessageBox ("Скриншот сохранён.");
+    }
 
     if (GetAsyncKeyState(VK_MENU) && GetAsyncKeyState('S'))
 
@@ -378,6 +386,8 @@ int main()
         txEnd();
         txSleep(20);
     }
+
+
 
     del_pic(centr, n_pics, variants, N_VARS, plans);
     return 0;
