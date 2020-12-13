@@ -327,29 +327,27 @@ int main()
         txBegin();
         txSetFillColor(TX_BLUE);
 
-    //Скриншот
-    if(GetAsyncKeyState(VK_SNAPSHOT))
-    {
-      ScreenCapture(0, 0, 699,895, "screen.bmp", txWindow());
-      txMessageBox ("Скриншот сохранён.");
-    }
-
-    if (GetAsyncKeyState(VK_MENU) && GetAsyncKeyState('S'))
-
-    {
-               if (out.is_open())
+        //Скриншот
+        if(GetAsyncKeyState(VK_SNAPSHOT))
         {
-            for (int nomer = 0; nomer < n_pics; nomer++)
-    {
-
-
-               out  << n_pics << " " <<  centr[nomer].adres << " " << centr[nomer].x << " " << centr[nomer].y << std::endl;
-
-
+            ScreenCapture(0, 0, 699,895, "screen.bmp");
+            txMessageBox ("Скриншот сохранён.");
         }
-         }
-          txMessageBox ("Coxpaненo!");
-          }
+
+        if (GetAsyncKeyState(VK_MENU) && GetAsyncKeyState('S'))
+        {
+            if (out.is_open())
+            {
+                for (int nomer = 0; nomer < n_pics; nomer++)
+                {
+                   out <<   n_pics << " " <<
+                            centr[nomer].adres << " " <<
+                            centr[nomer].x << " " <<
+                            centr[nomer].y << std::endl;
+                }
+            }
+            txMessageBox ("Coxpaненo!");
+        }
 
         txSetFillColor(TX_BLACK);
         txClear();
