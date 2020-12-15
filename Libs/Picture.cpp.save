@@ -71,16 +71,7 @@ void dvizhenie(Picture* centr, int speed_x, int speed_y, int n_active)
         centr[n_active].y = centr[n_active].y  +speed_y;
     }
     if (centr[n_active].y >= 750){
-      centr[n_active].y = 750;
-    }
-     if (centr[n_active].y <= 8){
-      centr[n_active].y = 8;
-    }
-    if (centr[n_active].x >= 698){
-      centr[n_active].x = 698;
-    }
-    if (centr[n_active].x <= 6){
-      centr[n_active].x = 6;
+      centr[n_active].y = 75;
     }
 
 }
