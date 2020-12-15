@@ -23,6 +23,7 @@ struct Plan
 };
 /// По умолчанию открытые варианты класса
 int openedLevels = 1;
+int currentLevel = 0;
 Plan plans[30];
 int N_MEST = 900;
 Objects mesto [180];
@@ -91,17 +92,17 @@ HDC smena_classa(HDC pic, Objects* mesto, int* n_pics, int uroven_otstalosti)
     }
 
     //Уровень деградации
-    if (uroven_otstalosti >= 100 && openedLevels == 1)
+    if (uroven_otstalosti >= 100)
     {
-        openedLevels = 2;
-    }
-    if (uroven_otstalosti >= 200 && openedLevels == 2)
-    {
-        openedLevels = 3;
-    }
+        for (int i = 0; i < 3; i++)
+        {
+            if (pic == plans[i].pic)
+                openedLevels = currentLevel + 1;
+        }
 
-    if (openedLevels > 3)
-        openedLevels = 3;
+        if (openedLevels > 3)
+            openedLevels = 3;
+    }
 
     return pic;
 }
